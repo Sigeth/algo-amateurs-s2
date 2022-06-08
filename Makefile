@@ -1,8 +1,20 @@
-main: main.o libisentlib.a
-	gcc -Wall main.o -o main libisentlib.a -lm -lglut -lGL -lX11
+main: main.o libisentlib.a affichage.o moteur.o sauvegarde.o
+	gcc -Wall main.o -o main affichage.o moteur.o sauvegarde.o libisentlib.a -lm -lglut -lGL -lX11
 
 main.o: main.c GfxLib/GfxLib.h GfxLib/BmpLib.h GfxLib/ESLib.h
 	gcc -Wall -c main.c
+
+affichage.o: affichage.c affichage.h
+	gcc -Wall -c affichage.c
+
+menu.o: menu.c menu.h
+	gcc -Wall -c menu.c
+
+moteur.o: moteur.c moteur.h
+	gcc -Wall -c moteur.c
+
+sauvegarde.o: sauvegarde.c sauvegarde.h
+	gcc -Wall -c sauvegarde.c
 
 libisentlib.a: BmpLib.o ErreurLib.o ESLib.o GfxLib.o OutilsLib.o SocketLib.o ThreadLib.o TortueLib.o VectorLib.o WavLib.o
 	ar r libisentlib.a BmpLib.o ErreurLib.o ESLib.o GfxLib.o OutilsLib.o SocketLib.o ThreadLib.o TortueLib.o VectorLib.o WavLib.o
