@@ -2,17 +2,9 @@
 #include <stdlib.h>
 #include "menu.h"
 
-int main(void) 
+int menu(int choix) 
 {
-	int a=0;
-	printf("1 - Lancer simulation\n");
-	printf("2 - Reprendre simulation\n");
-	printf("3 - Sauvegarder simulation\n");
-	printf("4 - Charger simulation\n");
-	printf("5 - Quitter\n");
-	printf("que voulez vous faire ?");
-	scanf("%d",&a);
-	switch(a)
+	switch(choix)
 	{
 		case 1:
 			lancer_simulation();
@@ -33,6 +25,6 @@ int main(void)
 		case 5:
 			quitter()
 			break;
-
 	}
+	return 0;
 }
