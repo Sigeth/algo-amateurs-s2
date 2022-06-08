@@ -11,19 +11,19 @@ int menu(int choix)
 			break;
 
 		case 2:
-			reprendre()
+			reprendre();
 			break;
 
 		case 3:
-			sauvegarde()
+			sauvegarde();
 			break;
 
 		case 4:
-			charger()
+			charger();
 			break;
 
 		case 5:
-			quitter()
+			quitter();
 			break;
 	}
 	return 0;
