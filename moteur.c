@@ -1,4 +1,4 @@
-
+#include "math.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "moteur.h"
@@ -11,6 +11,11 @@ int main(int argc, char ** argv) {
 
 
 }
+
+/* Fonction Init_Astre
+ * Fonction qui initialise la structure Astre
+ *@param ptAstre
+ */
 
 void Init_Astre(Astre* ptAstre){
 	ptAstre->nom=(char*)malloc(10*sizeof(char));
@@ -43,7 +48,7 @@ void CreerTab(Astre* TabAstre) {
 
 }
 
-void AjouteElmTab(Astre* TabAstre,NewAstre) {
+void AjouteElmTab(Astre* TabAstre, Astre NewAstre) {
 	int cpt=0;
 	for(int i=0;i<sizeof(TabAstre);i++){
 		if(TabAstre[i]==NULL) {
@@ -57,3 +62,38 @@ void AjouteElmTab(Astre* TabAstre,NewAstre) {
 	}
 
 }
+
+
+/*
+ * Fonction UpdateObjet
+ * Permet de renvoyer la position d'un objet à un temps t=0
+ * @param Plaete
+ * @prama t =>temps écoulé depuis le début de la simiulation
+ */
+
+/*sert à faire une trajectoire circulaire*/ 
+
+void UpdateObjet_alpha(Astre* Planete){
+	double float alpha=acos(Planete->x/Planete->rayon)
+	alpha+=0.017 //correspond à 1 degres
+	Planete->x=Planete->rayon*cos(alpha);
+	Planete->y=Planete->rayon*sin(alpha);
+	printf("%f",Planete->x);
+	printf("%f",Planete->y);
+
+}
+
+
+
+/*calcul de la vitesse idée en tête mais c'est long et je fais ça demain*/
+void UpdateObjet_alpha(Astre* Planete,double float alpha){
+	
+	
+	
+}
+
+
+
+
+
+

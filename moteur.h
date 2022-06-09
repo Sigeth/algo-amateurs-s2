@@ -15,3 +15,10 @@ typedef struct Astre {
 	float distanceCentreGravitation;
 }Astre;
 
+void UpdateObjet_alpha(Astre* Planete,double float alpha);
+void UpdateObjet_alpha(Astre* Planete);
+void AjouteElmTab(Astre* TabAstre, Astre NewAstre);
+void CreerTab(Astre* TabAstre);
+void modif_poss_Gravitation(Astre* ptAstre,int x, int y);
+void modif_poss_astre(Astre* ptAstre,int x, int y);
+void Init_Astre(Astre* ptAstre);
