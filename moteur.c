@@ -1,15 +1,20 @@
-#include "math.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "moteur.h"
 
 int main(int argc, char ** argv) { 
-	Astre Astretest;
-	Astre* ptAstre=&Astretest;
-	Init_Astre(ptAstre);
-
-
-
+	Astre Planete;
+	Astre* PtPlanete=&Planete;
+	Init_Astre(PtPlanete);
+	Planete.T=88;
+	Planete.rayon=20000;
+	Planete.x=20000;
+	Planete.y=0.0;
+	printf("%ld",PtPlanete->T);
+	UpdateObjet(PtPlanete);
+	//free(PtPlanete);
+	
 }
 
 /* Fonction Init_Astre
@@ -27,6 +32,7 @@ void Init_Astre(Astre* ptAstre){
 	ptAstre->y=0;
 	ptAstre->vx=0;
 	ptAstre->vy=0;
+	ptAstre->T=0;
 	ptAstre->distanceCentreGravitation=0;
 	ptAstre->xGravitation=0;
 	ptAstre->yGravitation=0;
@@ -37,6 +43,9 @@ void modif_poss_astre(Astre* ptAstre,int x, int y){
 	ptAstre->x=x;
 	ptAstre->y=y;
 }
+void modif_Temps(Astre* ptAstre,long int T){
+	ptAstre->T=T;
+}
 
 void modif_poss_Gravitation(Astre* ptAstre,int x, int y){
 	ptAstre->xGravitation=x;
@@ -45,20 +54,22 @@ void modif_poss_Gravitation(Astre* ptAstre,int x, int y){
 
 void CreerTab(Astre* TabAstre) {
 	TabAstre=(Astre*)malloc(50*sizeof(Astre));
-
+	
 }
 
-void AjouteElmTab(Astre* TabAstre, Astre NewAstre) {
+void AjouteElmTab(Astre** TabAstre, Astre* NewAstre) {
 	int cpt=0;
+	Astre AstreNull;
+	Astre* ptNull=&AstreNull;
 	for(int i=0;i<sizeof(TabAstre);i++){
-		if(TabAstre[i]==NULL) {
+		if(TabAstre[i]->nom==NULL) {
 			TabAstre[i]=NewAstre;
 			cpt++;
 		}
 	}
 	if(cpt==0) {
-		TabAstre=(Astre*)realloc(TabAstre,sizeof(TabAstre+1)*sizeof(int));
-		TabAstrie[sizeof(TabAstre-1)]=NewAstre;		
+		*TabAstre=(Astre*)realloc(TabAstre,sizeof(TabAstre+1)*sizeof(int));
+		TabAstre[sizeof(TabAstre-1)]=NewAstre;		
 	}
 
 }
@@ -72,10 +83,11 @@ void AjouteElmTab(Astre* TabAstre, Astre NewAstre) {
  */
 
 /*sert à faire une trajectoire circulaire*/ 
+/*fait une trajectoire réaliste*/
 
-void UpdateObjet_alpha(Astre* Planete){
-	double float alpha=acos(Planete->x/Planete->rayon)
-	alpha+=0.017 //correspond à 1 degres
+void UpdateObjet(Astre* Planete){
+	double alpha=acos((Planete->x/Planete->rayon)*3.14/180);
+	alpha+=(2*M_PI)/Planete->T ;//correspond à un décalage de 1s si le tour fait T secondes
 	Planete->x=Planete->rayon*cos(alpha);
 	Planete->y=Planete->rayon*sin(alpha);
 	printf("%f",Planete->x);
@@ -84,13 +96,6 @@ void UpdateObjet_alpha(Astre* Planete){
 }
 
 
-
-/*calcul de la vitesse idée en tête mais c'est long et je fais ça demain*/
-void UpdateObjet_alpha(Astre* Planete,double float alpha){
-	
-	
-	
-}
 
 
 

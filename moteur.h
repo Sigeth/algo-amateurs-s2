@@ -6,6 +6,7 @@ typedef struct Astre {
 	char* couleur;
 	float rayon;
 	double masse;
+	long int T;
 	float x;
 	float y;
 	float vx;
@@ -15,9 +16,8 @@ typedef struct Astre {
 	float distanceCentreGravitation;
 }Astre;
 
-void UpdateObjet_alpha(Astre* Planete,double float alpha);
-void UpdateObjet_alpha(Astre* Planete);
-void AjouteElmTab(Astre* TabAstre, Astre NewAstre);
+void UpdateObjet(Astre* Planete);
+void AjouteElmTab(Astre** TabAstre, Astre* NewAstre);
 void CreerTab(Astre* TabAstre);
 void modif_poss_Gravitation(Astre* ptAstre,int x, int y);
 void modif_poss_astre(Astre* ptAstre,int x, int y);
