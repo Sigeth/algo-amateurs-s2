@@ -12,6 +12,31 @@ int main(int argc, char ** argv) {
 	Planete.x=20000;
 	Planete.y=0.0;
 	printf("%ld",PtPlanete->T);
+	//Terre à mettre dans le tableau un de ces 4
+	Astre Terre;
+	Astre* ptTerre=&Terre;
+	Init_Astre(ptTerre);
+	Terre.rayon=150 000 000;
+	Terre.x=150000000;
+	Terre.y=0
+	//
+	Astre Soleil;
+	Astre* ptSoleil=&Soleil;
+	Init_Astre(ptSoleil);
+	Soleil.x=0;
+	Soleil.y=0;
+	//Quand on changera de focus mettre distance Soleil->Focus en rayon;
+	
+	//Lune 
+	Astre Lune;
+	Astre* ptLune=&Lune;
+	Init_Astre(ptLune);
+	Lune.rayon=384467;
+	Lune.x=1884467;
+	Lune.y=0;	
+	//Lignes à mettre dans la boucle pour les positions
+	Lune.xGravitation=Terre.x
+	Lune.yGravitation=Terre.y
 	UpdateObjet(PtPlanete);
 	//free(PtPlanete);
 	
