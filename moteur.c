@@ -2,100 +2,141 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "moteur.h"
+#include "time.h"
 
-int main(int argc, char ** argv) { 
-	Astre Planete;
-	Astre* PtPlanete=&Planete;
-	Init_Astre(PtPlanete);
-	Planete.T=88;
-	Planete.rayon=20000;
-	Planete.x=20000;
-	Planete.y=0.0;
-	printf("%ld",PtPlanete->T);
-	//Terre à mettre dans le tableau un de ces 4
-	Astre Terre;
-	Astre* ptTerre=&Terre;
-	Init_Astre(ptTerre);
-	Terre.rayon=150 000 000;
-	Terre.x=150000000;
-	Terre.y=0
-	//
-	Astre Soleil;
-	Astre* ptSoleil=&Soleil;
-	Init_Astre(ptSoleil);
-	Soleil.x=0;
-	Soleil.y=0;
-	//Quand on changera de focus mettre distance Soleil->Focus en rayon;
-	
-	//Lune 
-	Astre Lune;
-	Astre* ptLune=&Lune;
-	Init_Astre(ptLune);
-	Lune.rayon=384467;
-	Lune.x=1884467;
-	Lune.y=0;	
-	//Lignes à mettre dans la boucle pour les positions
-	Lune.xGravitation=Terre.x
-	Lune.yGravitation=Terre.y
-	UpdateObjet(PtPlanete);
-	//free(PtPlanete);
-	
+
+int cpt = 0;
+
+int mainMoteur(int argc, char **argv) {
+    //PLanete Test
+    Astre Planete;
+    Astre *PtPlanete = &Planete;
+    Init_Astre(PtPlanete);
+    Planete.T = 88;
+    Planete.rayon = 20000;
+    Planete.x = 20000;
+    Planete.y = 0.0;
+    for (int i = 0; i < 200; i++) {
+
+        UpdateObjet(PtPlanete);
+
+    }
+
+    Astre **TabAstre = (Astre **) malloc(50 * sizeof(Astre **));
+
+    ListrePlanete(TabAstre);
+
+    printf("%f", TabAstre[0]->rayon);
+    //CreerTab(TabAstre);
+
+    //free(TabAstre);
+
+    return 0;
 }
+
+
+void ListrePlanete(Astre **TabAstre) {
+
+    Astre Planete;
+    Astre *PtPlanete = &Planete;
+    Init_Astre(PtPlanete);
+    Planete.T = 88;
+    Planete.rayon = 20000;
+    Planete.x = 20000;
+    Planete.y = 0.0;
+
+    //printf("%ld",PtPlanete->T);
+    //Terre à mettre dans le tableau un de ces 4
+
+    Astre Terre;
+    Astre *ptTerre = &Terre;
+    Init_Astre(ptTerre);
+    Terre.rayon = 150000000;
+    Terre.x = 150000000;
+    Terre.y = 0;
+    //
+    Astre Soleil;
+    Astre *ptSoleil = &Soleil;
+    Init_Astre(ptSoleil);
+    Soleil.x = 0;
+    Soleil.y = 0;
+    //Quand on changera de focus mettre distance Soleil->Focus en rayon;
+
+    //Lune
+    Astre Lune;
+    Astre *ptLune = &Lune;
+    Init_Astre(ptLune);
+    Lune.rayon = 384467;
+    Lune.x = 1884467;
+    Lune.y = 0;
+    //Lignes à mettre dans la boucle pour les positions
+    Lune.xGravitation = Terre.x;
+    Lune.yGravitation = Terre.y;
+
+    TabAstre[0] = ptTerre;
+    TabAstre[1] = ptSoleil;
+    TabAstre[2] = ptLune;
+
+
+}
+
 
 /* Fonction Init_Astre
  * Fonction qui initialise la structure Astre
  *@param ptAstre
  */
 
-void Init_Astre(Astre* ptAstre){
-	ptAstre->nom=(char*)malloc(10*sizeof(char));
-	ptAstre->type=(char*)malloc(15*sizeof(char));
-	ptAstre->couleur=(char*)malloc(15*sizeof(char));
-	ptAstre->rayon=0;
-	ptAstre->masse=0;
-	ptAstre->x=0;
-	ptAstre->y=0;
-	ptAstre->vx=0;
-	ptAstre->vy=0;
-	ptAstre->T=0;
-	ptAstre->distanceCentreGravitation=0;
-	ptAstre->xGravitation=0;
-	ptAstre->yGravitation=0;
+void Init_Astre(Astre *ptAstre) {
+    ptAstre->nom = (char *) malloc(10 * sizeof(char));
+    ptAstre->type = (char *) malloc(15 * sizeof(char));
+    ptAstre->couleur = (char *) malloc(15 * sizeof(char));
+    ptAstre->rayon = 0;
+    ptAstre->masse = 0;
+    ptAstre->x = 0;
+    ptAstre->y = 0;
+    ptAstre->vx = 0;
+    ptAstre->vy = 0;
+    ptAstre->T = 0;
+    ptAstre->distanceCentreGravitation = 0;
+    ptAstre->xGravitation = 0;
+    ptAstre->yGravitation = 0;
 }
 
 
-void modif_poss_astre(Astre* ptAstre,int x, int y){
-	ptAstre->x=x;
-	ptAstre->y=y;
-}
-void modif_Temps(Astre* ptAstre,long int T){
-	ptAstre->T=T;
+void modif_poss_astre(Astre *ptAstre, int x, int y) {
+    ptAstre->x = x;
+    ptAstre->y = y;
 }
 
-void modif_poss_Gravitation(Astre* ptAstre,int x, int y){
-	ptAstre->xGravitation=x;
-	ptAstre->yGravitation=y;
+void modif_Temps(Astre *ptAstre, long int T) {
+    ptAstre->T = T;
 }
 
-void CreerTab(Astre* TabAstre) {
-	TabAstre=(Astre*)malloc(50*sizeof(Astre));
-	
+void modif_poss_Gravitation(Astre *ptAstre, int x, int y) {
+    ptAstre->xGravitation = x;
+    ptAstre->yGravitation = y;
 }
 
-void AjouteElmTab(Astre** TabAstre, Astre* NewAstre) {
-	int cpt=0;
-	Astre AstreNull;
-	Astre* ptNull=&AstreNull;
-	for(int i=0;i<sizeof(TabAstre);i++){
-		if(TabAstre[i]->nom==NULL) {
-			TabAstre[i]=NewAstre;
-			cpt++;
-		}
-	}
-	if(cpt==0) {
-		*TabAstre=(Astre*)realloc(TabAstre,sizeof(TabAstre+1)*sizeof(int));
-		TabAstre[sizeof(TabAstre-1)]=NewAstre;		
-	}
+void CreerTab(Astre **TabAstre) {
+    TabAstre = (Astre **) malloc(50 * sizeof(Astre **));
+
+}
+
+void AjouteElmTab(Astre **TabAstre, Astre *NewAstre) {
+    int cpt = 0;
+    Astre AstreNull;
+    Astre *ptNull = &AstreNull;
+    for (int i = 0; i < sizeof(TabAstre); i++) {
+        if (TabAstre[i]->nom == NULL) {
+            TabAstre[i] = NewAstre;
+            cpt++;
+            break;
+        }
+    }
+    if (cpt == 0) {
+        TabAstre = (Astre **) realloc(TabAstre, sizeof(TabAstre + 1) * sizeof(int));
+        TabAstre[sizeof(TabAstre - 1)] = NewAstre;
+    }
 
 }
 
@@ -107,16 +148,32 @@ void AjouteElmTab(Astre** TabAstre, Astre* NewAstre) {
  * @prama t =>temps écoulé depuis le début de la simiulation
  */
 
-/*sert à faire une trajectoire circulaire*/ 
+/*sert à faire une trajectoire circulaire*/
 /*fait une trajectoire réaliste*/
 
-void UpdateObjet(Astre* Planete){
-	double alpha=acos((Planete->x/Planete->rayon)*3.14/180);
-	alpha+=(2*M_PI)/Planete->T ;//correspond à un décalage de 1s si le tour fait T secondes
-	Planete->x=Planete->rayon*cos(alpha);
-	Planete->y=Planete->rayon*sin(alpha);
-	printf("%f",Planete->x);
-	printf("%f",Planete->y);
+void UpdateObjet(Astre *Planete) {
+    double alpha = acos((Planete->x / Planete->rayon));
+    if (alpha >= 3.14) {
+        alpha -= 2 * (2 * 3.14) / Planete->T;
+        cpt = 1;
+    }
+    if (alpha <= 0) {
+        alpha += 2 * (2 * 3.14) / Planete->T;
+        cpt = 0;
+    }
+    if (cpt == 0) {
+        alpha += (2 * 3.14) / Planete->T;
+    }
+    if (cpt == 1) {
+        alpha -= (2 * 3.14) / Planete->T;
+    }
+    printf("%lf", alpha);
+    Planete->x = Planete->rayon * cos(alpha);
+    Planete->y = Planete->rayon * sin(alpha);
+    printf("*******************************");
+    printf("\nNouveau x :%f", Planete->x);
+    printf("Nouveau y :%f \n", Planete->y);
+    printf("*******************************\n");
 
 }
 

@@ -1,5 +1,5 @@
-main: main.o libisentlib.a affichage.o moteur.o sauvegarde.o
-	gcc -Wall main.o -o main affichage.o moteur.o sauvegarde.o libisentlib.a -lm -lglut -lGL -lX11
+main: main.o libisentlib.a affichage.o moteur.o sauvegarde.o menu.o
+	gcc -Wall main.o -o main affichage.o moteur.o sauvegarde.o menu.o libisentlib.a -lm -lglut -lGL -lX11
 
 main.o: main.c GfxLib/GfxLib.h GfxLib/BmpLib.h GfxLib/ESLib.h
 	gcc -Wall -c main.c
