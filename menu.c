@@ -28,3 +28,23 @@ int menu(int choix)
 	}
 	return 0;
 }
+
+void lancer_simulation(){
+    printf("Lancer une nouvelle simulation");
+}
+
+void reprendre() {
+    printf("Reprendre la dernière simulation");
+}
+
+void sauvegarde(){
+    printf("Sauvegarder la simulation actuelle");
+}
+
+void charger() {
+    printf("Charger une simulation passée");
+}
+
+void quitter() {
+    printf("Quitter le programme...");
+}
