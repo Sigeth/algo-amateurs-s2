@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "moteur.h"
-#include "time.h"
+#include <string.h>
 
 
 int cpt = 0;
@@ -51,6 +51,9 @@ void ListrePlanete(Astre **TabAstre) {
     Astre Terre;
     Astre *ptTerre = &Terre;
     Init_Astre(ptTerre);
+    strcpy(Terre.nom, "La Terre");
+    strcpy(Terre.type, "Planète");
+    strcpy(Terre.couleur, "cyan");
     Terre.rayon = 150000000;
     Terre.x = 150000000;
     Terre.y = 0;
@@ -58,6 +61,9 @@ void ListrePlanete(Astre **TabAstre) {
     Astre Soleil;
     Astre *ptSoleil = &Soleil;
     Init_Astre(ptSoleil);
+    strcpy(Soleil.nom, "Le Soleil");
+    strcpy(Soleil.type, "Étoile");
+    strcpy(Soleil.couleur, "jaune");
     Soleil.x = 0;
     Soleil.y = 0;
     //Quand on changera de focus mettre distance Soleil->Focus en rayon;
@@ -66,6 +72,9 @@ void ListrePlanete(Astre **TabAstre) {
     Astre Lune;
     Astre *ptLune = &Lune;
     Init_Astre(ptLune);
+    strcpy(Lune.nom, "La Lune");
+    strcpy(Lune.type, "Satellite naturel");
+    strcpy(Lune.couleur, "gris");
     Lune.rayon = 384467;
     Lune.x = 1884467;
     Lune.y = 0;
@@ -87,9 +96,9 @@ void ListrePlanete(Astre **TabAstre) {
  */
 
 void Init_Astre(Astre *ptAstre) {
-    ptAstre->nom = (char *) malloc(10 * sizeof(char));
-    ptAstre->type = (char *) malloc(15 * sizeof(char));
-    ptAstre->couleur = (char *) malloc(15 * sizeof(char));
+    ptAstre->nom = malloc(10 * sizeof(char));
+    ptAstre->type = malloc(15 * sizeof(char));
+    ptAstre->couleur = malloc(15 * sizeof(char));
     ptAstre->rayon = 0;
     ptAstre->masse = 0;
     ptAstre->x = 0;

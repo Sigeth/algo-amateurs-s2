@@ -26,6 +26,8 @@ void afficheSimu(int argc, char **argv)
     lanceBoucleEvenements();
 }
 
+int static state = 1; //0 = menu principal, 1 = affichage de la simulation, 2 = menu d'affichage des sauvegardes
+
 
 
 /* La fonction de gestion des evenements, appelee automatiquement par le systeme
@@ -57,6 +59,31 @@ void gestionEvenement(EvenementGfx evenement)
 
             // On part d'un fond d'ecran blanc
             effaceFenetre(255, 255, 255);
+
+            switch (state) {
+                case 0:
+                    printf("Bonjour je suis le menu principal\n");
+                    break;
+                case 1:
+                    printf("Bonjour je suis l'affichage de la simulation\n");
+
+                    Astre** tabAstre = malloc(sizeof(Astre) * 10);
+
+                    ListrePlanete(tabAstre);
+
+                    printf("Les astres enregistrés sont : \n");
+                    for (int i=0; i<3; i++) {
+                        printf("%s\n", tabAstre[i]->nom);
+                    }
+
+                    break;
+                case 2:
+                    printf("Bonjour j'aimerai afficher les sauvegardes\n");
+                    break;
+                default:
+                    printf("Il se passe quoi là ?????\n");
+                    break;
+            }
             break;
 
         case Clavier:
