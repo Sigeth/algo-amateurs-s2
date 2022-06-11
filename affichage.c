@@ -10,6 +10,8 @@
 #define LargeurFenetre 1280
 #define HauteurFenetre 720
 
+typedef enum {MenuPrincipal, Simulation, MenuSauvegardes}
+        StateAffichage;
 
 /* La fonction de gestion des evenements, appelee automatiquement par le systeme
 des qu'une evenement survient */
@@ -26,8 +28,8 @@ void afficheSimu(int argc, char **argv)
     lanceBoucleEvenements();
 }
 
-int static state = 1; //0 = menu principal, 1 = affichage de la simulation, 2 = menu d'affichage des sauvegardes
-
+static StateAffichage state = Simulation;
+static Astre **tabAstre;
 
 
 /* La fonction de gestion des evenements, appelee automatiquement par le systeme
@@ -40,6 +42,11 @@ void gestionEvenement(EvenementGfx evenement)
     switch (evenement)
     {
         case Initialisation:
+            tabAstre = (Astre **) malloc(50 * sizeof(Astre **));
+
+            ListrePlanete(tabAstre);
+
+
             /* Le message "Initialisation" est envoye une seule fois, au debut du
             programme : il permet de fixer "image" a la valeur qu'il devra conserver
             jusqu'a la fin du programme : soit "image" reste a NULL si l'image n'a
@@ -61,23 +68,20 @@ void gestionEvenement(EvenementGfx evenement)
             effaceFenetre(255, 255, 255);
 
             switch (state) {
-                case 0:
+                case MenuPrincipal:
                     printf("Bonjour je suis le menu principal\n");
                     break;
-                case 1:
+                case Simulation:
                     printf("Bonjour je suis l'affichage de la simulation\n");
-
-                    Astre** tabAstre = malloc(sizeof(Astre) * 10);
-
-                    ListrePlanete(tabAstre);
 
                     printf("Les astres enregistrés sont : \n");
                     for (int i=0; i<3; i++) {
-                        printf("%s\n", tabAstre[i]->nom);
+                        printf("%f", tabAstre[i]->rayon);
+                        printf("\n");
                     }
 
                     break;
-                case 2:
+                case MenuSauvegardes:
                     printf("Bonjour j'aimerai afficher les sauvegardes\n");
                     break;
                 default:
@@ -115,6 +119,7 @@ void gestionEvenement(EvenementGfx evenement)
                     demandeTemporisation(-1);
                     break;
                 case ToucheF4:
+                    free(tabAstre);
                     termineBoucleEvenements();
                     break;
                 case ToucheF11:
