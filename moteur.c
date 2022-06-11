@@ -127,7 +127,6 @@ void ListeElementAstre(ElementAstre* ptElementAstreInitial)
 void Init_Astre(Astre *ptAstre) {
     ptAstre->nom = malloc(50 * sizeof(char));
     ptAstre->type = malloc(50 * sizeof(char));
-    ptAstre->couleur = malloc(50 * sizeof(char));
     ptAstre->rayon = 0;
     ptAstre->masse = 0;
     ptAstre->x = 0;
@@ -144,7 +143,7 @@ void Init_AstreTerre(Astre *ptTerre)
 {
     strcpy(ptTerre->nom, "La Terre");
     strcpy(ptTerre->type, "Planète");
-    strcpy(ptTerre->couleur, "cyan");
+    ptTerre->couleur = Cyan;
     ptTerre->rayon = 6371;
     ptTerre->distanceCentreGravitation=150000000;
     ptTerre->T=365;
@@ -156,7 +155,7 @@ void Init_AstreLune(Astre *ptLune)
 {
     strcpy(ptLune->nom, "La Lune");
     strcpy(ptLune->type, "Satellite naturel");
-    strcpy(ptLune->couleur, "gris");
+    ptLune->couleur = GrisFonce;
     ptLune->rayon = 1737.0;
     ptLune->distanceCentreGravitation=384467;
     ptLune->x = 1884467;
@@ -167,7 +166,7 @@ void Init_AstreSoleil(Astre *ptSoleil)
 {
     strcpy(ptSoleil->nom, "Le Soleil");
     strcpy(ptSoleil->type, "Étoile");
-    strcpy(ptSoleil->couleur, "jaune");
+    ptSoleil->couleur = Jaune;
     ptSoleil->rayon=696340;
     ptSoleil->x = 0;
     ptSoleil->y = 0;

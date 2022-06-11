@@ -1,11 +1,12 @@
 
-
+typedef enum {Rouge, Vert, Bleu, Jaune, Cyan, GrisClair, GrisFonce}
+        Couleur;
 
 
 typedef struct Astre {
 	char* nom;
 	char* type;
-	char* couleur;
+	Couleur couleur;
 	float rayon;
 	double masse;
 	long int T;

@@ -10,9 +10,6 @@
 #define LargeurFenetre 1280
 #define HauteurFenetre 720
 
-typedef enum {MenuPrincipal, Simulation, MenuSauvegardes}
-        StateAffichage;
-
 /* La fonction de gestion des evenements, appelee automatiquement par le systeme
 des qu'une evenement survient */
 void gestionEvenement(EvenementGfx evenement);
@@ -29,7 +26,27 @@ void afficheSimu(int argc, char **argv)
 }
 
 static StateAffichage state = Simulation;
-static Astre **tabAstre;
+float echelle = 1.0f/10000.0f;
+static ElementAstre* ptElementAstreInitial;
+static ElementAstre* ptElementAstreCourant;
+static long int deltaT = 0;
+
+void cercle(float centreX, float centreY, float rayon)
+{
+    const int Pas = 20; // Nombre de secteurs pour tracer le cercle
+    const double PasAngulaire = 2.*M_PI/Pas;
+    int index;
+
+    for (index = 0; index < Pas; ++index) // Pour chaque secteur
+    {
+        const double angle = 2.*M_PI*index/Pas; // on calcule l'angle de depart du secteur
+        triangle(centreX, centreY,
+                 centreX+rayon*cos(angle), centreY+rayon*sin(angle),
+                 centreX+rayon*cos(angle+PasAngulaire), centreY+rayon*sin(angle+PasAngulaire));
+        // On trace le secteur a l'aide d'un triangle => approximation d'un cercle
+    }
+
+}
 
 
 /* La fonction de gestion des evenements, appelee automatiquement par le systeme
@@ -42,6 +59,9 @@ void gestionEvenement(EvenementGfx evenement)
     switch (evenement)
     {
         case Initialisation:
+
+            ptElementAstreInitial = InitElementAstre();
+            ptElementAstreCourant = ptElementAstreInitial;
 
             /* Le message "Initialisation" est envoye une seule fois, au debut du
             programme : il permet de fixer "image" a la valeur qu'il devra conserver
@@ -68,26 +88,61 @@ void gestionEvenement(EvenementGfx evenement)
                     printf("Bonjour je suis le menu principal\n");
                     break;
                 case Simulation:
-                    printf("Bonjour je suis l'affichage de la simulation\n");
+                    //printf("Bonjour je suis l'affichage de la simulation\n");
 
-                    ElementAstre* ptElementAstreInitial = InitElementAstre();
+                    if (deltaT > 30) {
+                        ptElementAstreCourant = ptElementAstreInitial;
+                        while( ptElementAstreCourant != NULL )
+                        {
+                            Astre* ptAstre = ptElementAstreCourant -> ptAstre;
+                            if( ptAstre != NULL )
+                            {
+                                UpdateObjet(ptAstre);
+                            }
 
-                    ElementAstre* ptElementAstreCourant = ptElementAstreInitial;
+                            ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
+                        }
+
+                        deltaT = 0;
+                    }
+
+                    ptElementAstreCourant = ptElementAstreInitial;
                     while( ptElementAstreCourant != NULL )
                     {
                         Astre* ptAstre = ptElementAstreCourant -> ptAstre;
                         if( ptAstre != NULL )
                         {
-                            printf( "\n%s :\n", ptAstre -> nom );
-                            printf( " \n rayon : %f", ptAstre -> rayon );
-                            printf( " \n T : %ld \n", ptAstre -> T );
+                            switch(ptAstre->couleur) {
+                                case Cyan:
+                                    couleurCourante(0, 206, 209);
+                                    break;
+                                case Jaune:
+                                    couleurCourante(255, 255, 0);
+                                    break;
+                                case GrisFonce:
+                                    couleurCourante(69, 69, 69);
+                                    break;
+                                default:
+                                    couleurCourante(0,0,0);
+                                    break;
+                            }
+
+
+
+                            if (ptAstre->rayon*echelle < largeurFenetre()/256) {
+                                cercle(ptAstre->x*echelle + largeurFenetre()/2, ptAstre->y*echelle + hauteurFenetre()/2, largeurFenetre()/256);
+                            } else {
+                                cercle(ptAstre->x*echelle + largeurFenetre()/2, ptAstre->y*echelle + hauteurFenetre()/2, ptAstre->rayon*echelle);
+                            }
+
+                            float tailleChaineAstre = tailleChaine(ptAstre->nom, 12);
+                            afficheChaine(ptAstre->nom, 12, ptAstre->x*echelle + largeurFenetre()/2 - tailleChaineAstre/2, ptAstre->y*echelle + hauteurFenetre()/2 + ptAstre->rayon*echelle + hauteurFenetre()/128);
                         }
 
                         ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
                     }
 
-                    free(ptElementAstreInitial);
-                    free(ptElementAstreCourant);
+                    deltaT++;
 
                     break;
                 case MenuSauvegardes:
@@ -128,7 +183,6 @@ void gestionEvenement(EvenementGfx evenement)
                     demandeTemporisation(-1);
                     break;
                 case ToucheF4:
-                    free(tabAstre);
                     termineBoucleEvenements();
                     break;
                 case ToucheF11:
