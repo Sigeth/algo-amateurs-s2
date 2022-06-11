@@ -26,7 +26,10 @@ int mainMoteur(int argc, char **argv) {
 
     ListrePlanete(TabAstre);
 
-    printf("%f", TabAstre[0]->rayon);
+    printf("%f\n", TabAstre[0]->rayon);
+    printf("%f\n", TabAstre[1]->rayon);
+    printf("%f\n", TabAstre[2]->rayon);
+
     //CreerTab(TabAstre);
 
     //free(TabAstre);

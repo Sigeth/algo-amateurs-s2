@@ -42,9 +42,9 @@ void gestionEvenement(EvenementGfx evenement)
     switch (evenement)
     {
         case Initialisation:
-            tabAstre = (Astre **) malloc(50 * sizeof(Astre **));
+            /*tabAstre = (Astre **) malloc(50 * sizeof(Astre **));
 
-            ListrePlanete(tabAstre);
+            ListrePlanete(tabAstre);*/
 
 
             /* Le message "Initialisation" est envoye une seule fois, au debut du
@@ -73,6 +73,15 @@ void gestionEvenement(EvenementGfx evenement)
                     break;
                 case Simulation:
                     printf("Bonjour je suis l'affichage de la simulation\n");
+
+                    tabAstre = malloc(50 * sizeof(Astre *));
+
+                    ListrePlanete(tabAstre);
+
+                    printf("%f\n", tabAstre[0]->rayon);
+                    printf("%f\n", tabAstre[1]->rayon);
+                    printf("%f\n", tabAstre[2]->rayon);
+
 
                     printf("Les astres enregistrés sont : \n");
                     for (int i=0; i<3; i++) {
