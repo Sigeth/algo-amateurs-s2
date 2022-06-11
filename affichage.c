@@ -90,7 +90,7 @@ void gestionEvenement(EvenementGfx evenement)
                 case Simulation:
                     //printf("Bonjour je suis l'affichage de la simulation\n");
 
-                    if (deltaT > 30) {
+                    if (deltaT > 60) {
                         ptElementAstreCourant = ptElementAstreInitial;
                         while( ptElementAstreCourant != NULL )
                         {
@@ -138,7 +138,6 @@ void gestionEvenement(EvenementGfx evenement)
                             float tailleChaineAstre = tailleChaine(ptAstre->nom, 12);
                             afficheChaine(ptAstre->nom, 12, ptAstre->x*echelle + largeurFenetre()/2 - tailleChaineAstre/2, ptAstre->y*echelle + hauteurFenetre()/2 + ptAstre->rayon*echelle + hauteurFenetre()/128);
                         }
-
                         ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
                     }
 

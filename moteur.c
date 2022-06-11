@@ -5,23 +5,17 @@
 #include <string.h>
 
 
-int cpt = 0;
+//int cpt = 0;
 
 int mainMoteur(int argc, char **argv) {
-    //PLanete Test
-    Astre Planete;
-    Astre *PtPlanete = &Planete;
-    Init_Astre(PtPlanete);
-    Planete.T = 88;
-    Planete.rayon = 20000;
-    Planete.x = 20000;
-    Planete.y = 0.0;
-    /*
-    for (int i = 0; i < 200; i++) {
+    ElementAstre* ptElementAstreSoleil=InitElementAstre();
+   
+    for (int i = 0; i < 2; i++) {
 
-        UpdateObjet(PtPlanete);
+     	printf("\n %p \n",ParcourListeElementAstre(ptElementAstreSoleil,1));
+     	UpdateObjet(ParcourListeElementAstre(ptElementAstreSoleil,1));
 
-    }*/
+    }
 
 //    Astre **TabAstre = (Astre**)malloc(50 * sizeof(Astre*)); 
 
@@ -29,7 +23,7 @@ int mainMoteur(int argc, char **argv) {
     // Affiche les astres
     
     ListeElementAstre(InitElementAstre());
-    ParcourListeElementAstre(InitElementAstre(),1);
+    ParcourListeElementAstre(ptElementAstreSoleil,1);
      
 /*
     ListrePlanete(TabAstre);
@@ -84,12 +78,12 @@ ElementAstre* InitElementAstre()
 }
 
 Astre* ParcourListeElementAstre(ElementAstre* ptElementAstreInitial, int nb) {
-	cpt=0;
+	int compteur=0;
  	ElementAstre* ptElementAstreCourant = ptElementAstreInitial;
- 	while( ptElementAstreCourant != NULL && cpt!= nb)
+ 	while( ptElementAstreCourant != NULL && compteur!= nb)
  	{
 	    	ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
-	    	cpt++;
+	    	compteur++;
 	    }
 	return ptElementAstreCourant -> ptAstre ;
 
@@ -158,6 +152,7 @@ void Init_AstreLune(Astre *ptLune)
     ptLune->couleur = GrisFonce;
     ptLune->rayon = 1737.0;
     ptLune->distanceCentreGravitation=384467;
+    ptLune->T=28;
     ptLune->x = 1884467;
     ptLune->y = 0;
 }
@@ -222,28 +217,39 @@ void AjouteElmTab(Astre **TabAstre, Astre *NewAstre) {
 /*fait une trajectoire réaliste*/
 
 void UpdateObjet(Astre *Planete) {
-    double alpha = acos((Planete->x / Planete->rayon));
-    if (alpha >= 3.14) {
-        alpha -= 2 * (2 * 3.14) / Planete->T;
-        cpt = 1;
+    int cpt=0;
+	printf("\n%f\n",Planete->x);
+	printf("%f\n",Planete->y);
+
+    if (Planete->distanceCentreGravitation != 0) {
+        printf("%f\n", Planete->distanceCentreGravitation);
+        double alpha = acos((Planete->x / Planete->distanceCentreGravitation));
+        printf("%f\n",alpha);
+        if (alpha >= 3.14) {
+            alpha -= 2 * (2 * 3.14) / Planete->T;
+            cpt = 1;
+        }
+        if (alpha <= 0) {
+            alpha += 2 * (2 * 3.14) / Planete->T;
+            cpt = 0;
+        }
+        if (cpt == 0) {
+            alpha += (2 * 3.14) / Planete->T;
+        }
+        if (cpt == 1) {
+            alpha -= (2 * 3.14) / Planete->T;
+        }
+
+        printf("%lf", alpha);
+        Planete->x = Planete->distanceCentreGravitation * cos(alpha);
+        Planete->y = Planete->distanceCentreGravitation * sin(alpha);
     }
-    if (alpha <= 0) {
-        alpha += 2 * (2 * 3.14) / Planete->T;
-        cpt = 0;
-    }
-    if (cpt == 0) {
-        alpha += (2 * 3.14) / Planete->T;
-    }
-    if (cpt == 1) {
-        alpha -= (2 * 3.14) / Planete->T;
-    }
-    printf("%lf", alpha);
-    Planete->x = Planete->rayon * cos(alpha);
-    Planete->y = Planete->rayon * sin(alpha);
+
     printf("*******************************");
     printf("\nNouveau x :%f", Planete->x);
     printf("Nouveau y :%f \n", Planete->y);
     printf("*******************************\n");
+    
 
 }
 
