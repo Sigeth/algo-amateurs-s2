@@ -1,5 +1,7 @@
 
 
+
+
 typedef struct Astre {
 	char* nom;
 	char* type;
@@ -15,6 +17,26 @@ typedef struct Astre {
 	float yGravitation;
 	float distanceCentreGravitation;
 }Astre;
+
+
+//typedef struct ElementAstre ElementAstre;
+
+typedef struct ElementAstre
+{
+	Astre* ptAstre;
+	struct ElementAstre* ptElementAstrePrecedent;
+	struct ElementAstre* ptElementAstreSuivant;
+} ElementAstre;
+
+
+
+void Init_AstreLune(Astre *ptLune);
+void Init_AstreTerre(Astre *ptTerre);
+void Init_AstreSoleil(Astre *ptSoleil);
+void ListeElementAstre(struct ElementAstre* ptElementAstreInitial);
+Astre* ParcourListeElementAstre(ElementAstre* ptElementAstreInitial, int nb);
+ElementAstre* InitElementAstre();
+
 
 void UpdateObjet(Astre* Planete);
 void AjouteElmTab(Astre** TabAstre, Astre* NewAstre);

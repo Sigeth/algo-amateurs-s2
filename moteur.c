@@ -16,14 +16,22 @@ int mainMoteur(int argc, char **argv) {
     Planete.rayon = 20000;
     Planete.x = 20000;
     Planete.y = 0.0;
+    /*
     for (int i = 0; i < 200; i++) {
 
         UpdateObjet(PtPlanete);
 
-    }
+    }*/
 
-    Astre **TabAstre = (Astre **) malloc(50 * sizeof(Astre **));
+//    Astre **TabAstre = (Astre**)malloc(50 * sizeof(Astre*)); 
 
+    // Initial -> Terre
+    // Affiche les astres
+    
+    ListeElementAstre(InitElementAstre());
+    ParcourListeElementAstre(InitElementAstre(),1);
+     
+/*
     ListrePlanete(TabAstre);
 
     printf("%f\n", TabAstre[0]->rayon);
@@ -32,64 +40,82 @@ int mainMoteur(int argc, char **argv) {
 
     //CreerTab(TabAstre);
 
-    //free(TabAstre);
-
+    free(TabAstre);
+*/
     return 0;
+    
 }
 
 
-void ListrePlanete(Astre **TabAstre) {
+ElementAstre* InitElementAstre()
+{
+	 
+    ElementAstre* ptElementAstreSoleil = malloc( sizeof(ElementAstre));
+    ptElementAstreSoleil-> ptElementAstrePrecedent = NULL;
+    ptElementAstreSoleil-> ptElementAstreSuivant = NULL;
+    ptElementAstreSoleil-> ptAstre = malloc(sizeof(Astre));
+    Init_Astre(ptElementAstreSoleil-> ptAstre);
+    Init_AstreSoleil(ptElementAstreSoleil-> ptAstre);
 
-    Astre Planete;
-    Astre *PtPlanete = &Planete;
-    Init_Astre(PtPlanete);
-    Planete.T = 88;
-    Planete.rayon = 20000;
-    Planete.x = 20000;
-    Planete.y = 0.0;
+	
+    ElementAstre* ptElementAstreTerre = malloc( sizeof(ElementAstre));
+    ptElementAstreTerre-> ptElementAstrePrecedent = ptElementAstreSoleil;
+    ptElementAstreTerre-> ptElementAstreSuivant = NULL;
+    ptElementAstreTerre-> ptAstre = malloc(sizeof(Astre));
+    Init_Astre(ptElementAstreTerre-> ptAstre);
+    Init_AstreTerre(ptElementAstreTerre-> ptAstre);
+    
+     ptElementAstreSoleil-> ptElementAstreSuivant=ptElementAstreTerre;
+    
+    
+    ElementAstre* ptElementAstreLune = malloc( sizeof(ElementAstre));
+    ptElementAstreLune-> ptElementAstrePrecedent = ptElementAstreTerre;
+    ptElementAstreLune-> ptElementAstreSuivant = NULL;
+    ptElementAstreLune-> ptAstre = malloc(sizeof(Astre));
+    Init_Astre(ptElementAstreLune-> ptAstre);
+    Init_AstreLune(ptElementAstreLune-> ptAstre);
+    
+    ptElementAstreTerre-> ptElementAstreSuivant = ptElementAstreLune;
+        
+      
+    
+    return ptElementAstreSoleil;
 
-    //printf("%ld",PtPlanete->T);
-    //Terre à mettre dans le tableau un de ces 4
+}
 
-    Astre Terre;
-    Astre *ptTerre = &Terre;
-    Init_Astre(ptTerre);
-    strcpy(Terre.nom, "La Terre");
-    strcpy(Terre.type, "Planète");
-    strcpy(Terre.couleur, "cyan");
-    Terre.rayon = 150000000;
-    Terre.x = 150000000;
-    Terre.y = 0;
-    //
-    Astre Soleil;
-    Astre *ptSoleil = &Soleil;
-    Init_Astre(ptSoleil);
-    strcpy(Soleil.nom, "Le Soleil");
-    strcpy(Soleil.type, "Étoile");
-    strcpy(Soleil.couleur, "jaune");
-    Soleil.x = 0;
-    Soleil.y = 0;
-    //Quand on changera de focus mettre distance Soleil->Focus en rayon;
+Astre* ParcourListeElementAstre(ElementAstre* ptElementAstreInitial, int nb) {
+	cpt=0;
+ 	ElementAstre* ptElementAstreCourant = ptElementAstreInitial;
+ 	while( ptElementAstreCourant != NULL && cpt!= nb)
+ 	{
+	    	ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
+	    	cpt++;
+	    }
+	return ptElementAstreCourant -> ptAstre ;
 
-    //Lune
-    Astre Lune;
-    Astre *ptLune = &Lune;
-    Init_Astre(ptLune);
-    strcpy(Lune.nom, "La Lune");
-    strcpy(Lune.type, "Satellite naturel");
-    strcpy(Lune.couleur, "gris");
-    Lune.rayon = 384467;
-    Lune.x = 1884467;
-    Lune.y = 0;
-    //Lignes à mettre dans la boucle pour les positions
-    Lune.xGravitation = Terre.x;
-    Lune.yGravitation = Terre.y;
-
-    TabAstre[0] = ptTerre;
-    TabAstre[1] = ptSoleil;
-    TabAstre[2] = ptLune;
+}
 
 
+
+
+
+
+
+void ListeElementAstre(ElementAstre* ptElementAstreInitial)
+{
+    ElementAstre* ptElementAstreCourant = ptElementAstreInitial;
+    while( ptElementAstreCourant != NULL )
+    {
+    	Astre* ptAstre = ptElementAstreCourant -> ptAstre;
+    	if( ptAstre != NULL )
+    	{
+    	    printf( "\n%s :\n", ptAstre -> nom );
+    	    printf( " \n rayon : %f", ptAstre -> rayon );
+    	    printf( " \n T : %ld \n", ptAstre -> T );
+    	}
+    	
+    	ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
+    }
 }
 
 
@@ -99,9 +125,9 @@ void ListrePlanete(Astre **TabAstre) {
  */
 
 void Init_Astre(Astre *ptAstre) {
-    ptAstre->nom = malloc(10 * sizeof(char));
-    ptAstre->type = malloc(15 * sizeof(char));
-    ptAstre->couleur = malloc(15 * sizeof(char));
+    ptAstre->nom = malloc(50 * sizeof(char));
+    ptAstre->type = malloc(50 * sizeof(char));
+    ptAstre->couleur = malloc(50 * sizeof(char));
     ptAstre->rayon = 0;
     ptAstre->masse = 0;
     ptAstre->x = 0;
@@ -114,6 +140,38 @@ void Init_Astre(Astre *ptAstre) {
     ptAstre->yGravitation = 0;
 }
 
+void Init_AstreTerre(Astre *ptTerre)
+{
+    strcpy(ptTerre->nom, "La Terre");
+    strcpy(ptTerre->type, "Planète");
+    strcpy(ptTerre->couleur, "cyan");
+    ptTerre->rayon = 6371;
+    ptTerre->distanceCentreGravitation=150000000;
+    ptTerre->T=365;
+    ptTerre->x = 150000000;
+    ptTerre->y = 0;
+}
+
+void Init_AstreLune(Astre *ptLune)
+{
+    strcpy(ptLune->nom, "La Lune");
+    strcpy(ptLune->type, "Satellite naturel");
+    strcpy(ptLune->couleur, "gris");
+    ptLune->rayon = 1737.0;
+    ptLune->distanceCentreGravitation=384467;
+    ptLune->x = 1884467;
+    ptLune->y = 0;
+}
+
+void Init_AstreSoleil(Astre *ptSoleil)
+{
+    strcpy(ptSoleil->nom, "Le Soleil");
+    strcpy(ptSoleil->type, "Étoile");
+    strcpy(ptSoleil->couleur, "jaune");
+    ptSoleil->rayon=696340;
+    ptSoleil->x = 0;
+    ptSoleil->y = 0;
+}
 
 void modif_poss_astre(Astre *ptAstre, int x, int y) {
     ptAstre->x = x;
@@ -137,7 +195,8 @@ void CreerTab(Astre **TabAstre) {
 void AjouteElmTab(Astre **TabAstre, Astre *NewAstre) {
     int cpt = 0;
     Astre AstreNull;
-    Astre *ptNull = &AstreNull;
+    Astre* ptNull;
+    ptNull=&AstreNull;
     for (int i = 0; i < sizeof(TabAstre); i++) {
         if (TabAstre[i]->nom == NULL) {
             TabAstre[i] = NewAstre;

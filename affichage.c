@@ -42,10 +42,6 @@ void gestionEvenement(EvenementGfx evenement)
     switch (evenement)
     {
         case Initialisation:
-            /*tabAstre = (Astre **) malloc(50 * sizeof(Astre **));
-
-            ListrePlanete(tabAstre);*/
-
 
             /* Le message "Initialisation" est envoye une seule fois, au debut du
             programme : il permet de fixer "image" a la valeur qu'il devra conserver
@@ -74,20 +70,24 @@ void gestionEvenement(EvenementGfx evenement)
                 case Simulation:
                     printf("Bonjour je suis l'affichage de la simulation\n");
 
-                    tabAstre = malloc(50 * sizeof(Astre *));
+                    ElementAstre* ptElementAstreInitial = InitElementAstre();
 
-                    ListrePlanete(tabAstre);
+                    ElementAstre* ptElementAstreCourant = ptElementAstreInitial;
+                    while( ptElementAstreCourant != NULL )
+                    {
+                        Astre* ptAstre = ptElementAstreCourant -> ptAstre;
+                        if( ptAstre != NULL )
+                        {
+                            printf( "\n%s :\n", ptAstre -> nom );
+                            printf( " \n rayon : %f", ptAstre -> rayon );
+                            printf( " \n T : %ld \n", ptAstre -> T );
+                        }
 
-                    printf("%f\n", tabAstre[0]->rayon);
-                    printf("%f\n", tabAstre[1]->rayon);
-                    printf("%f\n", tabAstre[2]->rayon);
-
-
-                    printf("Les astres enregistrés sont : \n");
-                    for (int i=0; i<3; i++) {
-                        printf("%f", tabAstre[i]->rayon);
-                        printf("\n");
+                        ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
                     }
+
+                    free(ptElementAstreInitial);
+                    free(ptElementAstreCourant);
 
                     break;
                 case MenuSauvegardes:
