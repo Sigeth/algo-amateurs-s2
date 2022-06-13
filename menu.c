@@ -2,6 +2,23 @@
 #include <stdlib.h>
 #include "menu.h"
 
+void liste_options(void)
+{
+	char options[5];
+	options[0]="lancer simulation";
+	options[1]="reprendre simulation";
+	options[2]="sauvegarder la simulation";
+	options[3]="charger une sauvegarde";
+	options[4]="quitter le programme";
+	
+}
+
+int nombre_options(void)
+{
+	return 5;
+}
+
+
 int menu(int choix) 
 {
 	switch(choix)
@@ -28,6 +45,7 @@ int menu(int choix)
 	}
 	return 0;
 }
+
 
 void lancer_simulation(){
     printf("Lancer une nouvelle simulation");
