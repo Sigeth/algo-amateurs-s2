@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "menu.h"
 
 void liste_options(void)
 {
-	char options[5];
-	options[0]="lancer simulation";
-	options[1]="reprendre simulation";
-	options[2]="sauvegarder la simulation";
-	options[3]="charger une sauvegarde";
-	options[4]="quitter le programme";
+	char* options[5];
+	strcpy(options[0],"lancer simulation");
+	strcpy(options[1],"reprendre simulation");
+	strcpy(options[2],"sauvegarder la simulation");
+	strcpy(options[3],"charger une sauvegarde");
+	strcpy(options[4],"quitter le programme");
 	
 }
 
