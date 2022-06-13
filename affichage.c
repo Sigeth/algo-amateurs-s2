@@ -5,6 +5,7 @@
 #include "GfxLib/BmpLib.h" // Cet include permet de manipuler des fichiers BMP
 #include "GfxLib/ESLib.h" // Pour utiliser valeurAleatoire()
 #include "affichage.h"
+#include <stdbool.h>
 
 // Largeur et hauteur par defaut d'une image correspondant a nos criteres
 #define LargeurFenetre 1280
@@ -30,11 +31,15 @@ float echellePlanete = 1.0f/10000.0f;
 float echelleDistances = 1.0f/500000.0f;
 static ElementAstre* ptElementAstreInitial;
 static ElementAstre* ptElementAstreCourant;
-static long int deltaT = 0;
+static int deltaT = 0;
+static int deltaTcheck = 6;
+static float xCentre = 0.0f;
+static float yCentre = 0.0f;
+static bool focused = false;
 
 void cercle(float centreX, float centreY, float rayon)
 {
-    const int Pas = 20; // Nombre de secteurs pour tracer le cercle
+    const int Pas = 100; // Nombre de secteurs pour tracer le cercle
     const double PasAngulaire = 2.*M_PI/Pas;
     int index;
 
@@ -91,14 +96,14 @@ void gestionEvenement(EvenementGfx evenement)
                 case Simulation:
                     //printf("Bonjour je suis l'affichage de la simulation\n");
 
-                    if (deltaT > 6) {
+                    if (deltaT >= deltaTcheck) {
                         ptElementAstreCourant = ptElementAstreInitial;
                         while( ptElementAstreCourant != NULL )
                         {
                             Astre* ptAstre = ptElementAstreCourant -> ptAstre;
                             if( ptAstre != NULL )
                             {
-                                UpdateObjet(ptAstre);
+                                //UpdateObjet(ptAstre);
                             }
 
                             ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
@@ -131,13 +136,13 @@ void gestionEvenement(EvenementGfx evenement)
 
 
                             if (ptAstre->rayon*echellePlanete < largeurFenetre()/256) {
-                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2, ptAstre->y*echelleDistances + hauteurFenetre()/2, largeurFenetre()/256);
+                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, largeurFenetre()/256);
                             } else {
-                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2, ptAstre->y*echelleDistances + hauteurFenetre()/2, ptAstre->rayon*echellePlanete);
+                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, ptAstre->rayon*echellePlanete);
                             }
 
                             float tailleChaineAstre = tailleChaine(ptAstre->nom, 12);
-                            afficheChaine(ptAstre->nom, 12, ptAstre->x*echelleDistances + largeurFenetre()/2 - tailleChaineAstre/2, ptAstre->y*echelleDistances + hauteurFenetre()/2 + ptAstre->rayon*echellePlanete + hauteurFenetre()/128);
+                            afficheChaine(ptAstre->nom, 12, ptAstre->x*echelleDistances + largeurFenetre()/2 - tailleChaineAstre/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + ptAstre->rayon*echellePlanete + hauteurFenetre()/128 + yCentre);
                         }
                         ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
                     }
@@ -158,9 +163,22 @@ void gestionEvenement(EvenementGfx evenement)
             printf("%c : ASCII %d\n", caractereClavier(), caractereClavier());
 
             switch (caractereClavier()) {
-                case 'A':
-                case 'a':
-                    printf("omg j'appuie sur A !!!!!");
+                case 'Z':
+                case 'z':
+                    yCentre -= 100;
+                    break;
+                case 'Q':
+                case 'q':
+                    xCentre += 100;
+                    break;
+                case 'S':
+                case 's':
+                    yCentre += 100;
+                    break;
+                case 'D':
+                case 'd':
+                    xCentre -= 100;
+                    break;
             }
             break;
 
@@ -192,6 +210,22 @@ void gestionEvenement(EvenementGfx evenement)
                     else
                         redimensionneFenetre(LargeurFenetre, HauteurFenetre);
                     break;
+                case ToucheFlecheGauche:
+                    deltaTcheck++;
+                    break;
+                case ToucheFlecheDroite:
+                    if (deltaTcheck > 1) {
+                        deltaTcheck--;
+                    }
+                    break;
+                case ToucheFlecheHaut:
+                    echellePlanete *= 2;
+                    echelleDistances *= 2;
+                    break;
+                case ToucheFlecheBas:
+                    echellePlanete /= 2;
+                    echelleDistances /= 2;
+                    break;
             }
             break;
 
@@ -199,6 +233,10 @@ void gestionEvenement(EvenementGfx evenement)
             if (etatBoutonSouris() == GaucheAppuye)
             {
                 printf("Bouton gauche appuye en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
+                float xAppuye = largeurFenetre()/2 + xCentre;
+                float yAppuye = hauteurFenetre()/2 + yCentre;
+
+                printf("Coordonnées dans le repère cartésien : (%f, %f)", xAppuye, yAppuye);
             }
             else if (etatBoutonSouris() == GaucheRelache)
             {
