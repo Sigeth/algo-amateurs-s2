@@ -26,7 +26,8 @@ void afficheSimu(int argc, char **argv)
 }
 
 static StateAffichage state = Simulation;
-float echelle = 1.0f/10000.0f;
+float echellePlanete = 1.0f/10000.0f;
+float echelleDistances = 1.0f/500000.0f;
 static ElementAstre* ptElementAstreInitial;
 static ElementAstre* ptElementAstreCourant;
 static long int deltaT = 0;
@@ -81,7 +82,7 @@ void gestionEvenement(EvenementGfx evenement)
         case Affichage:
 
             // On part d'un fond d'ecran blanc
-            effaceFenetre(255, 255, 255);
+            effaceFenetre(0, 0, 0);
 
             switch (state) {
                 case MenuPrincipal:
@@ -90,7 +91,7 @@ void gestionEvenement(EvenementGfx evenement)
                 case Simulation:
                     //printf("Bonjour je suis l'affichage de la simulation\n");
 
-                    if (deltaT > 60) {
+                    if (deltaT > 6) {
                         ptElementAstreCourant = ptElementAstreInitial;
                         while( ptElementAstreCourant != NULL )
                         {
@@ -129,14 +130,14 @@ void gestionEvenement(EvenementGfx evenement)
 
 
 
-                            if (ptAstre->rayon*echelle < largeurFenetre()/256) {
-                                cercle(ptAstre->x*echelle + largeurFenetre()/2, ptAstre->y*echelle + hauteurFenetre()/2, largeurFenetre()/256);
+                            if (ptAstre->rayon*echellePlanete < largeurFenetre()/256) {
+                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2, ptAstre->y*echelleDistances + hauteurFenetre()/2, largeurFenetre()/256);
                             } else {
-                                cercle(ptAstre->x*echelle + largeurFenetre()/2, ptAstre->y*echelle + hauteurFenetre()/2, ptAstre->rayon*echelle);
+                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2, ptAstre->y*echelleDistances + hauteurFenetre()/2, ptAstre->rayon*echellePlanete);
                             }
 
                             float tailleChaineAstre = tailleChaine(ptAstre->nom, 12);
-                            afficheChaine(ptAstre->nom, 12, ptAstre->x*echelle + largeurFenetre()/2 - tailleChaineAstre/2, ptAstre->y*echelle + hauteurFenetre()/2 + ptAstre->rayon*echelle + hauteurFenetre()/128);
+                            afficheChaine(ptAstre->nom, 12, ptAstre->x*echelleDistances + largeurFenetre()/2 - tailleChaineAstre/2, ptAstre->y*echelleDistances + hauteurFenetre()/2 + ptAstre->rayon*echellePlanete + hauteurFenetre()/128);
                         }
                         ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
                     }
