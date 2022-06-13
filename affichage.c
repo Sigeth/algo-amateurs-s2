@@ -6,6 +6,7 @@
 #include "GfxLib/ESLib.h" // Pour utiliser valeurAleatoire()
 #include "affichage.h"
 #include <stdbool.h>
+#include <time.h>
 
 // Largeur et hauteur par defaut d'une image correspondant a nos criteres
 #define LargeurFenetre 1280
@@ -36,6 +37,8 @@ static int deltaTcheck = 6;
 static float xCentre = 0.0f;
 static float yCentre = 0.0f;
 static bool focused = false;
+static int* etoiles;
+static int nbEtoiles;
 
 void cercle(float centreX, float centreY, float rayon)
 {
@@ -54,6 +57,13 @@ void cercle(float centreX, float centreY, float rayon)
 
 }
 
+void updateEtoiles() {
+    for (int i=0;i<nbEtoiles-1;i+=2) {
+        etoiles[i] = rand()%largeurFenetre();
+        etoiles[i+1] = rand()%largeurFenetre();
+    }
+}
+
 
 /* La fonction de gestion des evenements, appelee automatiquement par le systeme
 des qu'une evenement survient */
@@ -68,6 +78,11 @@ void gestionEvenement(EvenementGfx evenement)
 
             ptElementAstreInitial = InitElementAstre();
             ptElementAstreCourant = ptElementAstreInitial;
+            srand(time(NULL));
+            nbEtoiles = 500 + rand()%4500;
+            etoiles = malloc(sizeof(int) * nbEtoiles);
+
+            updateEtoiles();
 
             /* Le message "Initialisation" est envoye une seule fois, au debut du
             programme : il permet de fixer "image" a la valeur qu'il devra conserver
@@ -88,6 +103,10 @@ void gestionEvenement(EvenementGfx evenement)
 
             // On part d'un fond d'ecran blanc
             effaceFenetre(0, 0, 0);
+
+            for (int i=0;i<nbEtoiles-1;i+=2) {
+                cercle(etoiles[i], etoiles[i+1], largeurFenetre()/1024);
+            }
 
             switch (state) {
                 case MenuPrincipal:
@@ -166,18 +185,22 @@ void gestionEvenement(EvenementGfx evenement)
                 case 'Z':
                 case 'z':
                     yCentre -= 100;
+                    updateEtoiles();
                     break;
                 case 'Q':
                 case 'q':
                     xCentre += 100;
+                    updateEtoiles();
                     break;
                 case 'S':
                 case 's':
                     yCentre += 100;
+                    updateEtoiles();
                     break;
                 case 'D':
                 case 'd':
                     xCentre -= 100;
+                    updateEtoiles();
                     break;
             }
             break;
@@ -233,10 +256,12 @@ void gestionEvenement(EvenementGfx evenement)
             if (etatBoutonSouris() == GaucheAppuye)
             {
                 printf("Bouton gauche appuye en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
-                float xAppuye = largeurFenetre()/2 + xCentre;
-                float yAppuye = hauteurFenetre()/2 + yCentre;
+                float xAppuye = abscisseSouris() - largeurFenetre()/2 - xCentre;
+                float yAppuye = ordonneeSouris() - hauteurFenetre()/2 - yCentre;
 
                 printf("Coordonnées dans le repère cartésien : (%f, %f)", xAppuye, yAppuye);
+
+
             }
             else if (etatBoutonSouris() == GaucheRelache)
             {
@@ -254,6 +279,7 @@ void gestionEvenement(EvenementGfx evenement)
             // Donc le systeme nous en informe
             printf("Largeur : %d\t", largeurFenetre());
             printf("Hauteur : %d\n", hauteurFenetre());
+            updateEtoiles();
             break;
     }
 }
