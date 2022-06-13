@@ -14,6 +14,7 @@ typedef struct Astre {
 	float y;
 	float vx;
 	float vy;
+	char* nomGravitation;
 	float xGravitation;
 	float yGravitation;
 	float distanceCentreGravitation;
@@ -36,10 +37,10 @@ void Init_AstreTerre(Astre *ptTerre);
 void Init_AstreSoleil(Astre *ptSoleil);
 void ListeElementAstre(struct ElementAstre* ptElementAstreInitial);
 Astre* ParcourListeElementAstre(ElementAstre* ptElementAstreInitial, int nb);
+Astre* RechercheParNom(ElementAstre* ptElementAstreInitial, char* nom_Recherche);
 ElementAstre* InitElementAstre();
+void UpdateObjet(Astre *Planete, Astre* Gravitation);
 
-
-void UpdateObjet(Astre* Planete);
 void AjouteElmTab(Astre** TabAstre, Astre* NewAstre);
 void CreerTab(Astre** TabAstre);
 void modif_poss_Gravitation(Astre* ptAstre,int x, int y);

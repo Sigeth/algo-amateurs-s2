@@ -103,7 +103,7 @@ void gestionEvenement(EvenementGfx evenement)
                             Astre* ptAstre = ptElementAstreCourant -> ptAstre;
                             if( ptAstre != NULL )
                             {
-                                //UpdateObjet(ptAstre);
+                                UpdateObjet(ptAstre, RechercheParNom(ptElementAstreInitial, ptAstre->nomGravitation));
                             }
 
                             ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;

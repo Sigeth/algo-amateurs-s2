@@ -9,14 +9,14 @@
 
 int mainMoteur(int argc, char **argv) {
     ElementAstre* ptElementAstreSoleil=InitElementAstre();
-   
+   /*
     for (int i = 0; i < 2; i++) {
 
      	printf("\n %p \n",ParcourListeElementAstre(ptElementAstreSoleil,1));
      	UpdateObjet(ParcourListeElementAstre(ptElementAstreSoleil,1));
 
     }
-
+*/
 //    Astre **TabAstre = (Astre**)malloc(50 * sizeof(Astre*)); 
 
     // Initial -> Terre
@@ -68,6 +68,8 @@ ElementAstre* InitElementAstre()
     ptElementAstreLune-> ptAstre = malloc(sizeof(Astre));
     Init_Astre(ptElementAstreLune-> ptAstre);
     Init_AstreLune(ptElementAstreLune-> ptAstre);
+    ptElementAstreLune-> ptAstre -> xGravitation=  ptElementAstreTerre-> ptAstre -> x;
+    ptElementAstreLune-> ptAstre -> yGravitation=  ptElementAstreTerre-> ptAstre -> y;
     
     ptElementAstreTerre-> ptElementAstreSuivant = ptElementAstreLune;
         
@@ -89,6 +91,21 @@ Astre* ParcourListeElementAstre(ElementAstre* ptElementAstreInitial, int nb) {
 
 }
 
+
+Astre* RechercheParNom(ElementAstre* ptElementAstreInitial, char* nom_Recherche) {
+	//printf("%s",nom_Recherche);
+ 	ElementAstre* ptElementAstreCourant = ptElementAstreInitial;
+ 	while( ptElementAstreCourant != NULL)
+ 	{
+ 	//printf("Nom de l'astre : %s\n",ptElementAstreCourant -> ptAstre -> nom);
+ 		if(!strcmp(ptElementAstreCourant->ptAstre->nom, nom_Recherche)) {
+ 			
+ 			return ptElementAstreCourant -> ptAstre ;
+ 		}
+	    		ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
+	    }
+	return NULL ;
+}
 
 
 
@@ -129,6 +146,7 @@ void Init_Astre(Astre *ptAstre) {
     ptAstre->vy = 0;
     ptAstre->T = 0;
     ptAstre->distanceCentreGravitation = 0;
+    ptAstre->nomGravitation = malloc(50*sizeof(char));
     ptAstre->xGravitation = 0;
     ptAstre->yGravitation = 0;
 }
@@ -139,6 +157,7 @@ void Init_AstreTerre(Astre *ptTerre)
     strcpy(ptTerre->type, "Planète");
     ptTerre->couleur = Cyan;
     ptTerre->rayon = 6371;
+    strcpy(ptTerre->nomGravitation, "Le Soleil");
     ptTerre->distanceCentreGravitation=150000000;
     ptTerre->T=365;
     ptTerre->x = 150000000;
@@ -151,9 +170,10 @@ void Init_AstreLune(Astre *ptLune)
     strcpy(ptLune->type, "Satellite naturel");
     ptLune->couleur = GrisFonce;
     ptLune->rayon = 1737.0;
+    strcpy(ptLune->nomGravitation, "La Terre");
     ptLune->distanceCentreGravitation=384467;
     ptLune->T=28;
-    ptLune->x = 1884467;
+    ptLune->x = 384467+150000000;
     ptLune->y = 0;
 }
 
@@ -163,6 +183,7 @@ void Init_AstreSoleil(Astre *ptSoleil)
     strcpy(ptSoleil->type, "Étoile");
     ptSoleil->couleur = Jaune;
     ptSoleil->rayon=696340;
+    strcpy(ptSoleil->nomGravitation, "Le Soleil");
     ptSoleil->x = 0;
     ptSoleil->y = 0;
 }
@@ -216,43 +237,47 @@ void AjouteElmTab(Astre **TabAstre, Astre *NewAstre) {
 /*sert à faire une trajectoire circulaire*/
 /*fait une trajectoire réaliste*/
 
-void UpdateObjet(Astre *Planete) {
-    int cpt=0;
+
+
+void UpdateObjet(Astre *Planete, Astre* Gravitation) {
+
 	printf("\n%f\n",Planete->x);
 	printf("%f\n",Planete->y);
 
-    if (Planete->distanceCentreGravitation != 0) {
+    if (Planete->distanceCentreGravitation != 0){
+    
+    	printf("Mon centre de gravitation : %s\n", Gravitation->nom);
+    	printf("Ses coordonées :\nx : %f\ny : %f\n", Gravitation->x, Gravitation->y);
+        
         printf("%f\n", Planete->distanceCentreGravitation);
-        double alpha = acos((Planete->x / Planete->distanceCentreGravitation));
+        double alpha = acos(((Planete->x-Gravitation->x) / Planete->distanceCentreGravitation));
         printf("%f\n",alpha);
-        if (alpha >= 3.14) {
-            alpha -= 2 * (2 * 3.14) / Planete->T;
-            cpt = 1;
+        
+        if(Gravitation->y-0.1<Planete->y<Gravitation->y+0.1){
+        	alpha=-alpha;
         }
-        if (alpha <= 0) {
-            alpha += 2 * (2 * 3.14) / Planete->T;
-            cpt = 0;
-        }
-        if (cpt == 0) {
-            alpha += (2 * 3.14) / Planete->T;
-        }
-        if (cpt == 1) {
-            alpha -= (2 * 3.14) / Planete->T;
-        }
+        
+        alpha +=(2 * 3.14) / Planete->T;
+        
+        /*
+        if(alpha >M_PI) {
+        		alpha = fmod(alpha, M_PI);
+        }*/
 
         printf("%lf", alpha);
-        Planete->x = Planete->distanceCentreGravitation * cos(alpha);
-        Planete->y = Planete->distanceCentreGravitation * sin(alpha);
+        
+        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
+        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
     }
+
 
     printf("*******************************");
     printf("\nNouveau x :%f", Planete->x);
     printf("Nouveau y :%f \n", Planete->y);
     printf("*******************************\n");
-    
+    //printf("xGravitation : %f\nyGravitation : %f\n", Gravitation->x, Gravitation->y);
 
 }
-
 
 
 
