@@ -1,5 +1,5 @@
 
-typedef enum {Rouge, Vert, Bleu, Jaune, Cyan, GrisClair, GrisFonce}
+typedef enum {Rouge, Vert, Bleu, Jaune, Cyan, GrisClair, GrisFonce, Orange, Creme, Cafe, BleuCiel}
         Couleur;
 
 
@@ -42,6 +42,15 @@ Astre* ParcourListeElementAstre(ElementAstre* ptElementAstreInitial, int nb);
 Astre* RechercheParNom(ElementAstre* ptElementAstreInitial, char* nom_Recherche);
 ElementAstre* InitElementAstre();
 void UpdateObjet(Astre *Planete, Astre* Gravitation);
+void AjouteElementAstre(ElementAstre *ptElementAstreInitial, Astre* NewAstre);
+void Init_AstreMercure(Astre *ptMercure);
+void Init_AstreVenus(Astre *ptVenus);
+void Init_AstreMars(Astre *ptMars);
+void Init_AstreJupiter(Astre* ptJupiter);
+void Init_AstreSaturne(Astre* ptSaturne);
+void Init_AstreUranus(Astre* ptUranus);
+void Init_AstreNeptune(Astre* ptNeptune);
+
 
 void AjouteElmTab(Astre** TabAstre, Astre* NewAstre);
 void CreerTab(Astre** TabAstre);

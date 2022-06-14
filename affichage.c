@@ -33,7 +33,7 @@ float echelleDistances = 1.0f/500000.0f;
 static ElementAstre* ptElementAstreInitial;
 static ElementAstre* ptElementAstreCourant;
 static int deltaT = 0;
-static int deltaTcheck = 6;
+static int deltaTcheck = 3;
 static float xCentre = 0.0f;
 static float yCentre = 0.0f;
 static bool focused = false;
@@ -147,6 +147,27 @@ void gestionEvenement(EvenementGfx evenement)
                                     break;
                                 case GrisFonce:
                                     couleurCourante(69, 69, 69);
+                                    break;
+                                case GrisClair:
+                                    couleurCourante(169, 169, 169);
+                                    break;
+                                case Orange:
+                                    couleurCourante(255, 140, 0);
+                                    break;
+                                case Rouge:
+                                    couleurCourante(255, 0, 0);
+                                    break;
+                                case Creme:
+                                    couleurCourante(222, 184, 135);
+                                    break;
+                                case Cafe:
+                                    couleurCourante(139, 69, 19);
+                                    break;
+                                case BleuCiel:
+                                    couleurCourante(173, 216, 230);
+                                    break;
+                                case Bleu:
+                                    couleurCourante(0, 0, 255);
                                     break;
                                 default:
                                     couleurCourante(0,0,0);
