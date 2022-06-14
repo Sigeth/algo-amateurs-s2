@@ -105,6 +105,8 @@ void gestionEvenement(EvenementGfx evenement)
             // On part d'un fond d'ecran blanc
             effaceFenetre(0, 0, 0);
 
+            couleurCourante(255,255,255);
+
             for (int i=0;i<nbEtoiles-1;i+=2) {
                 cercle(etoiles[i], etoiles[i+1], largeurFenetre()/1024, 3);
             }
@@ -230,6 +232,10 @@ void gestionEvenement(EvenementGfx evenement)
                     } else {
                         paused = true;
                     }
+                    break;
+                case '0':
+                    xCentre = 0;
+                    yCentre = 0;
                     break;
             }
             break;
