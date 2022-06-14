@@ -37,6 +37,7 @@ static int deltaTcheck = 6;
 static float xCentre = 0.0f;
 static float yCentre = 0.0f;
 static bool focused = false;
+static bool paused = false;
 static int* etoiles;
 static int nbEtoiles;
 
@@ -75,6 +76,7 @@ void gestionEvenement(EvenementGfx evenement)
     switch (evenement)
     {
         case Initialisation:
+            //epaisseurDeTrait(3);
 
             ptElementAstreInitial = InitElementAstre();
             ptElementAstreCourant = ptElementAstreInitial;
@@ -115,7 +117,7 @@ void gestionEvenement(EvenementGfx evenement)
                 case Simulation:
                     //printf("Bonjour je suis l'affichage de la simulation\n");
 
-                    if (deltaT >= deltaTcheck) {
+                    if (deltaT >= deltaTcheck && !paused) {
                         ptElementAstreCourant = ptElementAstreInitial;
                         while( ptElementAstreCourant != NULL )
                         {
@@ -160,8 +162,8 @@ void gestionEvenement(EvenementGfx evenement)
                                 cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, ptAstre->rayon*echellePlanete);
                             }
 
-                            float tailleChaineAstre = tailleChaine(ptAstre->nom, 12);
-                            afficheChaine(ptAstre->nom, 12, ptAstre->x*echelleDistances + largeurFenetre()/2 - tailleChaineAstre/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + ptAstre->rayon*echellePlanete + hauteurFenetre()/128 + yCentre);
+                            float tailleChaineAstre = tailleChaine(ptAstre->nom, 20);
+                            afficheChaine(ptAstre->nom, 20, ptAstre->x*echelleDistances + largeurFenetre()/2 - tailleChaineAstre/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + ptAstre->rayon*echellePlanete + hauteurFenetre()/128 + yCentre);
                         }
                         ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
                     }
