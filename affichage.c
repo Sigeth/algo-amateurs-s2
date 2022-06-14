@@ -28,8 +28,8 @@ void afficheSimu(int argc, char **argv)
 }
 
 static StateAffichage state = Simulation;
-float echellePlanete = 1.0f/10000.0f;
-float echelleDistances = 1.0f/500000.0f;
+float echellePlanete = 1.0f/100.0f;
+float echelleDistances = 1.0f/100000.0f;
 static ElementAstre* ptElementAstreInitial;
 static ElementAstre* ptElementAstreCourant;
 static int deltaT = 0;
@@ -176,16 +176,22 @@ void gestionEvenement(EvenementGfx evenement)
                                     break;
                             }
 
+                            if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                                echellePlanete /= 100.f;
+                            }
 
-
-                            if (ptAstre->rayon*echellePlanete < largeurFenetre()/256) {
-                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, largeurFenetre()/256, 50);
+                            if (ptAstre->rayon*echellePlanete < largeurFenetre()/512) {
+                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, largeurFenetre()/512, 50);
                             } else {
                                 cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, ptAstre->rayon*echellePlanete, 50);
                             }
 
                             float tailleChaineAstre = tailleChaine(ptAstre->nom, 20);
                             afficheChaine(ptAstre->nom, 20, ptAstre->x*echelleDistances + largeurFenetre()/2 - tailleChaineAstre/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + ptAstre->rayon*echellePlanete + hauteurFenetre()/128 + yCentre);
+
+                            if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                                echellePlanete *= 100.f;
+                            }
                         }
                         ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
                     }
