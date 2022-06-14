@@ -41,9 +41,8 @@ static bool paused = false;
 static int* etoiles;
 static int nbEtoiles;
 
-void cercle(float centreX, float centreY, float rayon)
+void cercle(float centreX, float centreY, float rayon, int Pas)
 {
-    const int Pas = 100; // Nombre de secteurs pour tracer le cercle
     const double PasAngulaire = 2.*M_PI/Pas;
     int index;
 
@@ -107,7 +106,7 @@ void gestionEvenement(EvenementGfx evenement)
             effaceFenetre(0, 0, 0);
 
             for (int i=0;i<nbEtoiles-1;i+=2) {
-                cercle(etoiles[i], etoiles[i+1], largeurFenetre()/1024);
+                cercle(etoiles[i], etoiles[i+1], largeurFenetre()/1024, 3);
             }
 
             switch (state) {
@@ -157,9 +156,9 @@ void gestionEvenement(EvenementGfx evenement)
 
 
                             if (ptAstre->rayon*echellePlanete < largeurFenetre()/256) {
-                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, largeurFenetre()/256);
+                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, largeurFenetre()/256, 50);
                             } else {
-                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, ptAstre->rayon*echellePlanete);
+                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, ptAstre->rayon*echellePlanete, 50);
                             }
 
                             float tailleChaineAstre = tailleChaine(ptAstre->nom, 20);
