@@ -241,7 +241,7 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
         printf("Ses coordonées :\nx : %f\ny : %f\n", Gravitation->previousX, Gravitation->previousY);
 
         printf("%f\n", Planete->distanceCentreGravitation);
-        printf("%f\n", (Planete->x - Gravitation->x));
+        printf("%f\n", (Planete->x - Gravitation->previousX));
         double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
         printf("%f\n", alpha);
 
@@ -253,8 +253,8 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
 
         printf("%lf", alpha);
 
-        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
-        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
+        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->previousX;
+        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->previousY;
     }
 
 

@@ -203,6 +203,13 @@ void gestionEvenement(EvenementGfx evenement)
                     xCentre -= 100;
                     updateEtoiles();
                     break;
+                case ' ':
+                    if (paused) {
+                        paused = false;
+                    } else {
+                        paused = true;
+                    }
+                    break;
             }
             break;
 
