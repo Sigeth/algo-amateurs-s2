@@ -246,11 +246,36 @@ void gestionEvenement(EvenementGfx evenement)
 
                     deltaT++;
 
-                    couleurCourante(255,255,255);
+                    couleurCourante(200,200,200);
 
                     break;
                 case MenuSauvegardes:
-                    printf("Bonjour j'aimerai afficher les sauvegardes\n");
+                    couleurCourante(255,255,255);
+                    float tailleChaineTitre = tailleChaine("Menu des Sauvegardes", 32);
+                    afficheChaine("Menu des Sauvegardes", 32, largeurFenetre()/2 - tailleChaineTitre/2, hauteurFenetre() - hauteurFenetre()/12);
+
+                    rectangle(largeurFenetre()/8 - largeurFenetre()/512, hauteurFenetre()/6 - hauteurFenetre()/512, largeurFenetre() - largeurFenetre()/8 + largeurFenetre()/512, hauteurFenetre() - hauteurFenetre()/6  + hauteurFenetre()/512);
+                    couleurCourante(0,0,0);
+                    rectangle(largeurFenetre()/8, hauteurFenetre()/6, largeurFenetre() - largeurFenetre()/8, hauteurFenetre() - hauteurFenetre()/6);
+
+                    float tailleChaineSauvegarde = tailleChaine("Toutes les infos sur la sauvegarde ici", 20);
+
+                    couleurCourante(255,255,255);
+                    afficheChaine("Toutes les infos sur la sauvegarde ici", 20, largeurFenetre()/2 - tailleChaineSauvegarde/2, hauteurFenetre()/2);
+
+                    triangle(largeurFenetre()/32, hauteurFenetre()/2 + hauteurFenetre()/32, largeurFenetre()/128, hauteurFenetre()/2, largeurFenetre()/32, hauteurFenetre()/2 - hauteurFenetre()/32);
+                    triangle(largeurFenetre() - largeurFenetre()/32, hauteurFenetre()/2 + hauteurFenetre()/32, largeurFenetre() - largeurFenetre()/128, hauteurFenetre()/2,  largeurFenetre() - largeurFenetre()/32, hauteurFenetre()/2 - hauteurFenetre()/32);
+
+                    rectangle(largeurFenetre()/4 - largeurFenetre()/512, hauteurFenetre()/8 + hauteurFenetre()/512, largeurFenetre() - largeurFenetre()/4 + largeurFenetre()/512, hauteurFenetre()/32 - hauteurFenetre()/512);
+                    couleurCourante(0,0,0);
+                    rectangle(largeurFenetre()/4, hauteurFenetre()/8, largeurFenetre() - largeurFenetre()/4, hauteurFenetre()/32);
+
+                    couleurCourante(255,255,255);
+                    float tailleChaineCharger = tailleChaine("Charger la sauvegarde", 28);
+                    afficheChaine("Charger la sauvegarde", 28, largeurFenetre()/2 - tailleChaineCharger/2, hauteurFenetre()/16);
+
+
+                    couleurCourante(200,200,200);
                     break;
                 case MenuSimu:
                     affichePlanetes(true);
@@ -310,9 +335,19 @@ void gestionEvenement(EvenementGfx evenement)
                         case 27:
                             state = Simulation;
                             break;
+                        case 'S':
+                        case 's':
+                            state = MenuSauvegardes;
+                            break;
                     }
                     break;
-
+                case MenuSauvegardes:
+                    switch (caractereClavier()) {
+                        case 'm':
+                            state = MenuSimu;
+                            break;
+                    }
+                    break;
                 default:
                     printf("chaud là il se passe quoi\n");
                     break;
@@ -376,53 +411,77 @@ void gestionEvenement(EvenementGfx evenement)
             break;
 
         case BoutonSouris:
-            if (etatBoutonSouris() == GaucheAppuye)
-            {
-                if (astreFocused) {
-                    astreFocused = NULL;
-                } else {
-                    float xAppuye = abscisseSouris() - largeurFenetre()/2 - xCentre;
-                    float yAppuye = ordonneeSouris() - hauteurFenetre()/2 - yCentre;
+            if (etatBoutonSouris() == GaucheAppuye) {
+                switch (state) {
 
-                    printf("Coordonnées dans le repère cartésien : (%f, %f)\n", xAppuye, yAppuye);
+                    case Simulation:
+                        if (astreFocused) {
+                            astreFocused = NULL;
+                        } else {
+                            float xAppuye = abscisseSouris() - largeurFenetre() / 2 - xCentre;
+                            float yAppuye = ordonneeSouris() - hauteurFenetre() / 2 - yCentre;
 
-                    ptElementAstreCourant = ptElementAstreInitial;
-                    while( ptElementAstreCourant != NULL )
-                    {
-                        Astre* ptAstre = ptElementAstreCourant -> ptAstre;
-                        if( ptAstre != NULL )
-                        {
-                            float rayon = ptAstre->rayon;
+                            printf("Coordonnées dans le repère cartésien : (%f, %f)\n", xAppuye, yAppuye);
 
-                            if (!strcmp(ptAstre->nom, "Le Soleil")) {
-                                echellePlanete /= 100.f;
+                            ptElementAstreCourant = ptElementAstreInitial;
+                            while (ptElementAstreCourant != NULL) {
+                                Astre *ptAstre = ptElementAstreCourant->ptAstre;
+                                if (ptAstre != NULL) {
+                                    float rayon = ptAstre->rayon;
+
+                                    if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                                        echellePlanete /= 100.f;
+                                    }
+
+                                    if (ptAstre->rayon * echellePlanete < largeurFenetre() / 512) {
+                                        rayon = largeurFenetre() / 512;
+                                    }
+
+                                    printf("xMoins : %f\nxPlus : %f\n", xAppuye / echelleDistances - rayon / echellePlanete,
+                                           xAppuye / echelleDistances + rayon / echellePlanete);
+
+                                    if (xAppuye / echelleDistances - rayon / echellePlanete <= ptAstre->x
+                                        && xAppuye / echelleDistances + rayon / echellePlanete >= ptAstre->x
+                                        && yAppuye / echelleDistances - rayon / echellePlanete <= ptAstre->y
+                                        && yAppuye / echelleDistances + rayon / echellePlanete >= ptAstre->y) {
+                                        astreFocused = ptAstre;
+                                    }
+
+                                    if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                                        echellePlanete *= 100.f;
+                                    }
+
+                                }
+
+                                ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
                             }
 
-                            if (ptAstre->rayon*echellePlanete < largeurFenetre()/512) {
-                                rayon = largeurFenetre()/512;
+                            if (astreFocused) {
+                                printf("Astre trouvé : %s\n", astreFocused->nom);
                             }
-
-                            printf("xMoins : %f\nxPlus : %f\n", xAppuye / echelleDistances - rayon/echellePlanete, xAppuye / echelleDistances + rayon/echellePlanete);
-
-                            if (xAppuye / echelleDistances - rayon/echellePlanete <= ptAstre->x
-                            && xAppuye / echelleDistances + rayon/echellePlanete >= ptAstre->x
-                            && yAppuye / echelleDistances - rayon/echellePlanete <= ptAstre->y
-                            && yAppuye / echelleDistances + rayon/echellePlanete >= ptAstre->y) {
-                                astreFocused = ptAstre;
-                            }
-
-                            if (!strcmp(ptAstre->nom, "Le Soleil")) {
-                                echellePlanete *= 100.f;
-                            }
-
                         }
-
-                        ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
-                    }
-
-                    if (astreFocused) {
-                        printf("Astre trouvé : %s\n", astreFocused->nom);
-                    }
+                        break;
+                    case MenuSimu:
+                        break;
+                    case MenuSauvegardes:
+                        if (ordonneeSouris() <= hauteurFenetre()/2 + hauteurFenetre()/32 && ordonneeSouris() >= hauteurFenetre()/2 - hauteurFenetre()/32) {
+                            if (abscisseSouris() <= largeurFenetre()/32 && abscisseSouris() >= largeurFenetre()/128) {
+                                printf("Clic sur la flèche de gauche\n");
+                            } else if (abscisseSouris() >=  largeurFenetre() - largeurFenetre()/32 && abscisseSouris() <=  largeurFenetre() - largeurFenetre()/128) {
+                                printf("Clic sur la flèche de droite\n");
+                            }
+                        } else if (abscisseSouris() >= largeurFenetre()/4
+                            && abscisseSouris() <= largeurFenetre() - largeurFenetre()/4
+                            && ordonneeSouris() >= hauteurFenetre()/32
+                            && ordonneeSouris() <= hauteurFenetre()/8)
+                        {
+                            printf("Clic sur le bouton charger la sauvegarde\n");
+                        }
+                        break;
+                    case MenuPrincipal:
+                        break;
+                    default:
+                        break;
                 }
             }
             else if (etatBoutonSouris() == GaucheRelache)
