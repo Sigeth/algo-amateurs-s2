@@ -37,7 +37,8 @@ typedef struct ElementAstre
 void Init_AstreLune(Astre *ptLune);
 void Init_AstreTerre(Astre *ptTerre);
 void Init_AstreSoleil(Astre *ptSoleil);
-void ListeElementAstre(struct ElementAstre* ptElementAstreInitial);
+void ListeElementAstre(ElementAstre* ptElementAstreInitial);
+
 Astre* ParcourListeElementAstre(ElementAstre* ptElementAstreInitial, int nb);
 Astre* RechercheParNom(ElementAstre* ptElementAstreInitial, char* nom_Recherche);
 ElementAstre* InitElementAstre();
