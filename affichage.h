@@ -2,7 +2,7 @@
 #include "GfxLib/GfxLib.h" // Seul cet include est necessaire pour faire du graphique
 #include "moteur.h"
 
-typedef enum {MenuPrincipal, Simulation, MenuSauvegardes}
+typedef enum {MenuPrincipal, Simulation, MenuSauvegardes, MenuSimu}
         StateAffichage;
 
 void afficheSimu(int argc, char **argv);

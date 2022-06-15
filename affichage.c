@@ -33,10 +33,10 @@ float echelleDistances = 1.0f/100000.0f;
 static ElementAstre* ptElementAstreInitial;
 static ElementAstre* ptElementAstreCourant;
 static int deltaT = 0;
-static int deltaTcheck = 3;
+static int deltaTcheck = 1;
 static float xCentre = 0.0f;
 static float yCentre = 0.0f;
-static bool focused = false;
+static Astre* astreFocused = NULL;
 static bool paused = false;
 static int* etoiles;
 static int nbEtoiles;
@@ -60,7 +60,110 @@ void cercle(float centreX, float centreY, float rayon, int Pas)
 void updateEtoiles() {
     for (int i=0;i<nbEtoiles-1;i+=2) {
         etoiles[i] = rand()%largeurFenetre();
-        etoiles[i+1] = rand()%largeurFenetre();
+        etoiles[i+1] = rand()%hauteurFenetre();
+    }
+}
+
+void affichePlanetes(bool isInMenu) {
+    ptElementAstreCourant = ptElementAstreInitial;
+    while( ptElementAstreCourant != NULL )
+    {
+        Astre* ptAstre = ptElementAstreCourant -> ptAstre;
+        if( ptAstre != NULL )
+        {
+            if (!isInMenu) {
+                switch(ptAstre->couleur) {
+                    case Cyan:
+                        couleurCourante(0, 206, 209);
+                        break;
+                    case Jaune:
+                        couleurCourante(255, 255, 0);
+                        break;
+                    case GrisFonce:
+                        couleurCourante(69, 69, 69);
+                        break;
+                    case GrisClair:
+                        couleurCourante(169, 169, 169);
+                        break;
+                    case Orange:
+                        couleurCourante(255, 140, 0);
+                        break;
+                    case Rouge:
+                        couleurCourante(255, 0, 0);
+                        break;
+                    case Creme:
+                        couleurCourante(222, 184, 135);
+                        break;
+                    case Cafe:
+                        couleurCourante(139, 69, 19);
+                        break;
+                    case BleuCiel:
+                        couleurCourante(173, 216, 230);
+                        break;
+                    case Bleu:
+                        couleurCourante(0, 0, 255);
+                        break;
+                    default:
+                        couleurCourante(0,0,0);
+                        break;
+                }
+            } else {
+                switch(ptAstre->couleur) {
+                    case Cyan:
+                        couleurCourante(0, 106, 109);
+                        break;
+                    case Jaune:
+                        couleurCourante(155, 155, 0);
+                        break;
+                    case GrisFonce:
+                        couleurCourante(5, 5, 5);
+                        break;
+                    case GrisClair:
+                        couleurCourante(69, 69, 69);
+                        break;
+                    case Orange:
+                        couleurCourante(155, 40, 0);
+                        break;
+                    case Rouge:
+                        couleurCourante(155, 0, 0);
+                        break;
+                    case Creme:
+                        couleurCourante(122, 84, 35);
+                        break;
+                    case Cafe:
+                        couleurCourante(39, 5, 0);
+                        break;
+                    case BleuCiel:
+                        couleurCourante(73, 116, 130);
+                        break;
+                    case Bleu:
+                        couleurCourante(0, 0, 155);
+                        break;
+                    default:
+                        couleurCourante(0,0,0);
+                        break;
+                }
+            }
+
+
+            if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                echellePlanete /= 100.f;
+            }
+
+            if (ptAstre->rayon*echellePlanete < largeurFenetre()/512) {
+                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, largeurFenetre()/512, 50);
+            } else {
+                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, ptAstre->rayon*echellePlanete, 50);
+            }
+
+            float tailleChaineAstre = tailleChaine(ptAstre->nom, 20);
+            afficheChaine(ptAstre->nom, 20, ptAstre->x*echelleDistances + largeurFenetre()/2 - tailleChaineAstre/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + ptAstre->rayon*echellePlanete + hauteurFenetre()/128 + yCentre);
+
+            if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                echellePlanete *= 100.f;
+            }
+        }
+        ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
     }
 }
 
@@ -85,6 +188,8 @@ void gestionEvenement(EvenementGfx evenement)
 
             updateEtoiles();
 
+            astreFocused = RechercheParNom(ptElementAstreInitial, "La Terre");
+
             /* Le message "Initialisation" est envoye une seule fois, au debut du
             programme : il permet de fixer "image" a la valeur qu'il devra conserver
             jusqu'a la fin du programme : soit "image" reste a NULL si l'image n'a
@@ -104,8 +209,6 @@ void gestionEvenement(EvenementGfx evenement)
 
             // On part d'un fond d'ecran blanc
             effaceFenetre(0, 0, 0);
-
-            couleurCourante(255,255,255);
 
             for (int i=0;i<nbEtoiles-1;i+=2) {
                 cercle(etoiles[i], etoiles[i+1], largeurFenetre()/1024, 3);
@@ -134,73 +237,24 @@ void gestionEvenement(EvenementGfx evenement)
                         deltaT = 0;
                     }
 
-                    ptElementAstreCourant = ptElementAstreInitial;
-                    while( ptElementAstreCourant != NULL )
-                    {
-                        Astre* ptAstre = ptElementAstreCourant -> ptAstre;
-                        if( ptAstre != NULL )
-                        {
-                            switch(ptAstre->couleur) {
-                                case Cyan:
-                                    couleurCourante(0, 206, 209);
-                                    break;
-                                case Jaune:
-                                    couleurCourante(255, 255, 0);
-                                    break;
-                                case GrisFonce:
-                                    couleurCourante(69, 69, 69);
-                                    break;
-                                case GrisClair:
-                                    couleurCourante(169, 169, 169);
-                                    break;
-                                case Orange:
-                                    couleurCourante(255, 140, 0);
-                                    break;
-                                case Rouge:
-                                    couleurCourante(255, 0, 0);
-                                    break;
-                                case Creme:
-                                    couleurCourante(222, 184, 135);
-                                    break;
-                                case Cafe:
-                                    couleurCourante(139, 69, 19);
-                                    break;
-                                case BleuCiel:
-                                    couleurCourante(173, 216, 230);
-                                    break;
-                                case Bleu:
-                                    couleurCourante(0, 0, 255);
-                                    break;
-                                default:
-                                    couleurCourante(0,0,0);
-                                    break;
-                            }
+                    affichePlanetes(false);
 
-                            if (!strcmp(ptAstre->nom, "Le Soleil")) {
-                                echellePlanete /= 100.f;
-                            }
-
-                            if (ptAstre->rayon*echellePlanete < largeurFenetre()/512) {
-                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, largeurFenetre()/512, 50);
-                            } else {
-                                cercle(ptAstre->x*echelleDistances + largeurFenetre()/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + yCentre, ptAstre->rayon*echellePlanete, 50);
-                            }
-
-                            float tailleChaineAstre = tailleChaine(ptAstre->nom, 20);
-                            afficheChaine(ptAstre->nom, 20, ptAstre->x*echelleDistances + largeurFenetre()/2 - tailleChaineAstre/2 + xCentre, ptAstre->y*echelleDistances + hauteurFenetre()/2 + ptAstre->rayon*echellePlanete + hauteurFenetre()/128 + yCentre);
-
-                            if (!strcmp(ptAstre->nom, "Le Soleil")) {
-                                echellePlanete *= 100.f;
-                            }
-                        }
-                        ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
+                    if (astreFocused) {
+                        xCentre = 0 - astreFocused->x*echelleDistances;
+                        yCentre = 0 - astreFocused->y*echelleDistances;
                     }
 
                     deltaT++;
 
+                    couleurCourante(255,255,255);
+
                     break;
                 case MenuSauvegardes:
                     printf("Bonjour j'aimerai afficher les sauvegardes\n");
+                    break;
+                case MenuSimu:
+                    affichePlanetes(true);
+                    couleurCourante(100,100,100);
                     break;
                 default:
                     printf("Il se passe quoi là ?????\n");
@@ -211,39 +265,59 @@ void gestionEvenement(EvenementGfx evenement)
         case Clavier:
             printf("%c : ASCII %d\n", caractereClavier(), caractereClavier());
 
-            switch (caractereClavier()) {
-                case 'Z':
-                case 'z':
-                    yCentre -= 100;
-                    updateEtoiles();
-                    break;
-                case 'Q':
-                case 'q':
-                    xCentre += 100;
-                    updateEtoiles();
-                    break;
-                case 'S':
-                case 's':
-                    yCentre += 100;
-                    updateEtoiles();
-                    break;
-                case 'D':
-                case 'd':
-                    xCentre -= 100;
-                    updateEtoiles();
-                    break;
-                case ' ':
-                    if (paused) {
-                        paused = false;
-                    } else {
-                        paused = true;
+            switch(state) {
+                case Simulation:
+                    switch (caractereClavier()) {
+                        case 'Z':
+                        case 'z':
+                            yCentre -= 100;
+                            updateEtoiles();
+                            break;
+                        case 'Q':
+                        case 'q':
+                            xCentre += 100;
+                            updateEtoiles();
+                            break;
+                        case 'S':
+                        case 's':
+                            yCentre += 100;
+                            updateEtoiles();
+                            break;
+                        case 'D':
+                        case 'd':
+                            xCentre -= 100;
+                            updateEtoiles();
+                            break;
+                        case ' ':
+                            if (paused) {
+                                paused = false;
+                            } else {
+                                paused = true;
+                            }
+                            break;
+                        case '0':
+                            xCentre = 0;
+                            yCentre = 0;
+                            updateEtoiles();
+                            break;
+                        case 27:
+                            state = MenuSimu;
+                            break;
                     }
                     break;
-                case '0':
-                    xCentre = 0;
-                    yCentre = 0;
+                case MenuSimu:
+                    switch (caractereClavier()) {
+                        case 27:
+                            state = Simulation;
+                            break;
+                    }
+                    break;
+
+                default:
+                    printf("chaud là il se passe quoi\n");
                     break;
             }
+
             break;
 
         case ClavierSpecial:
@@ -275,20 +349,28 @@ void gestionEvenement(EvenementGfx evenement)
                         redimensionneFenetre(LargeurFenetre, HauteurFenetre);
                     break;
                 case ToucheFlecheGauche:
-                    deltaTcheck++;
+                    if (state == Simulation) {
+                        deltaTcheck++;
+                    }
                     break;
                 case ToucheFlecheDroite:
-                    if (deltaTcheck > 1) {
-                        deltaTcheck--;
+                    if (state == Simulation) {
+                        if (deltaTcheck > 1) {
+                            deltaTcheck--;
+                        }
                     }
                     break;
                 case ToucheFlecheHaut:
-                    echellePlanete *= 2;
-                    echelleDistances *= 2;
+                    if (state == Simulation) {
+                        echellePlanete *= 2;
+                        echelleDistances *= 2;
+                    }
                     break;
                 case ToucheFlecheBas:
-                    echellePlanete /= 2;
-                    echelleDistances /= 2;
+                    if (state == Simulation) {
+                        echellePlanete /= 2;
+                        echelleDistances /= 2;
+                    }
                     break;
             }
             break;
@@ -296,17 +378,56 @@ void gestionEvenement(EvenementGfx evenement)
         case BoutonSouris:
             if (etatBoutonSouris() == GaucheAppuye)
             {
-                printf("Bouton gauche appuye en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
-                float xAppuye = abscisseSouris() - largeurFenetre()/2 - xCentre;
-                float yAppuye = ordonneeSouris() - hauteurFenetre()/2 - yCentre;
+                if (astreFocused) {
+                    astreFocused = NULL;
+                } else {
+                    float xAppuye = abscisseSouris() - largeurFenetre()/2 - xCentre;
+                    float yAppuye = ordonneeSouris() - hauteurFenetre()/2 - yCentre;
 
-                printf("Coordonnées dans le repère cartésien : (%f, %f)", xAppuye, yAppuye);
+                    printf("Coordonnées dans le repère cartésien : (%f, %f)\n", xAppuye, yAppuye);
 
+                    ptElementAstreCourant = ptElementAstreInitial;
+                    while( ptElementAstreCourant != NULL )
+                    {
+                        Astre* ptAstre = ptElementAstreCourant -> ptAstre;
+                        if( ptAstre != NULL )
+                        {
+                            float rayon = ptAstre->rayon;
 
+                            if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                                echellePlanete /= 100.f;
+                            }
+
+                            if (ptAstre->rayon*echellePlanete < largeurFenetre()/512) {
+                                rayon = largeurFenetre()/512;
+                            }
+
+                            printf("xMoins : %f\nxPlus : %f\n", xAppuye / echelleDistances - rayon/echellePlanete, xAppuye / echelleDistances + rayon/echellePlanete);
+
+                            if (xAppuye / echelleDistances - rayon/echellePlanete <= ptAstre->x
+                            && xAppuye / echelleDistances + rayon/echellePlanete >= ptAstre->x
+                            && yAppuye / echelleDistances - rayon/echellePlanete <= ptAstre->y
+                            && yAppuye / echelleDistances + rayon/echellePlanete >= ptAstre->y) {
+                                astreFocused = ptAstre;
+                            }
+
+                            if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                                echellePlanete *= 100.f;
+                            }
+
+                        }
+
+                        ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
+                    }
+
+                    if (astreFocused) {
+                        printf("Astre trouvé : %s\n", astreFocused->nom);
+                    }
+                }
             }
             else if (etatBoutonSouris() == GaucheRelache)
             {
-                printf("Bouton gauche relache en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
+                //printf("Bouton gauche relache en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
             }
             break;
 
