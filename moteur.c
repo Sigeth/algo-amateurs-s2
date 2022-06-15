@@ -62,7 +62,7 @@ ElementAstre *InitElementAstre() {
     Astre* ptAstreSaturne=malloc(sizeof(Astre));
     Astre* ptAstreUranus=malloc(sizeof(Astre));
     Astre* ptAstreNeptune=malloc(sizeof(Astre));
-    
+   
    Init_Astre(ptAstre);
    Init_Astre(ptAstreLune);
    Init_Astre(ptAstreMercure);
@@ -83,17 +83,21 @@ ElementAstre *InitElementAstre() {
     Init_AstreUranus(ptAstreUranus);
     Init_AstreNeptune(ptAstreNeptune);
     
+    ptAstreLune->x=384467+ptAstre->x;
+    ptAstreLune->xGravitation=ptAstre->x;
+    ptAstreLune->yGravitation=ptAstre->y;
+    
     
     AjouteElementAstre(ptElementAstreSoleil,ptAstre);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreLune);
-    AjouteElementAstre(ptElementAstreSoleil,ptAstreMercure);
+    /*AjouteElementAstre(ptElementAstreSoleil,ptAstreMercure);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreVenus);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreMars);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreJupiter);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreSaturne);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreUranus);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreNeptune);
-    
+    */
     return ptElementAstreSoleil;
 
 }
@@ -205,7 +209,7 @@ void Init_AstreLune(Astre *ptLune) {
     ptLune->couleur = GrisFonce;
     ptLune->rayon = 1737.0;
     strcpy(ptLune->nomGravitation, "La Terre");
-    ptLune->distanceCentreGravitation = 384467;
+    ptLune->distanceCentreGravitation = 384470;
     ptLune->T =28;
     ptLune->x = 384467 + 150000000.f;
     ptLune->y = 0;
@@ -331,15 +335,19 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
 
         Planete->previousX = Planete->x;
         Planete->previousY = Planete->y;
-
+        printf("Mon nom : %s\n",Planete->nom);
         printf("Mon centre de gravitation : %s\n", Gravitation->nom);
         printf("Ses coordonées :\nx : %f\ny : %f\n", Gravitation->previousX, Gravitation->previousY);
 
         printf("%f\n", Planete->distanceCentreGravitation);
+        
         printf("%f\n", (Planete->x - Gravitation->previousX));
+        
+        
         double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
-        printf("%f\n", alpha);
-
+        
+        
+	
         if (Gravitation->previousY - 0.1 < Planete->y < Gravitation->previousY + 0.1) {
             alpha = -alpha;
         }
@@ -359,6 +367,7 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
     printf("*******************************\n");
 
 }
+
 
 
 
