@@ -42,106 +42,58 @@ int mainMoteur(int argc, char **argv) {
 
 
 ElementAstre *InitElementAstre() {
-
+	//premier élément //
     ElementAstre *ptElementAstreSoleil = malloc(sizeof(ElementAstre));
     ptElementAstreSoleil->ptElementAstrePrecedent = NULL;
     ptElementAstreSoleil->ptElementAstreSuivant = NULL;
     ptElementAstreSoleil->ptAstre = malloc(sizeof(Astre));
     Init_Astre(ptElementAstreSoleil->ptAstre);
     Init_AstreSoleil(ptElementAstreSoleil->ptAstre);
+     //
 
 
 
-    ElementAstre *ptElementAstreTerre = malloc(sizeof(ElementAstre));
-    ptElementAstreTerre->ptElementAstrePrecedent = ptElementAstreSoleil;
-    ptElementAstreTerre->ptElementAstreSuivant = NULL;
-    ptElementAstreTerre->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreTerre->ptAstre);
-    Init_AstreTerre(ptElementAstreTerre->ptAstre);
-
-    ptElementAstreSoleil->ptElementAstreSuivant = ptElementAstreTerre;
-
-
-    ElementAstre *ptElementAstreLune = malloc(sizeof(ElementAstre));
-    ptElementAstreLune->ptElementAstrePrecedent = ptElementAstreTerre;
-    ptElementAstreLune->ptElementAstreSuivant = NULL;
-    ptElementAstreLune->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreLune->ptAstre);
-    Init_AstreLune(ptElementAstreLune->ptAstre);
-    ptElementAstreLune->ptAstre->xGravitation = ptElementAstreTerre->ptAstre->x;
-    ptElementAstreLune->ptAstre->yGravitation = ptElementAstreTerre->ptAstre->y;
-
-    ptElementAstreTerre->ptElementAstreSuivant = ptElementAstreLune;
-
-    ElementAstre *ptElementAstreMercure = malloc(sizeof(ElementAstre));
-    ptElementAstreMercure->ptElementAstrePrecedent = ptElementAstreLune;
-    ptElementAstreMercure->ptElementAstreSuivant = NULL;
-    ptElementAstreMercure->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreMercure->ptAstre);
-    Init_AstreMercure(ptElementAstreMercure->ptAstre);
-
-    ptElementAstreLune->ptElementAstreSuivant = ptElementAstreMercure;
-
-
-    ElementAstre *ptElementAstreVenus = malloc(sizeof(ElementAstre));
-    ptElementAstreVenus->ptElementAstrePrecedent = ptElementAstreMercure;
-    ptElementAstreVenus->ptElementAstreSuivant = NULL;
-    ptElementAstreVenus->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreVenus->ptAstre);
-    Init_AstreVenus(ptElementAstreVenus->ptAstre);
-
-    ptElementAstreMercure->ptElementAstreSuivant = ptElementAstreVenus;
+    Astre* ptAstre=malloc(sizeof(Astre));
+    Astre* ptAstreLune=malloc(sizeof(Astre));
+    Astre* ptAstreMercure=malloc(sizeof(Astre));
+    Astre* ptAstreVenus=malloc(sizeof(Astre));
+    Astre* ptAstreMars=malloc(sizeof(Astre));
+    Astre* ptAstreJupiter=malloc(sizeof(Astre));
+    Astre* ptAstreSaturne=malloc(sizeof(Astre));
+    Astre* ptAstreUranus=malloc(sizeof(Astre));
+    Astre* ptAstreNeptune=malloc(sizeof(Astre));
+    
+   Init_Astre(ptAstre);
+   Init_Astre(ptAstreLune);
+   Init_Astre(ptAstreMercure);
+   Init_Astre(ptAstreVenus);
+   Init_Astre(ptAstreMars);
+   Init_Astre(ptAstreJupiter);
+   Init_Astre(ptAstreSaturne);
+   Init_Astre(ptAstreUranus);
+   Init_Astre(ptAstreNeptune);
+    
+    Init_AstreTerre(ptAstre);
+    Init_AstreLune(ptAstreLune);
+    Init_AstreMercure(ptAstreMercure);
+    Init_AstreVenus(ptAstreVenus);
+    Init_AstreMars(ptAstreMars);
+    Init_AstreJupiter(ptAstreJupiter);
+    Init_AstreSaturne(ptAstreSaturne);
+    Init_AstreUranus(ptAstreUranus);
+    Init_AstreNeptune(ptAstreNeptune);
     
     
-    ElementAstre *ptElementAstreMars = malloc(sizeof(ElementAstre));
-    ptElementAstreMars->ptElementAstrePrecedent = ptElementAstreVenus;
-    ptElementAstreMars->ptElementAstreSuivant = NULL;
-    ptElementAstreMars->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreMars->ptAstre);
-    Init_AstreMars(ptElementAstreMars->ptAstre);
-
-    ptElementAstreVenus->ptElementAstreSuivant = ptElementAstreMars;
+    AjouteElementAstre(ptElementAstreSoleil,ptAstre);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreLune);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreMercure);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreVenus);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreMars);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreJupiter);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreSaturne);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreUranus);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreNeptune);
     
-    
-    ElementAstre *ptElementAstreJupiter = malloc(sizeof(ElementAstre));
-    ptElementAstreJupiter->ptElementAstrePrecedent = ptElementAstreMars;
-    ptElementAstreJupiter->ptElementAstreSuivant = NULL;
-    ptElementAstreJupiter->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreJupiter->ptAstre);
-    Init_AstreJupiter(ptElementAstreJupiter->ptAstre);
-
-    ptElementAstreMars->ptElementAstreSuivant = ptElementAstreJupiter;
-    
-    ElementAstre *ptElementAstreSaturne = malloc(sizeof(ElementAstre));
-    ptElementAstreSaturne->ptElementAstrePrecedent = ptElementAstreJupiter;
-    ptElementAstreSaturne->ptElementAstreSuivant = NULL;
-    ptElementAstreSaturne->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreSaturne->ptAstre);
-    Init_AstreSaturne(ptElementAstreSaturne->ptAstre);
-
-    ptElementAstreJupiter->ptElementAstreSuivant = ptElementAstreSaturne;
-    
-    
-    ElementAstre *ptElementAstreNeptune = malloc(sizeof(ElementAstre));
-    ptElementAstreNeptune->ptElementAstrePrecedent = ptElementAstreSaturne;
-    ptElementAstreNeptune->ptElementAstreSuivant = NULL;
-    ptElementAstreNeptune->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreNeptune->ptAstre);
-    Init_AstreNeptune(ptElementAstreNeptune->ptAstre);
-
-    ptElementAstreSaturne->ptElementAstreSuivant = ptElementAstreNeptune;
-    
-    ElementAstre *ptElementAstreUranus = malloc(sizeof(ElementAstre));
-    ptElementAstreUranus->ptElementAstrePrecedent = ptElementAstreSaturne;
-    ptElementAstreUranus->ptElementAstreSuivant = NULL;
-    ptElementAstreUranus->ptAstre = malloc(sizeof(Astre));
-    Init_Astre(ptElementAstreUranus->ptAstre);
-    Init_AstreUranus(ptElementAstreUranus->ptAstre);
-
-    ptElementAstreNeptune->ptElementAstreSuivant = ptElementAstreUranus;
-    
-
-
     return ptElementAstreSoleil;
 
 }
@@ -187,19 +139,31 @@ void ListeElementAstre(ElementAstre *ptElementAstreInitial) {
     }
 }
 
-/*
+
 void AjouteElementAstre(ElementAstre *ptElementAstreInitial, Astre* NewAstre) {
+
+    
+    ElementAstre* NewElement = malloc(sizeof(ElementAstre*));
+    NewElement->ptAstre=NewAstre;
+    NewElement->ptElementAstreSuivant=NULL;
+    
     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
-    ElementAstre* NewElement ->ptAstre=NewAstre;
+    
+    
     while (ptElementAstreCourant->ptElementAstreSuivant != NULL) {
          ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
     }
+    
+    
     ptElementAstreCourant->ptElementAstreSuivant=NewElement;
     NewElement ->ptElementAstrePrecedent=ptElementAstreCourant;
+    //free(NewElement);
     
 }
 
-*/
+
+
+
 /* Fonction Init_Astre
  * Fonction qui initialise la structure Astre
  *@param ptAstre
@@ -242,7 +206,7 @@ void Init_AstreLune(Astre *ptLune) {
     ptLune->rayon = 1737.0;
     strcpy(ptLune->nomGravitation, "La Terre");
     ptLune->distanceCentreGravitation = 384467;
-    ptLune->T = 28;
+    ptLune->T =28;
     ptLune->x = 384467 + 150000000.f;
     ptLune->y = 0;
 }
