@@ -41,6 +41,14 @@ static bool paused = false;
 static int* etoiles;
 static int nbEtoiles;
 
+/**
+ * Permet de dessiner un cercle
+ *
+ * @param centreX - Le centre du cercle en x
+ * @param centreY - Le centre du cercle en y
+ * @param rayon - Le rayon souhaité du cercle
+ * @param Pas - Le nom d'itération qui constituera le cercle. Plus le pas est élevé, plus le cercle sera précis mais plus il demandera des ressources
+ */
 void cercle(float centreX, float centreY, float rayon, int Pas)
 {
     const double PasAngulaire = 2.*M_PI/Pas;
@@ -57,6 +65,9 @@ void cercle(float centreX, float centreY, float rayon, int Pas)
 
 }
 
+/**
+ * Permet de redéfinir la position des étoiles et donner une impression de mouvement à l'utilisateur
+ */
 void updateEtoiles() {
     for (int i=0;i<nbEtoiles-1;i+=2) {
         etoiles[i] = rand()%largeurFenetre();
@@ -64,6 +75,9 @@ void updateEtoiles() {
     }
 }
 
+/**
+ * Permet d'afficher les planètes, tout en grisant les planètes si nous sommes dans le state MenuSimu
+ */
 void affichePlanetes(bool isInMenu) {
     ptElementAstreCourant = ptElementAstreInitial;
     while( ptElementAstreCourant != NULL )
@@ -166,6 +180,29 @@ void affichePlanetes(bool isInMenu) {
         ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
     }
 }
+
+/**
+ * Gère le clic sur la flèche gauche en state MenuSauvegardes
+ */
+void clicFlecheGaucheSauvegarde() {
+    printf("Clic sur la flèche gauche\n");
+}
+
+/**
+ * Gère le clic sur la flèche droite en state MenuSauvegardes
+ */
+void clicFlecheDroiteSauvegarde() {
+    printf("Clic sur la flèche droite\n");
+}
+
+/**
+ * Gère le clic sur le bouton "Charger la sauvegarde" en state MenuSauvegardes
+ */
+void clicChargerSauvegarde() {
+    printf("Clic sur charger la sauvegarde\n");
+}
+
+
 
 
 /* La fonction de gestion des evenements, appelee automatiquement par le systeme
@@ -346,6 +383,9 @@ void gestionEvenement(EvenementGfx evenement)
                         case 'm':
                             state = MenuSimu;
                             break;
+                        case 13:
+                            clicChargerSauvegarde();
+                            break;
                     }
                     break;
                 default:
@@ -386,6 +426,8 @@ void gestionEvenement(EvenementGfx evenement)
                 case ToucheFlecheGauche:
                     if (state == Simulation) {
                         deltaTcheck++;
+                    } else if (state == MenuSauvegardes) {
+                        clicFlecheGaucheSauvegarde();
                     }
                     break;
                 case ToucheFlecheDroite:
@@ -393,6 +435,8 @@ void gestionEvenement(EvenementGfx evenement)
                         if (deltaTcheck > 1) {
                             deltaTcheck--;
                         }
+                    } else if (state == MenuSauvegardes) {
+                        clicFlecheDroiteSauvegarde();
                     }
                     break;
                 case ToucheFlecheHaut:
@@ -466,16 +510,16 @@ void gestionEvenement(EvenementGfx evenement)
                     case MenuSauvegardes:
                         if (ordonneeSouris() <= hauteurFenetre()/2 + hauteurFenetre()/32 && ordonneeSouris() >= hauteurFenetre()/2 - hauteurFenetre()/32) {
                             if (abscisseSouris() <= largeurFenetre()/32 && abscisseSouris() >= largeurFenetre()/128) {
-                                printf("Clic sur la flèche de gauche\n");
+                                clicFlecheGaucheSauvegarde();
                             } else if (abscisseSouris() >=  largeurFenetre() - largeurFenetre()/32 && abscisseSouris() <=  largeurFenetre() - largeurFenetre()/128) {
-                                printf("Clic sur la flèche de droite\n");
+                                clicFlecheDroiteSauvegarde();
                             }
                         } else if (abscisseSouris() >= largeurFenetre()/4
                             && abscisseSouris() <= largeurFenetre() - largeurFenetre()/4
                             && ordonneeSouris() >= hauteurFenetre()/32
                             && ordonneeSouris() <= hauteurFenetre()/8)
                         {
-                            printf("Clic sur le bouton charger la sauvegarde\n");
+                            clicChargerSauvegarde();
                         }
                         break;
                     case MenuPrincipal:

@@ -90,14 +90,14 @@ ElementAstre *InitElementAstre() {
     
     AjouteElementAstre(ptElementAstreSoleil,ptAstre);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreLune);
-    /*AjouteElementAstre(ptElementAstreSoleil,ptAstreMercure);
+    AjouteElementAstre(ptElementAstreSoleil,ptAstreMercure);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreVenus);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreMars);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreJupiter);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreSaturne);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreUranus);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreNeptune);
-    */
+
     return ptElementAstreSoleil;
 
 }
