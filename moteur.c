@@ -144,6 +144,19 @@ void ListeElementAstre(ElementAstre *ptElementAstreInitial) {
 }
 
 
+
+int CompteElementAstre(ElementAstre *ptElementAstreInitial) {
+    ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
+    int cpt=0;
+    while (ptElementAstreCourant != NULL) {
+        cpt++;
+        ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+    }
+    return cpt;
+}
+
+
+
 void AjouteElementAstre(ElementAstre *ptElementAstreInitial, Astre* NewAstre) {
 
     
@@ -182,8 +195,8 @@ void Init_Astre(Astre *ptAstre) {
     ptAstre->y = 0;
     ptAstre->previousX = 0;
     ptAstre->previousY = 0;
-    ptAstre->vx = 0;
-    ptAstre->vy = 0;
+    ptAstre->vt= 0;
+    ptAstre->deltaV=0;
     ptAstre->T = 0;
     ptAstre->distanceCentreGravitation = 0;
     ptAstre->nomGravitation = malloc(50 * sizeof(char));
@@ -201,6 +214,8 @@ void Init_AstreTerre(Astre *ptTerre) {
     ptTerre->T = 365;
     ptTerre->x = 150000000;
     ptTerre->y = 0;
+    ptTerre->vt=29.8;
+    
 }
 
 void Init_AstreLune(Astre *ptLune) {
@@ -213,6 +228,8 @@ void Init_AstreLune(Astre *ptLune) {
     ptLune->T =28;
     ptLune->x = 384467 + 150000000.f;
     ptLune->y = 0;
+    ptLune->vt=1.02;
+    
 }
 
 void Init_AstreSoleil(Astre *ptSoleil) {
@@ -236,6 +253,8 @@ void Init_AstreMercure(Astre *ptMercure) {
 	ptMercure->T = 88;
 	ptMercure->x = 58000000;
 	ptMercure->y = 0;
+	ptMercure->vt=48.8;
+
 }
 
 void Init_AstreVenus(Astre *ptVenus) {
@@ -248,6 +267,7 @@ void Init_AstreVenus(Astre *ptVenus) {
 	ptVenus->T = 224;
 	ptVenus->x = 108000000;
 	ptVenus->y = 0;
+	ptVenus->vt=35.01;
 }
 
 void Init_AstreMars(Astre *ptMars) {
@@ -260,6 +280,8 @@ void Init_AstreMars(Astre *ptMars) {
 	ptMars->T = 687;
 	ptMars->x = 228000000;
 	ptMars->y = 0;
+	ptMars->vt=24.22;
+	
 }
 
 void Init_AstreJupiter(Astre* ptJupiter) {
@@ -272,6 +294,8 @@ void Init_AstreJupiter(Astre* ptJupiter) {
 	ptJupiter->T = 4332;
 	ptJupiter->x = 779000000;
 	ptJupiter->y = 0;
+	ptJupiter->vt=13.11;
+	
 
 }
 
@@ -285,6 +309,8 @@ void Init_AstreSaturne(Astre* ptSaturne) {
 	ptSaturne->T = 10757;
 	ptSaturne->x = 1400000000;
 	ptSaturne->y = 0;
+	ptSaturne->vt=9.7;
+
 }
 
 void Init_AstreUranus(Astre* ptUranus) {
@@ -297,6 +323,8 @@ void Init_AstreUranus(Astre* ptUranus) {
 	ptUranus->T = 30681;
 	ptUranus->x = 2870000000;
 	ptUranus->y = 0;
+	ptUranus->vt=6.8;
+	
 }
 
 void Init_AstreNeptune(Astre* ptNeptune) {
@@ -309,6 +337,7 @@ void Init_AstreNeptune(Astre* ptNeptune) {
 	ptNeptune->T = 60197;
 	ptNeptune->x = 4500000000;
 	ptNeptune->y = 0;
+	ptNeptune->vt = 5.43;
 }
 
 
@@ -369,6 +398,50 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
 }
 
 
+
+void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT) {
+
+    printf("\n%f\n", Planete->x);
+    printf("%f\n", Planete->y);
+
+    if (Planete->distanceCentreGravitation != 0) {
+    
+        printf("Mon nom : %s\n",Planete->nom);
+        printf("Mon centre de gravitation : %s\n", Gravitation->nom);
+        printf("Ses coordonées :\nx : %f\ny : %f\n", Gravitation->x, Gravitation->y);
+
+        printf("%f\n", Planete->distanceCentreGravitation);
+        
+        printf("%f\n", (Planete->x - Gravitation->x));
+        
+        
+        double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
+        double deltaM=Planete->vt*deltaT+Planete->deltaV/2;
+        
+        Planete->deltaV=abs(Planete->deltaV-Planete->vt);
+	
+        if (Gravitation->previousY - 0.1 < Planete->y < Gravitation->previousY + 0.1) {
+            alpha = -alpha;
+        }
+        
+  
+        alpha +=acos(1-(((deltaM)*(deltaM))/(2*Planete->distanceCentreGravitation * Planete->distanceCentreGravitation)));
+
+
+
+        printf("%lf", alpha);
+
+        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
+        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
+    }
+
+
+    printf("*******************************");
+    printf("\nNouveau x :%f", Planete->x);
+    printf("Nouveau y :%f \n", Planete->y);
+    printf("*******************************\n");
+
+}
 
 
 

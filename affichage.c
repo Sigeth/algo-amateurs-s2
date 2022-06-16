@@ -225,7 +225,7 @@ void gestionEvenement(EvenementGfx evenement)
 
             updateEtoiles();
 
-            astreFocused = RechercheParNom(ptElementAstreInitial, "La Terre");
+            astreFocused = RechercheParNom(ptElementAstreInitial, "Le Soleil");
 
             /* Le message "Initialisation" est envoye une seule fois, au debut du
             programme : il permet de fixer "image" a la valeur qu'il devra conserver
