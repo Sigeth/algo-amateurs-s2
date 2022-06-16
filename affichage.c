@@ -32,8 +32,7 @@ float echellePlanete = 1.0f/100.0f;
 float echelleDistances = 1.0f/100000.0f;
 static ElementAstre* ptElementAstreInitial;
 static ElementAstre* ptElementAstreCourant;
-static int deltaT = 0;
-static int deltaTcheck = 1;
+static int deltaTcheck = 10000;
 static float xCentre = 0.0f;
 static float yCentre = 0.0f;
 static Astre* astreFocused = NULL;
@@ -258,20 +257,18 @@ void gestionEvenement(EvenementGfx evenement)
                 case Simulation:
                     //printf("Bonjour je suis l'affichage de la simulation\n");
 
-                    if (deltaT >= deltaTcheck && !paused) {
-                        ptElementAstreCourant = ptElementAstreInitial;
-                        while( ptElementAstreCourant != NULL )
+                    if (!paused) {
+                    ptElementAstreCourant = ptElementAstreInitial;
+                    while( ptElementAstreCourant != NULL )
+                    {
+                        Astre* ptAstre = ptElementAstreCourant -> ptAstre;
+                        if( ptAstre != NULL )
                         {
-                            Astre* ptAstre = ptElementAstreCourant -> ptAstre;
-                            if( ptAstre != NULL )
-                            {
-                                UpdateObjet(ptAstre, RechercheParNom(ptElementAstreInitial, ptAstre->nomGravitation));
-                            }
-
-                            ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
+                            UpdateObjetReal(ptAstre, RechercheParNom(ptElementAstreInitial, ptAstre->nomGravitation), deltaTcheck);
                         }
 
-                        deltaT = 0;
+                        ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
+                    }
                     }
 
                     affichePlanetes(false);
@@ -281,8 +278,36 @@ void gestionEvenement(EvenementGfx evenement)
                         yCentre = 0 - astreFocused->y*echelleDistances;
                     }
 
-                    deltaT++;
+                    couleurCourante(255,255,255);
+                    rectangle(largeurFenetre() - largeurFenetre()/4 - largeurFenetre()/512, hauteurFenetre()/8 + hauteurFenetre()/512, largeurFenetre() - largeurFenetre()/256 + largeurFenetre()/512, hauteurFenetre()/64 - hauteurFenetre()/512);
+                    couleurCourante(0,0,0);
+                    rectangle(largeurFenetre() - largeurFenetre()/4, hauteurFenetre()/8, largeurFenetre() - largeurFenetre()/256, hauteurFenetre()/64);
 
+                    couleurCourante(255,255,255);
+
+                    int lengthEchelleT = snprintf(NULL, 0, "EcheLLe de temps : %ds / actualisation", deltaTcheck);
+                    char* chaineEchelleT = malloc(sizeof(char) * lengthEchelleT + 1);
+                    snprintf(chaineEchelleT, lengthEchelleT + 1, "EcheLLe de temps : %ds / actualisation", deltaTcheck);
+                    float tailleEchelleT = tailleChaine(chaineEchelleT, 12);
+                    afficheChaine(chaineEchelleT, 12, largeurFenetre() - largeurFenetre()/8 - tailleEchelleT/2, hauteurFenetre()/8 - hauteurFenetre()/32);
+
+                    int lengthEchelleDistances = snprintf(NULL, 0, "EcheLLe de distances : 1/%fm", 1/echelleDistances);
+                    char* chaineEchelleDistances = malloc(sizeof(char) * lengthEchelleDistances + 1);
+                    snprintf(chaineEchelleDistances, lengthEchelleDistances + 1, "EcheLLe de distances : 1/%fm", 1/echelleDistances);
+                    float tailleEchelleDistances = tailleChaine(chaineEchelleDistances, 12);
+
+                    afficheChaine(chaineEchelleDistances, 12, largeurFenetre() - largeurFenetre()/8 - tailleEchelleDistances/2, hauteurFenetre()/8 - hauteurFenetre()/16);
+
+                    int lengthEchelleRayons = snprintf(NULL, 0, "EcheLLe de rayon : 1/%fm", 1/echellePlanete);
+                    char* chaineEchelleRayons = malloc(sizeof(char) * lengthEchelleRayons + 1);
+                    snprintf(chaineEchelleRayons, lengthEchelleRayons + 1, "EcheLLe de rayon : 1/%fm", 1/echellePlanete);
+                    float tailleEchelleRayons = tailleChaine(chaineEchelleRayons, 12);
+
+                    afficheChaine(chaineEchelleRayons, 12, largeurFenetre() - largeurFenetre()/8 - tailleEchelleRayons/2, hauteurFenetre()/8 - hauteurFenetre()/10);
+
+
+                    free(chaineEchelleT);
+                    free(chaineEchelleDistances);
                     couleurCourante(200,200,200);
 
                     break;
@@ -425,16 +450,14 @@ void gestionEvenement(EvenementGfx evenement)
                     break;
                 case ToucheFlecheGauche:
                     if (state == Simulation) {
-                        deltaTcheck++;
+                        deltaTcheck -= 1000;
                     } else if (state == MenuSauvegardes) {
                         clicFlecheGaucheSauvegarde();
                     }
                     break;
                 case ToucheFlecheDroite:
                     if (state == Simulation) {
-                        if (deltaTcheck > 1) {
-                            deltaTcheck--;
-                        }
+                        deltaTcheck += 1000;
                     } else if (state == MenuSauvegardes) {
                         clicFlecheDroiteSauvegarde();
                     }
