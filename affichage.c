@@ -461,48 +461,48 @@ void gestionEvenement(EvenementGfx evenement)
                     case Simulation:
                         if (astreFocused) {
                             astreFocused = NULL;
-                        } else {
-                            float xAppuye = abscisseSouris() - largeurFenetre() / 2 - xCentre;
-                            float yAppuye = ordonneeSouris() - hauteurFenetre() / 2 - yCentre;
+                        }
 
-                            printf("Coordonnées dans le repère cartésien : (%f, %f)\n", xAppuye, yAppuye);
+                        float xAppuye = abscisseSouris() - largeurFenetre() / 2 - xCentre;
+                        float yAppuye = ordonneeSouris() - hauteurFenetre() / 2 - yCentre;
 
-                            ptElementAstreCourant = ptElementAstreInitial;
-                            while (ptElementAstreCourant != NULL) {
-                                Astre *ptAstre = ptElementAstreCourant->ptAstre;
-                                if (ptAstre != NULL) {
-                                    float rayon = ptAstre->rayon;
+                        printf("Coordonnées dans le repère cartésien : (%f, %f)\n", xAppuye, yAppuye);
 
-                                    if (!strcmp(ptAstre->nom, "Le Soleil")) {
-                                        echellePlanete /= 100.f;
-                                    }
+                        ptElementAstreCourant = ptElementAstreInitial;
+                        while (ptElementAstreCourant != NULL) {
+                            Astre *ptAstre = ptElementAstreCourant->ptAstre;
+                            if (ptAstre != NULL) {
+                                float rayon = ptAstre->rayon;
 
-                                    if (ptAstre->rayon * echellePlanete < largeurFenetre() / 512) {
-                                        rayon = largeurFenetre() / 512;
-                                    }
-
-                                    printf("xMoins : %f\nxPlus : %f\n", xAppuye / echelleDistances - rayon / echellePlanete,
-                                           xAppuye / echelleDistances + rayon / echellePlanete);
-
-                                    if (xAppuye / echelleDistances - rayon / echellePlanete <= ptAstre->x
-                                        && xAppuye / echelleDistances + rayon / echellePlanete >= ptAstre->x
-                                        && yAppuye / echelleDistances - rayon / echellePlanete <= ptAstre->y
-                                        && yAppuye / echelleDistances + rayon / echellePlanete >= ptAstre->y) {
-                                        astreFocused = ptAstre;
-                                    }
-
-                                    if (!strcmp(ptAstre->nom, "Le Soleil")) {
-                                        echellePlanete *= 100.f;
-                                    }
-
+                                if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                                    echellePlanete *= 100.f;
                                 }
 
-                                ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+                                if (ptAstre->rayon * echellePlanete < largeurFenetre() / 512) {
+                                    rayon = largeurFenetre() / 512;
+                                }
+
+                                printf("xMoins : %f\nxPlus : %f\n", xAppuye / echelleDistances - rayon / echellePlanete,
+                                       xAppuye / echelleDistances + rayon / echellePlanete);
+
+                                if (xAppuye / echelleDistances - rayon / echellePlanete <= ptAstre->x
+                                    && xAppuye / echelleDistances + rayon / echellePlanete >= ptAstre->x
+                                    && yAppuye / echelleDistances - rayon / echellePlanete <= ptAstre->y
+                                    && yAppuye / echelleDistances + rayon / echellePlanete >= ptAstre->y) {
+                                    astreFocused = ptAstre;
+                                }
+
+                                if (!strcmp(ptAstre->nom, "Le Soleil")) {
+                                    echellePlanete /= 100.f;
+                                }
+
                             }
 
-                            if (astreFocused) {
-                                printf("Astre trouvé : %s\n", astreFocused->nom);
-                            }
+                            ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+                        }
+
+                        if (astreFocused) {
+                            printf("Astre trouvé : %s\n", astreFocused->nom);
                         }
                         break;
                     case MenuSimu:
@@ -535,6 +535,13 @@ void gestionEvenement(EvenementGfx evenement)
             break;
 
         case Souris: // Si la souris est deplacee
+
+        /* Nous aurions bien voulu utiliser cet événement
+         * malheureusement, il se trouve que ce dernier ne fonctionne pas
+         * En effet, il faut cliquer sur la souris pour que le programme se rende compte que la souris bouge
+         * Dommage.
+         */
+
             break;
 
         case Inactivite: // Quand aucun message n'est disponible
