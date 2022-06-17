@@ -230,26 +230,60 @@ void afficheInfoPlanete() {
     float tailleNom = tailleChaine(chaineNom, 32);
     afficheChaine(chaineNom, 32, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleNom/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/16);
 
-    /*
-    char* nom;
-	char* type;
-	Couleur couleur;
-	float rayon;
-	double masse;
-	long int T;
-	float x;
-	float y;
-    	float previousX;
-    	float previousY;
-	float vt;
-	float deltaV;
-	char* nomGravitation;
-	float xGravitation;
-	float yGravitation;
-	float distanceCentreGravitation;
-     */
+    couleurCourante(255,255,255);
 
+    float tailleIntroType = tailleChaine("Type : ", 20);
+    afficheChaine("Type : ", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/12 - tailleIntroType/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/8);
+    int lengthType = snprintf(NULL, 0, "%s", astreFocused->type);
+    char* chaineType = malloc(sizeof(char) * lengthType + 1);
+    snprintf(chaineType, lengthType + 1, "%s", astreFocused->type);
+    float tailleType = tailleChaine(chaineType, 20);
+    afficheChaine(chaineType, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/6 - tailleType/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/8);
+
+    float tailleIntroRayon = tailleChaine("Rayon : ", 20);
+    afficheChaine("Rayon : ", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/12 - tailleIntroRayon/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/6);
+    int lengthRayon = snprintf(NULL, 0, "%fkm", astreFocused->rayon);
+    char* chaineRayon = malloc(sizeof(char) * lengthRayon + 1);
+    snprintf(chaineRayon, lengthRayon + 1, "%fkm", astreFocused->rayon);
+    float tailleRayon = tailleChaine(chaineRayon, 20);
+    afficheChaine(chaineRayon, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/6 - tailleRayon/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/6);
+
+    float tailleIntroMasse = tailleChaine("Masse : ", 20);
+    afficheChaine("Masse : ", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/12 - tailleIntroMasse/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/4.7);
+    int lengthMasse = snprintf(NULL, 0, "%fkg", astreFocused->masse);
+    char* chaineMasse = malloc(sizeof(char) * lengthMasse + 1);
+    snprintf(chaineMasse, lengthMasse + 1, "%fkg", astreFocused->masse);
+    float tailleMasse = tailleChaine(chaineMasse, 20);
+    afficheChaine(chaineMasse, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/6 - tailleMasse/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/4.7);
+
+
+    Astre* astreGravitation = RechercheParNom(ptElementAstreInitial, astreFocused->nomGravitation);
+
+    if (astreFocused->distanceCentreGravitation != 0) {
+        float tailleIntroNomGravitation = tailleChaine("Je gravite autour de", 20);
+        afficheChaine("Je gravite autour de", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleIntroNomGravitation/2, hauteurFenetre()/2);
+        int lengthNomGravitation = snprintf(NULL, 0, "%s", astreGravitation->nom);
+        char* chaineNomGravitation = malloc(sizeof(char) * lengthNomGravitation + 1);
+        snprintf(chaineNomGravitation, lengthNomGravitation + 1, "%s", astreGravitation->nom);
+        float tailleNomGravitation = tailleChaine(chaineNomGravitation, 20);
+        afficheChaine(chaineNomGravitation, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleNomGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/12);
+
+        float tailleIntroDistanceGravitation = tailleChaine("avec une distance de", 20);
+        afficheChaine("avec une distance de", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleIntroDistanceGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/4);
+        int lengthDistanceGravitation = snprintf(NULL, 0, "%fkm", astreFocused->distanceCentreGravitation/1000.f);
+        char* chaineDistanceGravitation = malloc(sizeof(char) * lengthDistanceGravitation + 1);
+        snprintf(chaineDistanceGravitation, lengthDistanceGravitation + 1, "%fkm", astreFocused->distanceCentreGravitation/1000.f);
+        float tailleDistanceGravitation = tailleChaine(chaineDistanceGravitation, 20);
+        afficheChaine(chaineDistanceGravitation, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleDistanceGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/4 - hauteurFenetre()/12);
+
+        free(chaineNomGravitation);
+        free(chaineDistanceGravitation);
+    }
+    
     free(chaineNom);
+    free(chaineType);
+    free(chaineRayon);
+    free(chaineMasse);
 }
 
 /**
@@ -297,7 +331,7 @@ void gestionEvenement(EvenementGfx evenement)
 
             updateEtoiles();
 
-            astreFocused = RechercheParNom(ptElementAstreInitial, "Le Soleil");
+            astreFocused = RechercheParNom(ptElementAstreInitial, "La Terre");
 
             /* Le message "Initialisation" est envoye une seule fois, au debut du
             programme : il permet de fixer "image" a la valeur qu'il devra conserver
@@ -429,7 +463,6 @@ void gestionEvenement(EvenementGfx evenement)
                     break;
                 case MenuSimu:
                     affichePlanetes(true);
-                    couleurCourante(100,100,100);
 
                     couleurCourante(255,255,255);
                     epaisseurDeTrait(5);
@@ -442,6 +475,9 @@ void gestionEvenement(EvenementGfx evenement)
                     afficheChaine("Reprendre", 30,largeurFenetre()/2-tailleChaine("Reprendre",30)/2,hauteurFenetre()-hauteurFenetre()/2.1);
                     afficheChaine("Sauvegarder", 30,largeurFenetre()/2-tailleChaine("Sauvegarder",30)/2,hauteurFenetre()-hauteurFenetre()/1.64);
                     afficheChaine("Retour Menu Principal", 30,largeurFenetre()/2-tailleChaine("Retour Menu Principal",30)/2, hauteurFenetre()-hauteurFenetre()/1.34);
+
+                    epaisseurDeTrait(1);
+                    couleurCourante(100,100,100);
                     break;
                 default:
                     printf("Il se passe quoi là ?????\n");
