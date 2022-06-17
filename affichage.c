@@ -430,6 +430,18 @@ void gestionEvenement(EvenementGfx evenement)
                 case MenuSimu:
                     affichePlanetes(true);
                     couleurCourante(100,100,100);
+
+                    couleurCourante(255,255,255);
+                    epaisseurDeTrait(5);
+
+                    rectangle(largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/2.31, largeurFenetre()-largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/2);
+                    rectangle(largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/1.76, largeurFenetre()-largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/1.58);
+                    rectangle(largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/1.43, largeurFenetre()-largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/1.30);
+                    couleurCourante(0,0,0);
+                   
+                    afficheChaine("Reprendre", 30,largeurFenetre()/2-tailleChaine("Reprendre",30)/2,hauteurFenetre()-hauteurFenetre()/2.1);
+                    afficheChaine("Sauvegarder", 30,largeurFenetre()/2-tailleChaine("Sauvegarder",30)/2,hauteurFenetre()-hauteurFenetre()/1.64);
+                    afficheChaine("Retour Menu Principal", 30,largeurFenetre()/2-tailleChaine("Retour Menu Principal",30)/2, hauteurFenetre()-hauteurFenetre()/1.34);
                     break;
                 default:
                     printf("Il se passe quoi là ?????\n");
@@ -637,7 +649,21 @@ void gestionEvenement(EvenementGfx evenement)
                         }
                         break;
                     case MenuSimu:
-                        break;
+                        if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/2.31 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/2)
+                            {
+                                state = mini_menu(2);
+                            }
+
+                            if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.76 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.58)
+                            {
+                                menu(3);
+                            }
+
+                            if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.43 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.30)
+                            {
+                                state = mini_menu(6);
+                            }
+                            break;
                     case MenuSauvegardes:
                         if (ordonneeSouris() <= hauteurFenetre()/2 + hauteurFenetre()/32 && ordonneeSouris() >= hauteurFenetre()/2 - hauteurFenetre()/32) {
                             if (abscisseSouris() <= largeurFenetre()/32 && abscisseSouris() >= largeurFenetre()/128) {

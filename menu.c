@@ -39,13 +39,31 @@ void menu(int choix)
 	}
 }
 
+void mini_menu(int choix)
+{
+	switch(choix)
+	{
+		case 2:
+			reprendre();
+			break;
+		
+		case 3:
+			sauvegarde();
+			break;
+
+		case 6:
+			retour();
+			break;
+	}
+}
+
 
 StateAffichage lancer_simulation(){
 	return Simulation;
 }
 
-void reprendre() {
-    printf("Reprendre la dernière simulation");
+StateAffichage reprendre() {
+    return Simulation;
 }
 
 void sauvegarde(){
@@ -57,5 +75,10 @@ void charger() {
 }
 
 void quitter() {
+	termineBoucleEvenements();
     printf("Quitter le programme...");
+}
+
+StateAffichage retour(){
+	return MenuPrincipal;
 }
