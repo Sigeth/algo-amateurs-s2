@@ -1,4 +1,5 @@
-
+#ifndef MOTEUR_H
+#define MOTEUR_H
 typedef enum {Rouge, Vert, Bleu, Jaune, Cyan, GrisClair, GrisFonce, Orange, Creme, Cafe, BleuCiel}
         Couleur;
 
@@ -60,3 +61,5 @@ void modif_poss_astre(Astre* ptAstre,int x, int y);
 void Init_Astre(Astre* ptAstre);
 void ListrePlanete(Astre** TabAstre);
 int mainMoteur(int argc, char **argv);
+
+#endif

@@ -27,7 +27,8 @@ void afficheSimu(int argc, char **argv)
     lanceBoucleEvenements();
 }
 
-static StateAffichage state = Simulation;
+
+static StateAffichage state = MenuPrincipal;
 float echellePlanete = 1.0f/100.0f;
 float echelleDistances = 1.0f/100000.0f;
 static ElementAstre* ptElementAstreInitial;
@@ -215,6 +216,7 @@ void gestionEvenement(EvenementGfx evenement)
     {
         case Initialisation:
             //epaisseurDeTrait(3);
+            
 
             ptElementAstreInitial = InitElementAstre();
             ptElementAstreCourant = ptElementAstreInitial;
@@ -245,6 +247,7 @@ void gestionEvenement(EvenementGfx evenement)
 
             // On part d'un fond d'ecran blanc
             effaceFenetre(0, 0, 0);
+            
 
             for (int i=0;i<nbEtoiles-1;i+=2) {
                 cercle(etoiles[i], etoiles[i+1], largeurFenetre()/1024, 3);
@@ -252,7 +255,20 @@ void gestionEvenement(EvenementGfx evenement)
 
             switch (state) {
                 case MenuPrincipal:
-                    printf("Bonjour je suis le menu principal\n");
+                    couleurCourante(255,255,255);
+                    epaisseurDeTrait(5);
+
+                    rectangle(largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/2.31, largeurFenetre()-largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/2);
+                    rectangle(largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/1.76, largeurFenetre()-largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/1.58);
+                    rectangle(largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/1.43, largeurFenetre()-largeurFenetre()/8, hauteurFenetre()-hauteurFenetre()/1.30);
+                    couleurCourante(0,0,0);
+                   
+                    afficheChaine("Lancer Simulation", 30,largeurFenetre()/2-tailleChaine("Lancer Simulation",30)/2,hauteurFenetre()-hauteurFenetre()/2.1);
+                    afficheChaine("Charger", 30,largeurFenetre()/2-tailleChaine("Charger",30)/2,hauteurFenetre()-hauteurFenetre()/1.64);
+                    afficheChaine("Quitter", 30,largeurFenetre()/2-tailleChaine("Quitter",30)/2, hauteurFenetre()-hauteurFenetre()/1.34);
+
+                    couleurCourante(200,200,200);
+                    epaisseurDeTrait(1);
                     break;
                 case Simulation:
                     //printf("Bonjour je suis l'affichage de la simulation\n");
@@ -480,6 +496,24 @@ void gestionEvenement(EvenementGfx evenement)
         case BoutonSouris:
             if (etatBoutonSouris() == GaucheAppuye) {
                 switch (state) {
+                    
+                    case MenuPrincipal:
+
+                        if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/2.31 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/2)
+                        {
+                            state = menu(1);
+                        }
+
+                        if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.76 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.58)
+                        {
+                            menu(4);
+                        }
+
+                        if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.43 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.30)
+                        {
+                            menu(5);
+                        }
+                        break;
 
                     case Simulation:
                         if (astreFocused) {
@@ -544,8 +578,6 @@ void gestionEvenement(EvenementGfx evenement)
                         {
                             clicChargerSauvegarde();
                         }
-                        break;
-                    case MenuPrincipal:
                         break;
                     default:
                         break;
