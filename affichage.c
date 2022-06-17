@@ -184,9 +184,9 @@ void affichePlanetes(bool isInMenu) {
 void afficheInfoPlanete() {
 
     couleurCourante(255,255,255);
-    rectangle(largeurFenetre() - largeurFenetre()/3 - largeurFenetre()/512, hauteurFenetre() - hauteurFenetre()/7 + hauteurFenetre()/512, largeurFenetre() - largeurFenetre()/16 + largeurFenetre()/512, hauteurFenetre()/7 - hauteurFenetre()/512);
+    rectangle(largeurFenetre() - largeurFenetre()/4 - largeurFenetre()/512, hauteurFenetre() - hauteurFenetre()/7 + hauteurFenetre()/512, largeurFenetre() - largeurFenetre()/256 + largeurFenetre()/512, hauteurFenetre()/7 - hauteurFenetre()/512);
     couleurCourante(0,0,0);
-    rectangle(largeurFenetre() - largeurFenetre()/3, hauteurFenetre() - hauteurFenetre()/7, largeurFenetre() - largeurFenetre()/16, hauteurFenetre()/7);
+    rectangle(largeurFenetre() - largeurFenetre()/4, hauteurFenetre() - hauteurFenetre()/7, largeurFenetre() - largeurFenetre()/256, hauteurFenetre()/7);
 
     switch(astreFocused->couleur) {
         case Cyan:
@@ -228,53 +228,53 @@ void afficheInfoPlanete() {
     char* chaineNom = malloc(sizeof(char) * lengthNom + 1);
     snprintf(chaineNom, lengthNom + 1, "%s", astreFocused->nom);
     float tailleNom = tailleChaine(chaineNom, 32);
-    afficheChaine(chaineNom, 32, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleNom/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/16);
+    afficheChaine(chaineNom, 32, largeurFenetre() - largeurFenetre()/8 - tailleNom/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/16);
 
     couleurCourante(255,255,255);
 
     float tailleIntroType = tailleChaine("Type : ", 20);
-    afficheChaine("Type : ", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/12 - tailleIntroType/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/8);
+    afficheChaine("Type : ", 20, largeurFenetre() - largeurFenetre()/4 + largeurFenetre()/16 - tailleIntroType/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/8);
     int lengthType = snprintf(NULL, 0, "%s", astreFocused->type);
     char* chaineType = malloc(sizeof(char) * lengthType + 1);
     snprintf(chaineType, lengthType + 1, "%s", astreFocused->type);
     float tailleType = tailleChaine(chaineType, 20);
-    afficheChaine(chaineType, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/6 - tailleType/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/8);
+    afficheChaine(chaineType, 20, largeurFenetre() - largeurFenetre()/4 + largeurFenetre()/6 - tailleType/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/8);
 
     float tailleIntroRayon = tailleChaine("Rayon : ", 20);
-    afficheChaine("Rayon : ", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/12 - tailleIntroRayon/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/6);
+    afficheChaine("Rayon : ", 20, largeurFenetre() - largeurFenetre()/4 + largeurFenetre()/16 - tailleIntroRayon/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/6);
     int lengthRayon = snprintf(NULL, 0, "%fkm", astreFocused->rayon);
     char* chaineRayon = malloc(sizeof(char) * lengthRayon + 1);
     snprintf(chaineRayon, lengthRayon + 1, "%fkm", astreFocused->rayon);
     float tailleRayon = tailleChaine(chaineRayon, 20);
-    afficheChaine(chaineRayon, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/6 - tailleRayon/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/6);
+    afficheChaine(chaineRayon, 20, largeurFenetre() - largeurFenetre()/4 + largeurFenetre()/6 - tailleRayon/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/6);
 
     float tailleIntroMasse = tailleChaine("Masse : ", 20);
-    afficheChaine("Masse : ", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/12 - tailleIntroMasse/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/4.7);
-    int lengthMasse = snprintf(NULL, 0, "%fkg", astreFocused->masse);
+    afficheChaine("Masse : ", 20, largeurFenetre() - largeurFenetre()/8 - tailleIntroMasse/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/4.7);
+    int lengthMasse = snprintf(NULL, 0, "%ft", astreFocused->masse/1000000.f);
     char* chaineMasse = malloc(sizeof(char) * lengthMasse + 1);
-    snprintf(chaineMasse, lengthMasse + 1, "%fkg", astreFocused->masse);
+    snprintf(chaineMasse, lengthMasse + 1, "%ft", astreFocused->masse/1000000.f);
     float tailleMasse = tailleChaine(chaineMasse, 20);
-    afficheChaine(chaineMasse, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/6 - tailleMasse/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/4.7);
+    afficheChaine(chaineMasse, 20, largeurFenetre() - largeurFenetre()/8 - tailleMasse/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/4);
 
 
     Astre* astreGravitation = RechercheParNom(ptElementAstreInitial, astreFocused->nomGravitation);
 
     if (astreFocused->distanceCentreGravitation != 0) {
         float tailleIntroNomGravitation = tailleChaine("Je gravite autour de", 20);
-        afficheChaine("Je gravite autour de", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleIntroNomGravitation/2, hauteurFenetre()/2);
+        afficheChaine("Je gravite autour de", 20, largeurFenetre() - largeurFenetre()/8 - tailleIntroNomGravitation/2, hauteurFenetre()/2);
         int lengthNomGravitation = snprintf(NULL, 0, "%s", astreGravitation->nom);
         char* chaineNomGravitation = malloc(sizeof(char) * lengthNomGravitation + 1);
         snprintf(chaineNomGravitation, lengthNomGravitation + 1, "%s", astreGravitation->nom);
         float tailleNomGravitation = tailleChaine(chaineNomGravitation, 20);
-        afficheChaine(chaineNomGravitation, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleNomGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/12);
+        afficheChaine(chaineNomGravitation, 20, largeurFenetre() - largeurFenetre()/8 - tailleNomGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/12);
 
         float tailleIntroDistanceGravitation = tailleChaine("avec une distance de", 20);
-        afficheChaine("avec une distance de", 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleIntroDistanceGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/4);
+        afficheChaine("avec une distance de", 20, largeurFenetre() - largeurFenetre()/8 - tailleIntroDistanceGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/4);
         int lengthDistanceGravitation = snprintf(NULL, 0, "%fkm", astreFocused->distanceCentreGravitation/1000.f);
         char* chaineDistanceGravitation = malloc(sizeof(char) * lengthDistanceGravitation + 1);
         snprintf(chaineDistanceGravitation, lengthDistanceGravitation + 1, "%fkm", astreFocused->distanceCentreGravitation/1000.f);
         float tailleDistanceGravitation = tailleChaine(chaineDistanceGravitation, 20);
-        afficheChaine(chaineDistanceGravitation, 20, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleDistanceGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/4 - hauteurFenetre()/12);
+        afficheChaine(chaineDistanceGravitation, 20, largeurFenetre() - largeurFenetre()/8 - tailleDistanceGravitation/2, hauteurFenetre()/2 - hauteurFenetre()/4 - hauteurFenetre()/12);
 
         free(chaineNomGravitation);
         free(chaineDistanceGravitation);
