@@ -6,3 +6,4 @@ typedef struct info{
 void initinfo(info *a);
 void nomdesauvegarde();
 void listesauvegarde();
+void delsauvegarde();

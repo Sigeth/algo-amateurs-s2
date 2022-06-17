@@ -14,18 +14,20 @@ FILE* f=NULL;
 f=fopen(nomdesauvegarde,"a");
 if(f!=NULL){
 fputs(nomdesauvegarde,f);
-fclose(f);}
+fclose(f);}}
 void nomdesauvegarde(){
 	printf("nom de la sauvegarde :");
 	char a[100];
 	scanf("%s",a);
 	FILE* f=NULL;
-	f=fopen(a,"a");
+	f=fopen("pastouche","a");
 	if(f!=NULL){
 	fputs(a,f);
 	fputs("\n",f);
 	fclose(f);}
 	FILE* fi=NULL;
+	fi=fopen(a,"w");
+	fclose(fi);
 }
 void listesauvegarde(){
 char a[100];
@@ -33,7 +35,17 @@ FILE* fi=fopen("pastouche","r");
 if(fi!=NULL){
 printf("voici la liste de vos sauvegarde :\n");
 while(fscanf(fi,"%s",a) != EOF){
-//fscanf(fi,"%s",a);
 printf("%s \n",a);
 }
 fclose(fi);}}
+void delsauvegarde(){
+char a[100];
+FILE* fi=fopen("pastouche","r");
+if(fi!=NULL){
+printf("voici la liste de vos sauvegarde :\n");
+while(fscanf(fi,"%s",a) != EOF){
+remove(a);}
+fclose(fi);
+remove("pastouche");
+}}
+
