@@ -181,6 +181,77 @@ void affichePlanetes(bool isInMenu) {
     }
 }
 
+void afficheInfoPlanete() {
+
+    couleurCourante(255,255,255);
+    rectangle(largeurFenetre() - largeurFenetre()/3 - largeurFenetre()/512, hauteurFenetre() - hauteurFenetre()/7 + hauteurFenetre()/512, largeurFenetre() - largeurFenetre()/16 + largeurFenetre()/512, hauteurFenetre()/7 - hauteurFenetre()/512);
+    couleurCourante(0,0,0);
+    rectangle(largeurFenetre() - largeurFenetre()/3, hauteurFenetre() - hauteurFenetre()/7, largeurFenetre() - largeurFenetre()/16, hauteurFenetre()/7);
+
+    switch(astreFocused->couleur) {
+        case Cyan:
+            couleurCourante(0, 206, 209);
+            break;
+        case Jaune:
+            couleurCourante(255, 255, 0);
+            break;
+        case GrisFonce:
+            couleurCourante(69, 69, 69);
+            break;
+        case GrisClair:
+            couleurCourante(169, 169, 169);
+            break;
+        case Orange:
+            couleurCourante(255, 140, 0);
+            break;
+        case Rouge:
+            couleurCourante(255, 0, 0);
+            break;
+        case Creme:
+            couleurCourante(222, 184, 135);
+            break;
+        case Cafe:
+            couleurCourante(139, 69, 19);
+            break;
+        case BleuCiel:
+            couleurCourante(173, 216, 230);
+            break;
+        case Bleu:
+            couleurCourante(0, 0, 255);
+            break;
+        default:
+            couleurCourante(0,0,0);
+            break;
+    }
+
+    int lengthNom = snprintf(NULL, 0, "%s", astreFocused->nom);
+    char* chaineNom = malloc(sizeof(char) * lengthNom + 1);
+    snprintf(chaineNom, lengthNom + 1, "%s", astreFocused->nom);
+    float tailleNom = tailleChaine(chaineNom, 32);
+    afficheChaine(chaineNom, 32, largeurFenetre() - largeurFenetre()/3 + largeurFenetre()/7.5 - tailleNom/2, hauteurFenetre() - hauteurFenetre()/7 - hauteurFenetre()/16);
+
+    /*
+    char* nom;
+	char* type;
+	Couleur couleur;
+	float rayon;
+	double masse;
+	long int T;
+	float x;
+	float y;
+    	float previousX;
+    	float previousY;
+	float vt;
+	float deltaV;
+	char* nomGravitation;
+	float xGravitation;
+	float yGravitation;
+	float distanceCentreGravitation;
+     */
+
+    free(chaineNom);
+}
+
 /**
  * Gère le clic sur la flèche gauche en state MenuSauvegardes
  */
@@ -292,6 +363,7 @@ void gestionEvenement(EvenementGfx evenement)
                     if (astreFocused) {
                         xCentre = 0 - astreFocused->x*echelleDistances;
                         yCentre = 0 - astreFocused->y*echelleDistances;
+                        afficheInfoPlanete();
                     }
 
                     couleurCourante(255,255,255);
@@ -314,9 +386,9 @@ void gestionEvenement(EvenementGfx evenement)
 
                     afficheChaine(chaineEchelleDistances, 12, largeurFenetre() - largeurFenetre()/8 - tailleEchelleDistances/2, hauteurFenetre()/8 - hauteurFenetre()/16);
 
-                    int lengthEchelleRayons = snprintf(NULL, 0, "EcheLLe de rayon : 1/%fm", 1/echellePlanete);
+                    int lengthEchelleRayons = snprintf(NULL, 0, "EcheLLe de rayon : 1/%fm", 1/(echellePlanete/100.f));
                     char* chaineEchelleRayons = malloc(sizeof(char) * lengthEchelleRayons + 1);
-                    snprintf(chaineEchelleRayons, lengthEchelleRayons + 1, "EcheLLe de rayon : 1/%fm", 1/echellePlanete);
+                    snprintf(chaineEchelleRayons, lengthEchelleRayons + 1, "EcheLLe de rayon : 1/%fm", 1/(echellePlanete/100.f));
                     float tailleEchelleRayons = tailleChaine(chaineEchelleRayons, 12);
 
                     afficheChaine(chaineEchelleRayons, 12, largeurFenetre() - largeurFenetre()/8 - tailleEchelleRayons/2, hauteurFenetre()/8 - hauteurFenetre()/10);
@@ -466,7 +538,9 @@ void gestionEvenement(EvenementGfx evenement)
                     break;
                 case ToucheFlecheGauche:
                     if (state == Simulation) {
-                        deltaTcheck -= 1000;
+                        if (deltaTcheck > 0) {
+                            deltaTcheck -= 1000;
+                        }
                     } else if (state == MenuSauvegardes) {
                         clicFlecheGaucheSauvegarde();
                     }
