@@ -10,7 +10,6 @@ typedef struct Astre {
 	Couleur couleur;
 	float rayon;
 	double masse;
-	long int T;
 	float x;
 	float y;
     	float previousX;
@@ -62,4 +61,5 @@ void Init_Astre(Astre* ptAstre);
 void ListrePlanete(Astre** TabAstre);
 int mainMoteur(int argc, char **argv);
 
+void Init_AstreISS(Astre* ptISS);
 #endif

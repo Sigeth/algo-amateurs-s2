@@ -62,6 +62,7 @@ ElementAstre *InitElementAstre() {
     Astre* ptAstreSaturne=malloc(sizeof(Astre));
     Astre* ptAstreUranus=malloc(sizeof(Astre));
     Astre* ptAstreNeptune=malloc(sizeof(Astre));
+    Astre* ptAstreISS=malloc(sizeof(Astre));
    
    Init_Astre(ptAstre);
    Init_Astre(ptAstreLune);
@@ -72,6 +73,7 @@ ElementAstre *InitElementAstre() {
    Init_Astre(ptAstreSaturne);
    Init_Astre(ptAstreUranus);
    Init_Astre(ptAstreNeptune);
+   Init_Astre(ptAstreISS);
     
     Init_AstreTerre(ptAstre);
     Init_AstreLune(ptAstreLune);
@@ -82,6 +84,7 @@ ElementAstre *InitElementAstre() {
     Init_AstreSaturne(ptAstreSaturne);
     Init_AstreUranus(ptAstreUranus);
     Init_AstreNeptune(ptAstreNeptune);
+    Init_AstreISS(ptAstreNeptune);
     
     ptAstreLune->x=384467+ptAstre->x;
     ptAstreLune->xGravitation=ptAstre->x;
@@ -180,6 +183,28 @@ void AjouteElementAstre(ElementAstre *ptElementAstreInitial, Astre* NewAstre) {
 
 
 
+void FreeTab(ElementAstre *ptElementAstreInitial) {
+
+    ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
+    ElementAstre* Prec = malloc(sizeof(ElementAstre));
+    
+    while (ptElementAstreCourant != NULL) {
+         ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+    }
+    Prec=ptElementAstreCourant;
+    
+    while(Prec != NULL) {
+    	
+    	Prec = Prec->ptElementAstrePrecedent;
+    	ptElementAstreCourant= ptElementAstreCourant ->ptElementAstrePrecedent;
+    	free(ptElementAstreCourant);
+    	
+    }
+    //free(NewElement);
+    
+}
+
+
 
 /* Fonction Init_Astre
  * Fonction qui initialise la structure Astre
@@ -206,14 +231,15 @@ void Init_Astre(Astre *ptAstre) {
 
 void Init_AstreTerre(Astre *ptTerre) {
     strcpy(ptTerre->nom, "La Terre");
-    strcpy(ptTerre->type, "Planète");
+    strcpy(ptTerre->type, "Planete");
     ptTerre->couleur = Cyan;
     ptTerre->rayon = 6371;
     strcpy(ptTerre->nomGravitation, "Le Soleil");
     ptTerre->distanceCentreGravitation = 150000000;
-    ptTerre->T = 365;
     ptTerre->x = 150000000;
+    ptTerre->previousX = 150000000;
     ptTerre->y = 0;
+    ptTerre->masse=5.9736*10**24;
     ptTerre->vt=29.8;
     
 }
@@ -228,70 +254,71 @@ void Init_AstreLune(Astre *ptLune) {
     ptLune->T =28;
     ptLune->x = 384467 + 150000000.f;
     ptLune->y = 0;
+    ptLune->masse=7.346*10**22;
     ptLune->vt=1.02;
     
 }
 
 void Init_AstreSoleil(Astre *ptSoleil) {
     strcpy(ptSoleil->nom, "Le Soleil");
-    strcpy(ptSoleil->type, "Étoile");
+    strcpy(ptSoleil->type, "Etoile"); //Dans la culture comme le soleil (la petite vanne)
     ptSoleil->couleur = Jaune;
     ptSoleil->rayon = 696340;
     strcpy(ptSoleil->nomGravitation, "Le Soleil");
     ptSoleil->x = 0;
     ptSoleil->y = 0;
+    ptSoleil->masse=1.988*10**30;
 }
 
 
 void Init_AstreMercure(Astre *ptMercure) {
     	strcpy(ptMercure->nom, "Mercure");
-	strcpy(ptMercure->type, "Planète");
+	strcpy(ptMercure->type, "Planete");
 	ptMercure->couleur = GrisClair;
 	ptMercure->rayon = 2439;
 	strcpy(ptMercure->nomGravitation, "Le Soleil");
 	ptMercure->distanceCentreGravitation = 58000000;
-	ptMercure->T = 88;
 	ptMercure->x = 58000000;
 	ptMercure->y = 0;
 	ptMercure->vt=48.8;
+	ptMercure->masse=3.3*10**23;
 
 }
 
 void Init_AstreVenus(Astre *ptVenus) {
     	strcpy(ptVenus->nom, "Venus");
-	strcpy(ptVenus->type, "Planète");
+	strcpy(ptVenus->type, "Planete");
 	ptVenus->couleur = Orange;
 	ptVenus->rayon = 6051;
 	strcpy(ptVenus->nomGravitation, "Le Soleil");
 	ptVenus->distanceCentreGravitation = 108000000;
-	ptVenus->T = 224;
 	ptVenus->x = 108000000;
 	ptVenus->y = 0;
+	ptVenus->masse=4.87*10**24;
 	ptVenus->vt=35.01;
 }
 
 void Init_AstreMars(Astre *ptMars) {
     	strcpy(ptMars->nom, "Mars");
-	strcpy(ptMars->type, "Planète");
+	strcpy(ptMars->type, "Planete");
 	ptMars->couleur = Rouge;
 	ptMars->rayon = 3396;
 	strcpy(ptMars->nomGravitation, "Le Soleil");
 	ptMars->distanceCentreGravitation = 228000000;
-	ptMars->T = 687;
+	ptMars->masse=6.417*10**23;
 	ptMars->x = 228000000;
 	ptMars->y = 0;
 	ptMars->vt=24.22;
-	
 }
 
 void Init_AstreJupiter(Astre* ptJupiter) {
 	strcpy(ptJupiter->nom, "Jupiter");
-	strcpy(ptJupiter->type, "Planète");
+	strcpy(ptJupiter->type, "Planete");
 	ptJupiter->couleur = Creme;
 	ptJupiter->rayon = 69911;
 	strcpy(ptJupiter->nomGravitation, "Le Soleil");
 	ptJupiter->distanceCentreGravitation = 779000000;
-	ptJupiter->T = 4332;
+	ptJupiter->masse=1.898*10**27;
 	ptJupiter->x = 779000000;
 	ptJupiter->y = 0;
 	ptJupiter->vt=13.11;
@@ -301,12 +328,12 @@ void Init_AstreJupiter(Astre* ptJupiter) {
 
 void Init_AstreSaturne(Astre* ptSaturne) {
 	strcpy(ptSaturne->nom, "Saturne");
-	strcpy(ptSaturne->type, "Planète");
+	strcpy(ptSaturne->type, "Planete");
 	ptSaturne->couleur = Cafe;
 	ptSaturne->rayon = 58232;
 	strcpy(ptSaturne->nomGravitation, "Le Soleil");
 	ptSaturne->distanceCentreGravitation = 1400000000;
-	ptSaturne->T = 10757;
+	ptSaturne->masse=568*10**21;;
 	ptSaturne->x = 1400000000;
 	ptSaturne->y = 0;
 	ptSaturne->vt=9.7;
@@ -315,12 +342,12 @@ void Init_AstreSaturne(Astre* ptSaturne) {
 
 void Init_AstreUranus(Astre* ptUranus) {
 	strcpy(ptUranus->nom, "Uranus");
-	strcpy(ptUranus->type, "Planète");
+	strcpy(ptUranus->type, "Planete");
 	ptUranus->couleur = BleuCiel;
 	ptUranus->rayon = 25559;
 	strcpy(ptUranus->nomGravitation, "Le Soleil");
 	ptUranus->distanceCentreGravitation = 2870000000;
-	ptUranus->T = 30681;
+	ptUranus->masse=8.6*10**22;
 	ptUranus->x = 2870000000;
 	ptUranus->y = 0;
 	ptUranus->vt=6.8;
@@ -329,18 +356,32 @@ void Init_AstreUranus(Astre* ptUranus) {
 
 void Init_AstreNeptune(Astre* ptNeptune) {
 	strcpy(ptNeptune->nom, "Neptune");
-	strcpy(ptNeptune->type, "Planète");
+	strcpy(ptNeptune->type, "Planete");
 	ptNeptune->couleur = Bleu;
 	ptNeptune->rayon = 24764;
 	strcpy(ptNeptune->nomGravitation, "Le Soleil");
 	ptNeptune->distanceCentreGravitation = 4500000000;
-	ptNeptune->T = 60197;
+	ptNeptune->masse=1.02*10**6;
 	ptNeptune->x = 4500000000;
 	ptNeptune->y = 0;
 	ptNeptune->vt = 5.43;
 }
 
 
+
+void Init_AstreISS(Astre* ptISS) {
+	strcpy(ptISS->nom, "ISS");
+	strcpy(ptISS->type, "Satelite Pas Naturel");
+	ptISS->couleur = Gris;
+	ptISS->rayon = 69911;
+	strcpy(ptISS->nomGravitation, "La Terre");
+	ptISS->distanceCentreGravitation = 400;
+	ptISS->x =150000000 +400  ;
+	ptISS->y = 0;
+	ptISS->vt=7.7;
+	
+
+}
 
 
 /*
@@ -362,8 +403,7 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
 
     if (Planete->distanceCentreGravitation != 0) {
 
-        Planete->previousX = Planete->x;
-        Planete->previousY = Planete->y;
+        
         printf("Mon nom : %s\n",Planete->nom);
         printf("Mon centre de gravitation : %s\n", Gravitation->nom);
         printf("Ses coordonées :\nx : %f\ny : %f\n", Gravitation->previousX, Gravitation->previousY);
@@ -377,7 +417,7 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
         
         
 	
-        if (Gravitation->previousY - 0.1 < Planete->y < Gravitation->previousY + 0.1) {
+        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
             alpha = -alpha;
         }
 
@@ -405,14 +445,15 @@ void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT) {
     printf("%f\n", Planete->y);
 
     if (Planete->distanceCentreGravitation != 0) {
-    
+        Planete->previousX = Planete->x;
+        Planete->previousY = Planete->y;
         printf("Mon nom : %s\n",Planete->nom);
         printf("Mon centre de gravitation : %s\n", Gravitation->nom);
         printf("Ses coordonées :\nx : %f\ny : %f\n", Gravitation->x, Gravitation->y);
 
-        printf("%f\n", Planete->distanceCentreGravitation);
+        printf("distanceCentreGravitation: %f\n", Planete->distanceCentreGravitation);
         
-        printf("%f\n", (Planete->x - Gravitation->x));
+        printf("Diff x: %f\n", (Planete->x - Gravitation->previousX));
         
         
         double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
@@ -420,7 +461,7 @@ void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT) {
         
         Planete->deltaV=abs(Planete->deltaV-Planete->vt);
 	
-        if (Gravitation->previousY - 0.1 < Planete->y < Gravitation->previousY + 0.1) {
+        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
             alpha = -alpha;
         }
         
@@ -430,6 +471,9 @@ void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT) {
 
 
         printf("%lf", alpha);
+        
+        printf("Calcul centre grav: %lf\n", Planete->distanceCentreGravitation * cos(alpha));
+        printf("Grav x: %lf\n", Gravitation->x);
 
         Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
         Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
@@ -442,7 +486,6 @@ void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT) {
     printf("*******************************\n");
 
 }
-
 
 
 
