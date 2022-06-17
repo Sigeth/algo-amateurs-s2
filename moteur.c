@@ -139,7 +139,7 @@ void ListeElementAstre(ElementAstre *ptElementAstreInitial) {
         if (ptAstre != NULL) {
             printf("\n%s :\n", ptAstre->nom);
             printf(" \n rayon : %f", ptAstre->rayon);
-            printf(" \n T : %ld \n", ptAstre->T);
+
         }
 
         ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
@@ -222,7 +222,6 @@ void Init_Astre(Astre *ptAstre) {
     ptAstre->previousY = 0;
     ptAstre->vt= 0;
     ptAstre->deltaV=0;
-    ptAstre->T = 0;
     ptAstre->distanceCentreGravitation = 0;
     ptAstre->nomGravitation = malloc(50 * sizeof(char));
     ptAstre->xGravitation = 0;
@@ -239,7 +238,7 @@ void Init_AstreTerre(Astre *ptTerre) {
     ptTerre->x = 150000000;
     ptTerre->previousX = 150000000;
     ptTerre->y = 0;
-    ptTerre->masse=5.9736*10**24;
+    ptTerre->masse=5.9736*pow(10,24);
     ptTerre->vt=29.8;
     
 }
@@ -251,10 +250,10 @@ void Init_AstreLune(Astre *ptLune) {
     ptLune->rayon = 1737.0;
     strcpy(ptLune->nomGravitation, "La Terre");
     ptLune->distanceCentreGravitation = 384470;
-    ptLune->T =28;
+    //ptLune->T =28;
     ptLune->x = 384467 + 150000000.f;
     ptLune->y = 0;
-    ptLune->masse=7.346*10**22;
+    ptLune->masse=7.346*pow(10,22);
     ptLune->vt=1.02;
     
 }
@@ -267,7 +266,7 @@ void Init_AstreSoleil(Astre *ptSoleil) {
     strcpy(ptSoleil->nomGravitation, "Le Soleil");
     ptSoleil->x = 0;
     ptSoleil->y = 0;
-    ptSoleil->masse=1.988*10**30;
+    ptSoleil->masse=1.988*pow(10,30);
 }
 
 
@@ -281,7 +280,7 @@ void Init_AstreMercure(Astre *ptMercure) {
 	ptMercure->x = 58000000;
 	ptMercure->y = 0;
 	ptMercure->vt=48.8;
-	ptMercure->masse=3.3*10**23;
+	ptMercure->masse=3.3*pow(10,23);
 
 }
 
@@ -294,7 +293,7 @@ void Init_AstreVenus(Astre *ptVenus) {
 	ptVenus->distanceCentreGravitation = 108000000;
 	ptVenus->x = 108000000;
 	ptVenus->y = 0;
-	ptVenus->masse=4.87*10**24;
+	ptVenus->masse=4.87*pow(10,24);
 	ptVenus->vt=35.01;
 }
 
@@ -305,7 +304,7 @@ void Init_AstreMars(Astre *ptMars) {
 	ptMars->rayon = 3396;
 	strcpy(ptMars->nomGravitation, "Le Soleil");
 	ptMars->distanceCentreGravitation = 228000000;
-	ptMars->masse=6.417*10**23;
+	ptMars->masse=6.417*pow(10,23);
 	ptMars->x = 228000000;
 	ptMars->y = 0;
 	ptMars->vt=24.22;
@@ -318,7 +317,7 @@ void Init_AstreJupiter(Astre* ptJupiter) {
 	ptJupiter->rayon = 69911;
 	strcpy(ptJupiter->nomGravitation, "Le Soleil");
 	ptJupiter->distanceCentreGravitation = 779000000;
-	ptJupiter->masse=1.898*10**27;
+	ptJupiter->masse=1.898*pow(10,27);
 	ptJupiter->x = 779000000;
 	ptJupiter->y = 0;
 	ptJupiter->vt=13.11;
@@ -333,7 +332,7 @@ void Init_AstreSaturne(Astre* ptSaturne) {
 	ptSaturne->rayon = 58232;
 	strcpy(ptSaturne->nomGravitation, "Le Soleil");
 	ptSaturne->distanceCentreGravitation = 1400000000;
-	ptSaturne->masse=568*10**21;;
+	ptSaturne->masse=568*pow(10,21);
 	ptSaturne->x = 1400000000;
 	ptSaturne->y = 0;
 	ptSaturne->vt=9.7;
@@ -347,7 +346,7 @@ void Init_AstreUranus(Astre* ptUranus) {
 	ptUranus->rayon = 25559;
 	strcpy(ptUranus->nomGravitation, "Le Soleil");
 	ptUranus->distanceCentreGravitation = 2870000000;
-	ptUranus->masse=8.6*10**22;
+	ptUranus->masse=8.6*pow(10,22);
 	ptUranus->x = 2870000000;
 	ptUranus->y = 0;
 	ptUranus->vt=6.8;
@@ -361,7 +360,7 @@ void Init_AstreNeptune(Astre* ptNeptune) {
 	ptNeptune->rayon = 24764;
 	strcpy(ptNeptune->nomGravitation, "Le Soleil");
 	ptNeptune->distanceCentreGravitation = 4500000000;
-	ptNeptune->masse=1.02*10**6;
+	ptNeptune->masse=1.02*pow(10,6);
 	ptNeptune->x = 4500000000;
 	ptNeptune->y = 0;
 	ptNeptune->vt = 5.43;
@@ -372,7 +371,7 @@ void Init_AstreNeptune(Astre* ptNeptune) {
 void Init_AstreISS(Astre* ptISS) {
 	strcpy(ptISS->nom, "ISS");
 	strcpy(ptISS->type, "Satelite Pas Naturel");
-	ptISS->couleur = Gris;
+	ptISS->couleur = GrisClair;
 	ptISS->rayon = 69911;
 	strcpy(ptISS->nomGravitation, "La Terre");
 	ptISS->distanceCentreGravitation = 400;
@@ -395,7 +394,7 @@ void Init_AstreISS(Astre* ptISS) {
 /*fait une trajectoire réaliste*/
 
 
-
+/*
 void UpdateObjet(Astre *Planete, Astre *Gravitation) {
 
     printf("\n%f\n", Planete->x);
@@ -436,7 +435,7 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
     printf("*******************************\n");
 
 }
-
+*/
 
 
 void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT) {
