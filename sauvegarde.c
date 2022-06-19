@@ -4,6 +4,7 @@
 #include "sauvegarde.h"
 #include "moteur.h"
 #include <string.h>
+#define nbplanete 8
 
 void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
 {
@@ -40,7 +41,7 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {
         fclose(f);
     }
 
-    sauvegarde(a,ElementAstre *ptElementAstreInitial);
+    sauvegarde(a,*ptElementAstreInitial);
 }
 
 void listesauvegarde() {
@@ -80,7 +81,7 @@ void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
     
     if(f != NULL) // si l'ouverture s'est bien passée
     {
-        if(fwrite(ptElementAstreInitial, sizeof(ptElementAstreInitial), 1, f) != 1) // écris t1 dans le fichier avec fwrite
+        if(fwrite(ptElementCourant, sizeof(ptElementAstreCourant), 1, f) != 1) // écris t1 dans le fichier avec fwrite
         {
             perror("Erreur lors de l'ecriture des donnees dans le fichier!!");
             fclose(f);
@@ -89,4 +90,23 @@ void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
         }
 
 }}
+ElementAstre *loadsave(char save,ElementAstre *ptElementAstreInitial){
+	FILE * f = fopen("save", "rb");
+	int i=nbplanete;
+	Astre* ptAstre=malloc(sizeof(Astre));
+	AjouteElementAstre(ptElementAstreInitial,ptAstre);
+	ElementAstre astre[nbplanete];
+	while(i==nbplanete){
+	i=fread(astre,sizeof(Astre),nbplanete,f);
+	for(int j=0;j<i;j++){
+	AjouteElementAstre(ptElementAstreInitial,astre[j])}
+    /*AjouteElementAstre(ptElementAstreInitial,ptAstreLune);
+    AjouteElementAstre(ptElementAstreInitial,ptAstreMercure);
+    AjouteElementAstre(ptElementAstreInitial,ptAstreVenus);
+    AjouteElementAstre(ptElementAstreInitial,ptAstreMars);
+    AjouteElementAstre(ptElementAstreInitial,ptAstreJupiter);
+    AjouteElementAstre(ptElementAstreInitial,ptAstreSaturne);
+    AjouteElementAstre(ptElementAstreInitial,ptAstreUranus);
+    AjouteElementAstre(ptElementAstreInitial,ptAstreNeptune);*/}
+    return ptElementAstreInitial;}
 
