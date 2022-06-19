@@ -6,8 +6,7 @@
 #include <string.h>
 #define nbplanete 8
 
-void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
-{
+void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){
     FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode lecture/écriture binaire
      ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
     while (ptElementAstreCourant != NULL) {
@@ -19,7 +18,7 @@ void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
     
     if(f != NULL) // si l'ouverture s'est bien passée
     {
-        if(fwrite(ptElementAstreInitial, sizeof(ptElementAstreInitial), 1, f) != 1) // écris t1 dans le fichier avec fwrite
+        if(fwrite(ptElementAstreCourant, sizeof(ptElementAstreCourant), 1, f) != 1) // écris t1 dans le fichier avec fwrite
         {
             perror("Erreur lors de l'ecriture des donnees dans le fichier!!");
             fclose(f);
@@ -28,7 +27,6 @@ void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
         }
 
 }}
-
 void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {
     printf("nom de la sauvegarde :");
     char a[100];
@@ -41,7 +39,7 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {
         fclose(f);
     }
 
-    sauvegarde(a,*ptElementAstreInitial);
+    sauvegarder(a,ptElementAstreInitial);
 }
 
 void listesauvegarde() {
@@ -68,38 +66,17 @@ void delsauvegarde() {
         remove("pastouche");
     }
 }
-void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
-{
-    FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode lecture/écriture binaire
-     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
-    while (ptElementAstreCourant != NULL) {
-        Astre *ptAstre = ptElementAstreCourant->ptAstre;
-        if (ptAstre != NULL) {
-            printf("Bonjour, je suis %s\n", ptAstre->nom);
-        }
 
-    
-    if(f != NULL) // si l'ouverture s'est bien passée
-    {
-        if(fwrite(ptElementCourant, sizeof(ptElementAstreCourant), 1, f) != 1) // écris t1 dans le fichier avec fwrite
-        {
-            perror("Erreur lors de l'ecriture des donnees dans le fichier!!");
-            fclose(f);
-        }
-                ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
-        }
-
-}}
 ElementAstre *loadsave(char save,ElementAstre *ptElementAstreInitial){
 	FILE * f = fopen("save", "rb");
 	int i=nbplanete;
 	Astre* ptAstre=malloc(sizeof(Astre));
 	AjouteElementAstre(ptElementAstreInitial,ptAstre);
-	ElementAstre astre[nbplanete];
+	ElementAstre* astre[nbplanete];
 	while(i==nbplanete){
 	i=fread(astre,sizeof(Astre),nbplanete,f);
 	for(int j=0;j<i;j++){
-	AjouteElementAstre(ptElementAstreInitial,astre[j])}
+	AjouteElementAstre(ptElementAstreInitial,astre[j]);}
     /*AjouteElementAstre(ptElementAstreInitial,ptAstreLune);
     AjouteElementAstre(ptElementAstreInitial,ptAstreMercure);
     AjouteElementAstre(ptElementAstreInitial,ptAstreVenus);

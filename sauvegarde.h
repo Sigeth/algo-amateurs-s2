@@ -1,10 +1,10 @@
-typedef struct info{
-	float x;
-	float y;
- 	float previousX;
-    	float previousY;}info;
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "moteur.h"
+#include <string.h>
 void nomdesauvegarde(ElementAstre *ptElementAstreInitial);
 void listesauvegarde();
 void delsauvegarde();
-void sauvegarde(char a,ElementAstre *ptElementAstreInitial);
+void sauvegarder(char *a,ElementAstre *ptElementAstreInitial);
 ElementAstre* loadsave(char a,ElementAstre *ptElementAstreInitial);
