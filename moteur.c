@@ -8,7 +8,7 @@
 //int cpt = 0;
 
 int mainMoteur(int argc, char **argv) {
-    ElementAstre *ptElementAstreSoleil = InitElementAstre();
+    ElementAstre *ptElementAstreSoleil = InitElementAstre(NULL);
     /*
      for (int i = 0; i < 2; i++) {
 
@@ -22,7 +22,7 @@ int mainMoteur(int argc, char **argv) {
     // Initial -> Terre
     // Affiche les astres
 
-    ListeElementAstre(InitElementAstre());
+    ListeElementAstre(InitElementAstre(NULL));
     ParcourListeElementAstre(ptElementAstreSoleil, 1);
 
 /*
@@ -41,7 +41,8 @@ int mainMoteur(int argc, char **argv) {
 }
 
 
-ElementAstre *InitElementAstre() {
+ElementAstre *InitElementAstre(char* nomSave ) {
+
 	//premier élément //
     ElementAstre *ptElementAstreSoleil = malloc(sizeof(ElementAstre));
     ptElementAstreSoleil->ptElementAstrePrecedent = NULL;
@@ -50,9 +51,14 @@ ElementAstre *InitElementAstre() {
     Init_Astre(ptElementAstreSoleil->ptAstre);
     Init_AstreSoleil(ptElementAstreSoleil->ptAstre);
      //
-	//faire le lancement de la fonction loadsave(nomdelasauvegarde,ptElementInitiale)
-
-
+	//faire le lancement de la fonction 
+	
+    if(nomSave != NULL){
+    	ptElementAstreSoleil=loadsave(nomSave,ptElementAstreSoleil);
+	printf("omg peut etre pas la segmentation");
+	}
+	
+    else {
     Astre* ptAstre=malloc(sizeof(Astre));
     Astre* ptAstreLune=malloc(sizeof(Astre));
     Astre* ptAstreMercure=malloc(sizeof(Astre));
@@ -101,6 +107,7 @@ ElementAstre *InitElementAstre() {
     AjouteElementAstre(ptElementAstreSoleil,ptAstreUranus);
     AjouteElementAstre(ptElementAstreSoleil,ptAstreNeptune);
 
+}
     return ptElementAstreSoleil;
 
 }

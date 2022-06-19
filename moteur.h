@@ -64,7 +64,7 @@ int mainMoteur(int argc, char **argv);
 void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t);
 void Init_AstreISS(Astre* ptISS);
 void MoteurCalculForce(Astre* Planete,Astre* CentreGravitation);
-
+ElementAstre *InitElementAstre(char* nomSave );
 
 //void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t);
 #endif
