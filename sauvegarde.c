@@ -5,35 +5,30 @@
 #include "moteur.h"
 #include <string.h>
 
-void initinfo(info *a) {
-    a->x = 0;
-    a->y = 0;
-    a->previousX = 0;
-    a->previousY = 0;
-}
-
-void sauvergarde(char *nomdesauvegarde, ElementAstre *ptElementAstreInitial) {
-    ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
+void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
+{
+    FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode lecture/écriture binaire
+     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
     while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
         if (ptAstre != NULL) {
             printf("Bonjour, je suis %s\n", ptAstre->nom);
         }
 
-        ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
-    }
+    
+    if(f != NULL) // si l'ouverture s'est bien passée
+    {
+        if(fwrite(ptElementAstreInitial, sizeof(ptElementAstreInitial), 1, f) != 1) // écris t1 dans le fichier avec fwrite
+        {
+            perror("Erreur lors de l'ecriture des donnees dans le fichier!!");
+            fclose(f);
+        }
+                ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+        }
 
-    FILE *f = NULL;
-    f = fopen(nomdesauvegarde, "a");
-    if (f != NULL) {
-        fputs(nomdesauvegarde, f);
-        fclose(f);
-    }
+}}
 
-    free(ptElementAstreCourant);
-}
-
-void nomdesauvegarde() {
+void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {
     printf("nom de la sauvegarde :");
     char a[100];
     scanf("%s", a);
@@ -44,9 +39,8 @@ void nomdesauvegarde() {
         fputs("\n", f);
         fclose(f);
     }
-    FILE *fi = NULL;
-    fi = fopen(a, "w");
-    fclose(fi);
+
+    sauvegarde(a,ElementAstre *ptElementAstreInitial);
 }
 
 void listesauvegarde() {
@@ -73,4 +67,26 @@ void delsauvegarde() {
         remove("pastouche");
     }
 }
+void sauvegarde (char *nomdesauvegarde, ElementAstre *ptElementAstreInitial)
+{
+    FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode lecture/écriture binaire
+     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
+    while (ptElementAstreCourant != NULL) {
+        Astre *ptAstre = ptElementAstreCourant->ptAstre;
+        if (ptAstre != NULL) {
+            printf("Bonjour, je suis %s\n", ptAstre->nom);
+        }
+
+    
+    if(f != NULL) // si l'ouverture s'est bien passée
+    {
+        if(fwrite(ptElementAstreInitial, sizeof(ptElementAstreInitial), 1, f) != 1) // écris t1 dans le fichier avec fwrite
+        {
+            perror("Erreur lors de l'ecriture des donnees dans le fichier!!");
+            fclose(f);
+        }
+                ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+        }
+
+}}
 

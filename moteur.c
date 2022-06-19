@@ -62,7 +62,7 @@ ElementAstre *InitElementAstre() {
     Astre* ptAstreSaturne=malloc(sizeof(Astre));
     Astre* ptAstreUranus=malloc(sizeof(Astre));
     Astre* ptAstreNeptune=malloc(sizeof(Astre));
-    Astre* ptAstreISS=malloc(sizeof(Astre));
+    
    
    Init_Astre(ptAstre);
    Init_Astre(ptAstreLune);
@@ -73,7 +73,7 @@ ElementAstre *InitElementAstre() {
    Init_Astre(ptAstreSaturne);
    Init_Astre(ptAstreUranus);
    Init_Astre(ptAstreNeptune);
-   Init_Astre(ptAstreISS);
+   
     
     Init_AstreTerre(ptAstre);
     Init_AstreLune(ptAstreLune);
@@ -84,7 +84,7 @@ ElementAstre *InitElementAstre() {
     Init_AstreSaturne(ptAstreSaturne);
     Init_AstreUranus(ptAstreUranus);
     Init_AstreNeptune(ptAstreNeptune);
-    Init_AstreISS(ptAstreNeptune);
+   
     
     ptAstreLune->x=384467+ptAstre->x;
     ptAstreLune->xGravitation=ptAstre->x;
@@ -240,6 +240,7 @@ void Init_AstreTerre(Astre *ptTerre) {
     ptTerre->y = 0;
     ptTerre->masse=5.9736*pow(10,24);
     ptTerre->vt=29.8;
+    ptTerre->T=365;
     
 }
 
@@ -320,7 +321,7 @@ void Init_AstreJupiter(Astre* ptJupiter) {
 	ptJupiter->masse=1.898*pow(10,27);
 	ptJupiter->x = 779000000;
 	ptJupiter->y = 0;
-	ptJupiter->vt=13.11;
+	ptJupiter->vt=13.05;
 	
 
 }
@@ -368,19 +369,7 @@ void Init_AstreNeptune(Astre* ptNeptune) {
 
 
 
-void Init_AstreISS(Astre* ptISS) {
-	strcpy(ptISS->nom, "ISS");
-	strcpy(ptISS->type, "Satelite Pas Naturel");
-	ptISS->couleur = GrisClair;
-	ptISS->rayon = 69911;
-	strcpy(ptISS->nomGravitation, "La Terre");
-	ptISS->distanceCentreGravitation = 400;
-	ptISS->x =150000000 +400  ;
-	ptISS->y = 0;
-	ptISS->vt=7.7;
-	
 
-}
 
 
 /*
@@ -437,13 +426,83 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
 }
 */
 
+/*
+ * Fonction UpdateObjetReal 
+ * Permet de faire une trajectoire réaliste
+ * @param Planete
+ * @param Gravitation
+ * @prama t =>temps écoulé depuis le début de la simiulation
+ */
+ 
+ void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int t) {
 
-void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT) {
-
-    printf("\n%f\n", Planete->x);
-    printf("%f\n", Planete->y);
-
+    MoteurCalculForce(Planete,Gravitation);
+    
     if (Planete->distanceCentreGravitation != 0) {
+ 
+        
+        if (strcmp(Planete->nomGravitation,"Le Soleil")){
+        		Planete->F+=Gravitation->F; //2ème loi de Newton (somme des forces ext = ma)
+        }
+        float a=Planete->F/Gravitation->masse; //formule du cours
+        
+        Planete->deltaV=a*t;
+ 
+        Planete->vt+=Planete->deltaV;
+        
+        double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
+        
+        double deltaM=Planete->vt*t+(a*t*t/2);
+      
+       
+        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
+            alpha = -alpha;
+        }
+        
+  
+        alpha +=acos(1-(((deltaM)*(deltaM))/(2*Planete->distanceCentreGravitation * Planete->distanceCentreGravitation)));
+
+        Planete->distanceCentreGravitation=sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)));
+        
+        
+        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
+        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
+        //
+    }
+
+}
+
+/* PROTOTYPE
+void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t) {
+//INIT
+
+    float acc=Planete->masse/Planete->F; //formule du cours
+    
+    MoteurCalculForce(Planete,Gravitation);
+    
+    float G=6.673*pow(10,-11);
+
+    float a = cbrt(pow(Planete->T,2)*G*((Planete->masse+Gravitation->masse))/pow(4*M_PI,2));  //demi grand axe 
+    //float b =sqrt(Planete->distanceCentreGravitation*Planete->distMin)); 	      //demi petit axe
+    float c =sqrt(pow(a,2)-pow(b,2));  					      //demie deistance focale
+    float e=c/a;							      //exentricité
+    
+    //calcul du rayon affin de ne pas avoir une trajectoire circulaire mais une ellipse
+    
+ 
+      
+    //vitesse de la planéte en fonction de la distance à son centre de gravitation voir pdf pour détails :TODO: Faire le pdf
+    Planete->vt=sqrt(G*(Planete->masse+Gravitation->masse)*((2/Planete->distanceCentreGravitation)-(1/a))); 
+    
+    
+    double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
+    double deltaM=Planete->vt*t+(acc*t*t/2);
+    float m=2*M_PI/Planete->T;
+      
+//Fin INIT        
+    if (Planete->distanceCentreGravitation != 0) {
+       //AFFICHAGE EN CONSOLE POUR DEBUG  TODO:à supp à la fin 
+     
         Planete->previousX = Planete->x;
         Planete->previousY = Planete->y;
         printf("Mon nom : %s\n",Planete->nom);
@@ -453,38 +512,39 @@ void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT) {
         printf("distanceCentreGravitation: %f\n", Planete->distanceCentreGravitation);
         
         printf("Diff x: %f\n", (Planete->x - Gravitation->previousX));
+        printf("Force : %f\n", (Planete->F));
         
+        //FIN AFFICHAGE
         
-        double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
-        double deltaM=Planete->vt*deltaT+Planete->deltaV/2;
+        if (!strcmp(Planete->nomGravitation,"Le Soleil")){
+        		Planete->F+=Gravitation->F; //2ème loi de Newton (somme des forces ext = ma)
+        }
+
+
         
-        Planete->deltaV=abs(Planete->deltaV-Planete->vt);
-	
-        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
+        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {  
+        //Pour faire un tour complet (math.h ne prend en compte que les valeurs comprises entre -pi et pi
             alpha = -alpha;
         }
-        
-  
-        alpha +=acos(1-(((deltaM)*(deltaM))/(2*Planete->distanceCentreGravitation * Planete->distanceCentreGravitation)));
+        //viens de la formule du cours voir PDF pour détails :TODO:Faire le pdf
+        alpha=e*sin(alpha)+m;
+        Planete->distanceCentreGravitation=a*(1-e*cos(alpha)); 
+
+        Planete->x = a*(cos(alpha)-e);
+        Planete->y = a*sqrt(1-pow(e,2));
+       
+        //
+     }
+     }
+*/
 
 
 
-        printf("%lf", alpha);
-        
-        printf("Calcul centre grav: %lf\n", Planete->distanceCentreGravitation * cos(alpha));
-        printf("Grav x: %lf\n", Gravitation->x);
-
-        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
-        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
-    }
-
-
-    printf("*******************************");
-    printf("\nNouveau x :%f", Planete->x);
-    printf("Nouveau y :%f \n", Planete->y);
-    printf("*******************************\n");
-
+void MoteurCalculForce(Astre* Planete,Astre* Gravitation){
+	Planete->F=(6.673*pow(10,-11)*(Planete->masse + (Gravitation->masse))/(pow(Planete->distanceCentreGravitation,2)));
 }
+
+
 
 
 

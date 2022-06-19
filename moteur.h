@@ -15,10 +15,12 @@ typedef struct Astre {
     	float previousX;
     	float previousY;
 	float vt;
-	float deltaV;
 	char* nomGravitation;
 	float xGravitation;
 	float yGravitation;
+	float F;
+	float deltaV;
+	int T;
 	float distanceCentreGravitation;
 }Astre;
 
@@ -51,7 +53,6 @@ void Init_AstreJupiter(Astre* ptJupiter);
 void Init_AstreSaturne(Astre* ptSaturne);
 void Init_AstreUranus(Astre* ptUranus);
 void Init_AstreNeptune(Astre* ptNeptune);
-void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int deltaT);
 
 void AjouteElmTab(Astre** TabAstre, Astre* NewAstre);
 void CreerTab(Astre** TabAstre);
@@ -60,6 +61,10 @@ void modif_poss_astre(Astre* ptAstre,int x, int y);
 void Init_Astre(Astre* ptAstre);
 void ListrePlanete(Astre** TabAstre);
 int mainMoteur(int argc, char **argv);
-
+void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t);
 void Init_AstreISS(Astre* ptISS);
+void MoteurCalculForce(Astre* Planete,Astre* CentreGravitation);
+
+
+//void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t);
 #endif
