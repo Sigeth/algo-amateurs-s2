@@ -67,7 +67,7 @@ void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour fa
     }
 }
 
-ElementAstre *loadsave(char save,ElementAstre *ptElementAstreInitial){//recharger une sauvegarde.renvois la liste chainé
+ElementAstre *loadsave(char *save,ElementAstre *ptElementAstreInitial){//recharger une sauvegarde.renvois la liste chainé
 	FILE * f = fopen("save", "rb");
 	int i=nbplanete;
 	Astre* ptAstre=malloc(sizeof(Astre));

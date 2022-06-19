@@ -7,4 +7,4 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial);
 void listesauvegarde();
 void delsauvegarde();
 void sauvegarder(char *a,ElementAstre *ptElementAstreInitial);
-ElementAstre* loadsave(char a,ElementAstre *ptElementAstreInitial);
+ElementAstre* loadsave(char *a,ElementAstre *ptElementAstreInitial);
