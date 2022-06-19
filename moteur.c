@@ -50,7 +50,7 @@ ElementAstre *InitElementAstre() {
     Init_Astre(ptElementAstreSoleil->ptAstre);
     Init_AstreSoleil(ptElementAstreSoleil->ptAstre);
      //
-
+	//faire le lancement de la fonction loadsave(nomdelasauvegarde,ptElementInitiale)
 
 
     Astre* ptAstre=malloc(sizeof(Astre));

@@ -6,8 +6,8 @@
 #include <string.h>
 #define nbplanete 8
 
-void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){
-    FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode lecture/écriture binaire
+void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a pas utiliser car est dans nomsauvegarde
+    FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode écriture binaire
      ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
     while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
@@ -27,8 +27,8 @@ void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){
         }
 
 }}
-void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {
-    printf("nom de la sauvegarde :");
+void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet de creer la sauvegarde
+    printf("nom de la sauvegarde :");//attention sauvegarde en un mot
     char a[100];
     scanf("%s", a);
     FILE *f = NULL;
@@ -42,19 +42,19 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {
     sauvegarder(a,ptElementAstreInitial);
 }
 
-void listesauvegarde() {
+void listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
     char a[100];
     FILE *fi = fopen("pastouche", "r");
     if (fi != NULL) {
         printf("voici la liste de vos sauvegarde :\n");
-        while (fscanf(fi, "%s", a) != EOF) {
+        while (fscanf(fi, "%s", a) != EOF) {//prends le chaine de char suivante tant que on est pas a la fin du fichier
             printf("%s \n", a);
         }
         fclose(fi);
     }
 }
 
-void delsauvegarde() {
+void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour faire de la place
     char a[100];
     FILE *fi = fopen("pastouche", "r");
     if (fi != NULL) {
@@ -67,7 +67,7 @@ void delsauvegarde() {
     }
 }
 
-ElementAstre *loadsave(char save,ElementAstre *ptElementAstreInitial){
+ElementAstre *loadsave(char save,ElementAstre *ptElementAstreInitial){//recharger une sauvegarde.renvois la liste chainé
 	FILE * f = fopen("save", "rb");
 	int i=nbplanete;
 	Astre* ptAstre=malloc(sizeof(Astre));
