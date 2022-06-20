@@ -40,7 +40,7 @@ int menu(int choix)
 	}
 }
 
-int mini_menu(int choix, ElementAstre *ptElementAstreInitial)
+int mini_menu(int choix, ElementAstre *ptElementAstreInitial, time_t t)
 {
 	switch(choix)
 	{
@@ -49,7 +49,7 @@ int mini_menu(int choix, ElementAstre *ptElementAstreInitial)
 			break;
 		
 		case 3:
-			sauvegarde(ptElementAstreInitial);
+			sauvegarde(ptElementAstreInitial, t);
 			break;
 
 		case 6:
@@ -67,9 +67,9 @@ StateAffichage reprendre() {
     return Simulation;
 }
 
-void sauvegarde(ElementAstre *ptElementAstreInitial){
+void sauvegarde(ElementAstre *ptElementAstreInitial, time_t t){
     printf("sauvegarde\n");
-    nomdesauvegarde(ptElementAstreInitial);
+    nomdesauvegarde(ptElementAstreInitial, t);
 }
 
 StateAffichage charger() {

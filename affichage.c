@@ -720,17 +720,17 @@ void gestionEvenement(EvenementGfx evenement)
                     case MenuSimu:
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/2.31 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/2)
                             {
-                                state = mini_menu(2, ptElementAstreInitial);
+                                state = mini_menu(2, ptElementAstreInitial, t);
                             }
 
                             if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.76 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.58)
                             {
-                                mini_menu(3, ptElementAstreInitial);
+                                mini_menu(3, ptElementAstreInitial, t);
                             }
 
                             if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.43 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.30)
                             {
-                                state = mini_menu(6, ptElementAstreInitial);
+                                state = mini_menu(6, ptElementAstreInitial, t);
                             }
                             break;
                     case MenuSauvegardes:

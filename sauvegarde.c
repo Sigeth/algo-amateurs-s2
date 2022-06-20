@@ -7,7 +7,7 @@
 #include <dirent.h>
 #define nbplanete 8
 
-void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a pas utiliser car est dans nomsauvegarde
+void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial, time_t t){// a pas utiliser car est dans nomsauvegarde
     FILE * f = fopen(nomdesauvegarde, "w"); 
      ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
      ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
@@ -33,7 +33,7 @@ void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a
         
 ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
 }fclose(f);}
-void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet de creer la sauvegarde
+void nomdesauvegarde(ElementAstre *ptElementAstreInitial, time_t t) {//fonction qui permet de creer la sauvegarde
     printf("nom de la sauvegarde :");//attention sauvegarde en un mot
     char a[100];
     scanf("%s", a);
@@ -44,7 +44,7 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet
     f = fopen(b, "a");
 
     
-    sauvegarder(b,ptElementAstreInitial);
+    sauvegarder(b,ptElementAstreInitial, t);
 }
 int nbsave(DIR *d) {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
     struct dirent *dir;
