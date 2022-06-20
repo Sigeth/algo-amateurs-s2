@@ -96,7 +96,11 @@ void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour fa
 }
 
 void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t t){
-	FILE *f = fopen("saves/save", "r");
+	FILE *f=fopen("saves/save","r") ;
+	/*char* b;
+	strcpy(b,"saves/");
+    	strcat(b,save);
+    	f = fopen(b, "r");*/
 	int i=0;
 	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
 	Astre* ptAstre=malloc(sizeof(Astre));
