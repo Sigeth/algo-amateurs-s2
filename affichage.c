@@ -44,6 +44,7 @@ static int* etoiles;
 static int nbEtoiles;
 static time_t t;
 static struct tm tm;
+static int idSave;
 
 /**
  * Permet de dessiner un cercle
@@ -295,13 +296,16 @@ void afficheInfoPlanete() {
  */
 void clicFlecheGaucheSauvegarde() {
     printf("Clic sur la flèche gauche\n");
+    if (idSave > 0) {
+        idSave--;
+    }
 }
 
 /**
  * Gère le clic sur la flèche droite en state MenuSauvegardes
  */
 void clicFlecheDroiteSauvegarde() {
-    printf("Clic sur la flèche droite\n");
+    idSave++;
 }
 
 /**
@@ -333,6 +337,7 @@ void gestionEvenement(EvenementGfx evenement)
             srand(time(NULL));
             nbEtoiles = 500 + rand()%4500;
             etoiles = malloc(sizeof(int) * nbEtoiles);
+            idSave = 0;
 
             updateEtoiles();
 
@@ -450,10 +455,10 @@ void gestionEvenement(EvenementGfx evenement)
 
                     break;
                 case MenuSauvegardes:
-                    //char** saves = malloc(sizeof(char*) * 50);
-                    //saves = listesauvegarde();
-
                     couleurCourante(255,255,255);
+
+                    char** saves = malloc(sizeof(char*) * 50);
+                    saves = listesauvegarde();
 
                     epaisseurDeTrait(5);
                     ligne(largeurFenetre()/64, hauteurFenetre() - hauteurFenetre()/64, largeurFenetre()/16, hauteurFenetre() - hauteurFenetre()/16);
@@ -472,7 +477,9 @@ void gestionEvenement(EvenementGfx evenement)
                     couleurCourante(255,255,255);
                     afficheChaine("Toutes les infos sur la sauvegarde ici", 20, largeurFenetre()/2 - tailleChaineSauvegarde/2, hauteurFenetre()/2);
 
-                    triangle(largeurFenetre()/32, hauteurFenetre()/2 + hauteurFenetre()/32, largeurFenetre()/128, hauteurFenetre()/2, largeurFenetre()/32, hauteurFenetre()/2 - hauteurFenetre()/32);
+                    if (idSave > 0) {
+                        triangle(largeurFenetre()/32, hauteurFenetre()/2 + hauteurFenetre()/32, largeurFenetre()/128, hauteurFenetre()/2, largeurFenetre()/32, hauteurFenetre()/2 - hauteurFenetre()/32);
+                    }
                     triangle(largeurFenetre() - largeurFenetre()/32, hauteurFenetre()/2 + hauteurFenetre()/32, largeurFenetre() - largeurFenetre()/128, hauteurFenetre()/2,  largeurFenetre() - largeurFenetre()/32, hauteurFenetre()/2 - hauteurFenetre()/32);
 
                     rectangle(largeurFenetre()/4 - largeurFenetre()/512, hauteurFenetre()/8 + hauteurFenetre()/512, largeurFenetre() - largeurFenetre()/4 + largeurFenetre()/512, hauteurFenetre()/32 - hauteurFenetre()/512);
@@ -483,8 +490,9 @@ void gestionEvenement(EvenementGfx evenement)
                     float tailleChaineCharger = tailleChaine("Charger la sauvegarde", 28);
                     afficheChaine("Charger la sauvegarde", 28, largeurFenetre()/2 - tailleChaineCharger/2, hauteurFenetre()/16);
 
+                    printf("%s", saves[idSave]);
 
-                    //free(saves);
+                    free(saves);
                     couleurCourante(200,200,200);
                     break;
                 case MenuSimu:
@@ -650,6 +658,7 @@ void gestionEvenement(EvenementGfx evenement)
 
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.76 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.58)
                         {
+                            idSave = 0;
                             state = menu(4);
                         }
 
