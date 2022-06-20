@@ -5,6 +5,8 @@
 #include "GfxLib/BmpLib.h" // Cet include permet de manipuler des fichiers BMP
 #include "GfxLib/ESLib.h" // Pour utiliser valeurAleatoire()
 #include "affichage.h"
+#include "menu.h"
+#include "sauvegarde.h"
 #include <stdbool.h>
 #include <time.h>
 
@@ -323,7 +325,7 @@ void gestionEvenement(EvenementGfx evenement)
             //epaisseurDeTrait(3);
             
 
-            ptElementAstreInitial = InitElementAstre();
+            ptElementAstreInitial = InitElementAstre(NULL);
             ptElementAstreCourant = ptElementAstreInitial;
             srand(time(NULL));
             nbEtoiles = 500 + rand()%4500;
@@ -628,12 +630,12 @@ void gestionEvenement(EvenementGfx evenement)
 
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.76 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.58)
                         {
-                            menu(4);
+                            state = menu(4);
                         }
 
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.43 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.30)
                         {
-                            menu(5);
+                            state = menu(5);
                         }
                         break;
 

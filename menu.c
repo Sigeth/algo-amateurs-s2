@@ -21,7 +21,7 @@ int nombre_options(void)
 }
 
 
-void menu(int choix) 
+int menu(int choix)
 {
 	switch(choix)
 	{
@@ -39,7 +39,7 @@ void menu(int choix)
 	}
 }
 
-void mini_menu(int choix)
+int mini_menu(int choix)
 {
 	switch(choix)
 	{
@@ -70,8 +70,8 @@ void sauvegarde(){
     printf("Sauvegarder la simulation actuelle");
 }
 
-void charger() {
-    printf("Charger une simulation passée");
+StateAffichage charger() {
+    return MenuSauvegardes;
 }
 
 void quitter() {

@@ -20,7 +20,6 @@ typedef struct Astre {
 	float yGravitation;
 	float F;
 	float deltaV;
-	int T;
 	float distanceCentreGravitation;
 }Astre;
 

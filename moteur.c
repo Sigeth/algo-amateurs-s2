@@ -5,57 +5,34 @@
 #include <string.h>
 
 
-//int cpt = 0;
-
+//fonction test, n'a aucun impact sur le code;
 int mainMoteur(int argc, char **argv) {
+    //test
     ElementAstre *ptElementAstreSoleil = InitElementAstre(NULL);
-    /*
-     for (int i = 0; i < 2; i++) {
-
-          printf("\n %p \n",ParcourListeElementAstre(ptElementAstreSoleil,1));
-          UpdateObjet(ParcourListeElementAstre(ptElementAstreSoleil,1));
-
-     }
- */
-//    Astre **TabAstre = (Astre**)malloc(50 * sizeof(Astre*)); 
-
-    // Initial -> Terre
-    // Affiche les astres
-
     ListeElementAstre(InitElementAstre(NULL));
     ParcourListeElementAstre(ptElementAstreSoleil, 1);
-
-/*
-    ListrePlanete(TabAstre);
-
-    printf("%f\n", TabAstre[0]->rayon);
-    printf("%f\n", TabAstre[1]->rayon);
-    printf("%f\n", TabAstre[2]->rayon);
-
-    //CreerTab(TabAstre);
-
-    free(TabAstre);
-*/
+    
     return 0;
 
 }
 
-
+/*Fonction InitElementAstre
+ * Permet de créer et d'initialiser la liste chainée
+ * @param nomSave : nom de la sauvegarde si il y'en à une, sinon NULL;
+ * return le premier élement de la liste
+ */
 ElementAstre *InitElementAstre(char* nomSave ) {
-
-	//premier élément //
+    //premier élément //
     ElementAstre *ptElementAstreSoleil = malloc(sizeof(ElementAstre));
     ptElementAstreSoleil->ptElementAstrePrecedent = NULL;
     ptElementAstreSoleil->ptElementAstreSuivant = NULL;
     ptElementAstreSoleil->ptAstre = malloc(sizeof(Astre));
     Init_Astre(ptElementAstreSoleil->ptAstre);
     Init_AstreSoleil(ptElementAstreSoleil->ptAstre);
-     //
-	//faire le lancement de la fonction 
 	
     if(nomSave != NULL){
-    	ptElementAstreSoleil=loadsave(nomSave,ptElementAstreSoleil);
-	printf("omg peut etre pas la segmentation");
+    	ptElementAstreSoleil=loadsave(nomSave,ptElementAstreSoleil); //fonction qui "load une sauvegarde"
+	printf("omg peut etre pas la segmentation"); //:TODO: à enlever avant la présentation
 	}
 	
     else {
@@ -112,6 +89,12 @@ ElementAstre *InitElementAstre(char* nomSave ) {
 
 }
 
+/*Fonction ParcourListeElementAstre
+ * Permet de parcourir la liste afin d'avoir l'élément numéro nb de la liste
+ * @param ptElementAstreInitial : premier élément de la liste
+ * @param nb : numéro de l'élément
+ * return l'élément numéro nb de la liste
+ */
 Astre *ParcourListeElementAstre(ElementAstre *ptElementAstreInitial, int nb) {
     int compteur = 0;
     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
@@ -123,7 +106,12 @@ Astre *ParcourListeElementAstre(ElementAstre *ptElementAstreInitial, int nb) {
 
 }
 
-
+/*Fonction RechercheParNom
+ * Permet de connaitre l'emplacement d'un astre dans la liste avec son nom
+ * @param ptElementAstreInitial : premier élément de la liste
+ * @param  nom_Recherche: nom de l'élément
+ * return l'élément correspondant à la recherche ou NULL;
+ */
 Astre *RechercheParNom(ElementAstre *ptElementAstreInitial, char *nom_Recherche) {
     //printf("%s",nom_Recherche);
     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
@@ -138,7 +126,11 @@ Astre *RechercheParNom(ElementAstre *ptElementAstreInitial, char *nom_Recherche)
     return NULL;
 }
 
-
+/*Fonction ListeElementAstre
+ * Permet d'afficher les informations de la liste, sert principalement dans le cadre de test 
+ * @param ptElementAstreInitial : premier élément de la liste
+ * return void;
+ */
 void ListeElementAstre(ElementAstre *ptElementAstreInitial) {
     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
     while (ptElementAstreCourant != NULL) {
@@ -154,7 +146,11 @@ void ListeElementAstre(ElementAstre *ptElementAstreInitial) {
 }
 
 
-
+/*Fonction CompteElementAstre
+ * Permet de compter le nombre d'élément de la liste  
+ * @param ptElementAstreInitial : premier élément de la liste
+ * return le nombre d'élément de la liste;
+ */
 int CompteElementAstre(ElementAstre *ptElementAstreInitial) {
     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
     int cpt=0;
@@ -166,7 +162,12 @@ int CompteElementAstre(ElementAstre *ptElementAstreInitial) {
 }
 
 
-
+/*Fonction AjouteElementAstre
+ * Permet d'ajouter un élément à la liste chainée 
+ * @param ptElementAstreInitial : premier élément de la liste
+ * @param NewAstre : Element à ajouter à la liste
+ * return void
+ */
 void AjouteElementAstre(ElementAstre *ptElementAstreInitial, Astre* NewAstre) {
 
     
@@ -184,12 +185,14 @@ void AjouteElementAstre(ElementAstre *ptElementAstreInitial, Astre* NewAstre) {
     
     ptElementAstreCourant->ptElementAstreSuivant=NewElement;
     NewElement ->ptElementAstrePrecedent=ptElementAstreCourant;
-    //free(NewElement);
-    
 }
 
 
-
+/*Fonction FreeTab
+ * Permet de désalouer la mémoire de la liste
+ * @param ptElementAstreInitial : premier élément de la liste
+ * return void
+ */
 void FreeTab(ElementAstre *ptElementAstreInitial) {
 
     ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
@@ -207,7 +210,6 @@ void FreeTab(ElementAstre *ptElementAstreInitial) {
     	free(ptElementAstreCourant);
     	
     }
-    //free(NewElement);
     
 }
 
@@ -247,7 +249,6 @@ void Init_AstreTerre(Astre *ptTerre) {
     ptTerre->y = 0;
     ptTerre->masse=5.9736*pow(10,24);
     ptTerre->vt=29.8;
-    ptTerre->T=365;
     
 }
 
@@ -258,7 +259,6 @@ void Init_AstreLune(Astre *ptLune) {
     ptLune->rayon = 1737.0;
     strcpy(ptLune->nomGravitation, "La Terre");
     ptLune->distanceCentreGravitation = 384470;
-    //ptLune->T =28;
     ptLune->x = 384467 + 150000000.f;
     ptLune->y = 0;
     ptLune->masse=7.346*pow(10,22);
@@ -379,59 +379,6 @@ void Init_AstreNeptune(Astre* ptNeptune) {
 
 
 
-/*
- * Fonction UpdateObjet
- * Permet de renvoyer la position d'un objet à un temps t=0
- * @param Plaete
- * @prama t =>temps écoulé depuis le début de la simiulation
- */
-
-/*sert à faire une trajectoire circulaire*/
-/*fait une trajectoire réaliste*/
-
-
-/*
-void UpdateObjet(Astre *Planete, Astre *Gravitation) {
-
-    printf("\n%f\n", Planete->x);
-    printf("%f\n", Planete->y);
-
-    if (Planete->distanceCentreGravitation != 0) {
-
-        
-        printf("Mon nom : %s\n",Planete->nom);
-        printf("Mon centre de gravitation : %s\n", Gravitation->nom);
-        printf("Ses coordonées :\nx : %f\ny : %f\n", Gravitation->previousX, Gravitation->previousY);
-
-        printf("%f\n", Planete->distanceCentreGravitation);
-        
-        printf("%f\n", (Planete->x - Gravitation->previousX));
-        
-        
-        double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
-        
-        
-	
-        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
-            alpha = -alpha;
-        }
-
-        alpha += (2 * 3.14) / Planete->T;
-
-        printf("%lf", alpha);
-
-        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
-        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
-    }
-
-
-    printf("*******************************");
-    printf("\nNouveau x :%f", Planete->x);
-    printf("Nouveau y :%f \n", Planete->y);
-    printf("*******************************\n");
-
-}
-*/
 
 /*
  * Fonction UpdateObjetReal 
@@ -442,44 +389,63 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
  */
  
  void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int t) {
-
+   int x=0;
+   int y=0;
     MoteurCalculForce(Planete,Gravitation);
     
     if (Planete->distanceCentreGravitation != 0) {
  
-        
         if (strcmp(Planete->nomGravitation,"Le Soleil")){
-        		Planete->F+=Gravitation->F; //2ème loi de Newton (somme des forces ext = ma)
+        		Planete->F+=Gravitation->F; //2ème loi de Newton (somme des forces ext = ma) 
         }
         float a=Planete->F/Gravitation->masse; //formule du cours
         
         Planete->deltaV=a*t;
  
         Planete->vt+=Planete->deltaV;
-        
+
         double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
-        
+    
         double deltaM=Planete->vt*t+(a*t*t/2);
-      
-       
+    
         if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
             alpha = -alpha;
         }
-        
-  
         alpha +=acos(1-(((deltaM)*(deltaM))/(2*Planete->distanceCentreGravitation * Planete->distanceCentreGravitation)));
-
         Planete->distanceCentreGravitation=sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)));
         
-        
+        /*
         Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
         Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
-        //
+        */
+        
+          if(!strcmp(Planete->type,"Satellite naturel") || !strcmp(Planete->type,"Satellite")){
+          alpha=30;	
+        x = cos(alpha) * Planete->distanceCentreGravitation * 40;
+        y = sin(alpha) * Planete->distanceCentreGravitation * 40;
     }
+    
+        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + x;
+        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + y;
+        
 
 }
+}
+/*Fonction de calcul de la force d'un astre sur une planete/satelite
+ *@param Planete : la planéte concernée par l'attraction gravitationelle
+ *@param Gravitation : L'astre exerçant l'attraction gravitationelle
+ */
 
-/* PROTOTYPE
+void MoteurCalculForce(Astre* Planete,Astre* Gravitation){
+	Planete->F=(6.673*pow(10,-11)*(Planete->masse + (Gravitation->masse))/(pow(Planete->distanceCentreGravitation,2)));
+}
+
+
+
+/* ANCIENNES FONTIONS ET PROTOTYPES  : 
+
+
+
 void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t) {
 //INIT
 
@@ -547,9 +513,49 @@ void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t) {
 
 
 
-void MoteurCalculForce(Astre* Planete,Astre* Gravitation){
-	Planete->F=(6.673*pow(10,-11)*(Planete->masse + (Gravitation->masse))/(pow(Planete->distanceCentreGravitation,2)));
+
+/*
+void UpdateObjet(Astre *Planete, Astre *Gravitation) {
+
+    printf("\n%f\n", Planete->x);
+    printf("%f\n", Planete->y);
+
+    if (Planete->distanceCentreGravitation != 0) {
+
+        
+        printf("Mon nom : %s\n",Planete->nom);
+        printf("Mon centre de gravitation : %s\n", Gravitation->nom);
+        printf("Ses coordonées :\nx : %f\ny : %f\n", Gravitation->previousX, Gravitation->previousY);
+
+        printf("%f\n", Planete->distanceCentreGravitation);
+        
+        printf("%f\n", (Planete->x - Gravitation->previousX));
+        
+        
+        double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
+        
+        
+	
+        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
+            alpha = -alpha;
+        }
+
+        alpha += (2 * 3.14) / Planete->T;
+
+        printf("%lf", alpha);
+
+        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
+        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
+    }
+
+
+    printf("*******************************");
+    printf("\nNouveau x :%f", Planete->x);
+    printf("Nouveau y :%f \n", Planete->y);
+    printf("*******************************\n");
+
 }
+*/
 
 
 

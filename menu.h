@@ -7,12 +7,12 @@
 
 void liste_options(void);
 int nombre_options(void);
-void menu(int);
-void mini_menu(int);
+int menu(int);
+int mini_menu(int);
 StateAffichage lancer_simulation();
 StateAffichage reprendre();
 void sauvegarde();
-void charger();
+StateAffichage charger();
 void quitter();
 StateAffichage retour();
 
