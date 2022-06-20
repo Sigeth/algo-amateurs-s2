@@ -102,6 +102,7 @@ void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t t){
     	strcat(b,save);
     	f = fopen(b, "r");*/
 	int i=0;
+	ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
 	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
 	Astre* ptAstre=malloc(sizeof(Astre));
 	fscanf(f,"%ld",&t);
