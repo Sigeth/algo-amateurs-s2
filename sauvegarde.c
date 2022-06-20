@@ -48,7 +48,7 @@ char** listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, ju
     d = opendir("saves/");
     int nbSave = 0;
     char a[12][50];
-    int i;
+    int i=0;
     if (d) {
         while ((dir = readdir(d)) != NULL)
         {
