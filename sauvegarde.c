@@ -11,6 +11,7 @@ void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial, time
     FILE * f = fopen(nomdesauvegarde, "w"); 
      ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
      ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+     fprintf(f,"%ld\n",t);
     while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
         if (ptAstre != NULL) {
