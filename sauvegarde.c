@@ -100,7 +100,7 @@ void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t t){
 	int i=0;
 	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
 	Astre* ptAstre=malloc(sizeof(Astre));
-	fscanf(f,"%f",&t);
+	fscanf(f,"%ld",&t);
 	while(i<nbplanete){
 	fscanf(f,"%f",&ptAstre->x);
 	fscanf(f,"%f",&ptAstre->y);
