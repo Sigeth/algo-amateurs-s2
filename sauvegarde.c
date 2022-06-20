@@ -4,6 +4,7 @@
 #include "sauvegarde.h"
 #include "moteur.h"
 #include <string.h>
+#include <dirent.h>
 #define nbplanete 8
 
 void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a pas utiliser car est dans nomsauvegarde
