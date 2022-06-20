@@ -328,10 +328,10 @@ void gestionEvenement(EvenementGfx evenement)
     switch (evenement)
     {
         case Initialisation:
-            //epaisseurDeTrait(3);
+            epaisseurDeTrait(3);
             struct tm dateDuDeces = { 0, 0, 0, 21, 5, 122 };
             t = mktime(&dateDuDeces);
-
+            epaisseurDeTrait(1);
             ptElementAstreInitial = InitElementAstre(NULL);
             ptElementAstreCourant = ptElementAstreInitial;
             srand(time(NULL));
