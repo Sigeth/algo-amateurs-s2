@@ -7,7 +7,7 @@
 #define nbplanete 8
 
 void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a pas utiliser car est dans nomsauvegarde
-    FILE * f = fopen("saves/%s",nomdesauvegarde, "wb"); // ouvre le fichier en mode écriture binaire
+    FILE * f = fopen(b, "wb"); // ouvre le fichier en mode écriture binaire
      ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
     while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
@@ -37,7 +37,7 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet
     f = fopen(b, "a");
 
     
-    sauvegarder(a,ptElementAstreInitial);
+    sauvegarder(b,ptElementAstreInitial);
 }
 
 char** listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
