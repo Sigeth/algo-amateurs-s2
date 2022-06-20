@@ -8,26 +8,31 @@
 #define nbplanete 8
 
 void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a pas utiliser car est dans nomsauvegarde
-    FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode écriture binaire
+    FILE * f = fopen(nomdesauvegarde, "w"); 
      ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
+     ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
     while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
         if (ptAstre != NULL) {
             printf("Bonjour, je suis %s\n", ptAstre->nom);
         }
 
+	fprintf(f,"%f\n",ptAstre->x);
+	fprintf(f,"%f\n",ptAstre->y);
+	fprintf(f,"%f\n",ptAstre->previousX);
+	fprintf(f,"%f\n",ptAstre->previousY);
+	fprintf(f,"%f\n",ptAstre->vt);
+	fprintf(f,"%f\n",ptAstre->vx);
+	fprintf(f,"%f\n",ptAstre->vy);
+	fprintf(f,"%f\n",ptAstre->F);
+	fprintf(f,"%f\n",ptAstre->deltaV);
+	fprintf(f,"%f\n",ptAstre->distanceCentreGravitation);	
+	
     
-    if(f != NULL) // si l'ouverture s'est bien passée
-    {
-        if(fwrite(ptElementAstreCourant, sizeof(ptElementAstreCourant), 1, f) != 1) // écris t1 dans le fichier avec fwrite
-        {
-            perror("Erreur lors de l'ecriture des donnees dans le fichier!!");
-            fclose(f);
-        }
-               
-        }
+       
+        
 ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
-}}
+}fclose(f);}
 void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet de creer la sauvegarde
     printf("nom de la sauvegarde :");//attention sauvegarde en un mot
     char a[100];
