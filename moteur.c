@@ -23,7 +23,7 @@ int mainMoteur(int argc, char **argv) {
  * @param nomSave : nom de la sauvegarde si il y'en à une, sinon NULL;
  * return le premier élement de la liste
  */
-ElementAstre *InitElementAstre(char* nomSave ) {
+ElementAstre *InitElementAstre(char* nomSave,time_t t ) {
     //premier élément //
     ElementAstre *ptElementAstreSoleil = malloc(sizeof(ElementAstre));
     ptElementAstreSoleil->ptElementAstrePrecedent = NULL;
@@ -80,7 +80,7 @@ ElementAstre *InitElementAstre(char* nomSave ) {
 
 
  if(nomSave != NULL){
-    	ptElementAstreSoleil=loadsave(nomSave,ptElementAstreSoleil); //fonction qui "load une sauvegarde"
+    	loadsave(nomSave,ptElementAstreSoleil,t); //fonction qui "load une sauvegarde"
 	printf("omg peut etre pas la segmentation"); //:TODO: à enlever avant la présentation
 	}
 	
