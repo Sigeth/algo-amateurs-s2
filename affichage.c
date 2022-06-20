@@ -653,7 +653,7 @@ void gestionEvenement(EvenementGfx evenement)
                         {
                             ptElementAstreInitial = InitElementAstre(NULL);
                             struct tm dateDuDeces = { 0, 0, 0, 21, 5, 122 };
-                            t = mktime(&dateDuDeces);   
+                            t = mktime(&dateDuDeces);
                             state = menu(1);
                         }
 
