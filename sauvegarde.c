@@ -8,7 +8,7 @@
 #define nbplanete 8
 
 void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a pas utiliser car est dans nomsauvegarde
-    FILE * f = fopen(b, "wb"); // ouvre le fichier en mode écriture binaire
+    FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode écriture binaire
      ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
     while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
