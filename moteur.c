@@ -244,11 +244,10 @@ void Init_AstreTerre(Astre *ptTerre) {
     ptTerre->rayon = 6371;
     strcpy(ptTerre->nomGravitation, "Le Soleil");
     ptTerre->distanceCentreGravitation = 150000000;
-    ptTerre->x = 150000000;
-    ptTerre->previousX = 150000000;
-    ptTerre->y = 0;
+    ptTerre->x = -26529958.000000;
+    ptTerre->y =147635232.000000;
     ptTerre->masse=5.9736*pow(10,24);
-    ptTerre->vt=29.8;
+    ptTerre->vt=29.79;
     
 }
 
@@ -259,7 +258,7 @@ void Init_AstreLune(Astre *ptLune) {
     ptLune->rayon = 1737.0;
     strcpy(ptLune->nomGravitation, "La Terre");
     ptLune->distanceCentreGravitation = 384470;
-    ptLune->x = 384467 + 150000000.f;
+    ptLune->x = 0;
     ptLune->y = 0;
     ptLune->masse=7.346*pow(10,22);
     ptLune->vt=1.02;
@@ -285,9 +284,9 @@ void Init_AstreMercure(Astre *ptMercure) {
 	ptMercure->rayon = 2439;
 	strcpy(ptMercure->nomGravitation, "Le Soleil");
 	ptMercure->distanceCentreGravitation = 58000000;
-	ptMercure->x = 58000000;
-	ptMercure->y = 0;
-	ptMercure->vt=48.8;
+	ptMercure->x = 27522270.000000;
+	ptMercure->y = -51054136.000000;
+	ptMercure->vt=48.7999;
 	ptMercure->masse=3.3*pow(10,23);
 
 }
@@ -299,10 +298,10 @@ void Init_AstreVenus(Astre *ptVenus) {
 	ptVenus->rayon = 6051;
 	strcpy(ptVenus->nomGravitation, "Le Soleil");
 	ptVenus->distanceCentreGravitation = 108000000;
-	ptVenus->x = 108000000;
-	ptVenus->y = 0;
+	ptVenus->x = -40906248.000000;
+	ptVenus->y = -99953384.000000;
 	ptVenus->masse=4.87*pow(10,24);
-	ptVenus->vt=35.01;
+	ptVenus->vt=35.009998;
 }
 
 void Init_AstreMars(Astre *ptMars) {
@@ -313,10 +312,10 @@ void Init_AstreMars(Astre *ptMars) {
 	strcpy(ptMars->nomGravitation, "Le Soleil");
 	ptMars->distanceCentreGravitation = 228000000;
 	ptMars->masse=6.417*pow(10,23);
-	ptMars->x = 228000000;
-	ptMars->y = 0;
-	ptMars->vt=24.22;
-}
+	ptMars->x = 187034784.000000;
+	ptMars->y = 130391688.000000;
+	ptMars->vt=24.2199;
+	}
 
 void Init_AstreJupiter(Astre* ptJupiter) {
 	strcpy(ptJupiter->nom, "Jupiter");
@@ -326,8 +325,8 @@ void Init_AstreJupiter(Astre* ptJupiter) {
 	strcpy(ptJupiter->nomGravitation, "Le Soleil");
 	ptJupiter->distanceCentreGravitation = 779000000;
 	ptJupiter->masse=1.898*pow(10,27);
-	ptJupiter->x = 779000000;
-	ptJupiter->y = 0;
+	ptJupiter->x = 575373952.000000;
+	ptJupiter->y = 525153120.000000;
 	ptJupiter->vt=13.05;
 	
 
@@ -341,8 +340,8 @@ void Init_AstreSaturne(Astre* ptSaturne) {
 	strcpy(ptSaturne->nomGravitation, "Le Soleil");
 	ptSaturne->distanceCentreGravitation = 1400000000;
 	ptSaturne->masse=568*pow(10,21);
-	ptSaturne->x = 1400000000;
-	ptSaturne->y = 0;
+	ptSaturne->x = -1360571264.000000;
+	ptSaturne->y = 329917696.000000;
 	ptSaturne->vt=9.7;
 
 }
@@ -355,8 +354,8 @@ void Init_AstreUranus(Astre* ptUranus) {
 	strcpy(ptUranus->nomGravitation, "Le Soleil");
 	ptUranus->distanceCentreGravitation = 2870000000;
 	ptUranus->masse=8.6*pow(10,22);
-	ptUranus->x = 2870000000;
-	ptUranus->y = 0;
+	ptUranus->x = 1576615552.000000;
+	ptUranus->y = 2398162688.000000;
 	ptUranus->vt=6.8;
 	
 }
@@ -369,8 +368,8 @@ void Init_AstreNeptune(Astre* ptNeptune) {
 	strcpy(ptNeptune->nomGravitation, "Le Soleil");
 	ptNeptune->distanceCentreGravitation = 4500000000;
 	ptNeptune->masse=1.02*pow(10,6);
-	ptNeptune->x = 4500000000;
-	ptNeptune->y = 0;
+	ptNeptune->x = 3962831616.000000;
+	ptNeptune->y = 2132126464.000000;
 	ptNeptune->vt = 5.43;
 }
 
@@ -412,18 +411,20 @@ void Init_AstreNeptune(Astre* ptNeptune) {
             alpha = -alpha;
         }
         alpha +=acos(1-(((deltaM)*(deltaM))/(2*Planete->distanceCentreGravitation * Planete->distanceCentreGravitation)));
-        Planete->distanceCentreGravitation=sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)));
+        
+        Planete->distanceCentreGravitation=sqrt((Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)))+sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)-pow(deltaM,2)))/2);
         
         /*
         Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
         Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
         */
         
-          if(!strcmp(Planete->type,"Satellite naturel") || !strcmp(Planete->type,"Satellite")){
-          alpha=30;	
-        x = cos(alpha) * Planete->distanceCentreGravitation * 40;
-        y = sin(alpha) * Planete->distanceCentreGravitation * 40;
-    }
+        /*  if(!strcmp(Planete->nom,"La Lune")){
+          
+        x = Gravitation->x + Planete->distanceCentreGravitation;
+        y = Gravitation->y + Planete->distanceCentreGravitation;
+        
+    }*/
     
         Planete->x = Planete->distanceCentreGravitation * cos(alpha) + x;
         Planete->y = Planete->distanceCentreGravitation * sin(alpha) + y;
