@@ -652,6 +652,8 @@ void gestionEvenement(EvenementGfx evenement)
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/2.31 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/2)
                         {
                             ptElementAstreInitial = InitElementAstre(NULL);
+                            struct tm dateDuDeces = { 0, 0, 0, 21, 5, 122 };
+                            t = mktime(&dateDuDeces);   
                             state = menu(1);
                         }
 
