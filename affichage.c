@@ -437,6 +437,12 @@ void gestionEvenement(EvenementGfx evenement)
                     break;
                 case MenuSauvegardes:
                     couleurCourante(255,255,255);
+
+                    epaisseurDeTrait(5);
+                    ligne(largeurFenetre()/64, hauteurFenetre() - hauteurFenetre()/64, largeurFenetre()/16, hauteurFenetre() - hauteurFenetre()/16);
+                    ligne(largeurFenetre()/64, hauteurFenetre() - hauteurFenetre()/16, largeurFenetre()/16, hauteurFenetre() - hauteurFenetre()/64);
+                    epaisseurDeTrait(1);
+
                     float tailleChaineTitre = tailleChaine("Menu des Sauvegardes", 32);
                     afficheChaine("Menu des Sauvegardes", 32, largeurFenetre()/2 - tailleChaineTitre/2, hauteurFenetre() - hauteurFenetre()/12);
 
@@ -535,16 +541,12 @@ void gestionEvenement(EvenementGfx evenement)
                         case 27:
                             state = Simulation;
                             break;
-                        case 'S':
-                        case 's':
-                            state = MenuSauvegardes;
-                            break;
                     }
                     break;
                 case MenuSauvegardes:
                     switch (caractereClavier()) {
-                        case 'm':
-                            state = MenuSimu;
+                        case 27:
+                            state = MenuPrincipal;
                             break;
                         case 13:
                             clicChargerSauvegarde();
@@ -552,7 +554,6 @@ void gestionEvenement(EvenementGfx evenement)
                     }
                     break;
                 default:
-                    printf("chaud là il se passe quoi\n");
                     break;
             }
 
@@ -710,11 +711,15 @@ void gestionEvenement(EvenementGfx evenement)
                                 clicFlecheDroiteSauvegarde();
                             }
                         } else if (abscisseSouris() >= largeurFenetre()/4
-                            && abscisseSouris() <= largeurFenetre() - largeurFenetre()/4
-                            && ordonneeSouris() >= hauteurFenetre()/32
-                            && ordonneeSouris() <= hauteurFenetre()/8)
-                        {
+                        && abscisseSouris() <= largeurFenetre() - largeurFenetre()/4
+                        && ordonneeSouris() >= hauteurFenetre()/32
+                        && ordonneeSouris() <= hauteurFenetre()/8) {
                             clicChargerSauvegarde();
+                        } else if (abscisseSouris() >= largeurFenetre()/64
+                        && abscisseSouris() <= largeurFenetre()/16
+                        && ordonneeSouris() >= hauteurFenetre() - hauteurFenetre()/16
+                        && ordonneeSouris() <= hauteurFenetre() - hauteurFenetre()/64) {
+                            state = MenuPrincipal;
                         }
                         break;
                     default:
