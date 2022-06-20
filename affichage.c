@@ -325,8 +325,8 @@ void gestionEvenement(EvenementGfx evenement)
     {
         case Initialisation:
             //epaisseurDeTrait(3);
-            t = time(NULL);
-            tm = *localtime(&t);
+            struct tm dateDuDeces = { 0, 0, 0, 21, 5, 122 };
+            t = mktime(&dateDuDeces);
 
             ptElementAstreInitial = InitElementAstre(NULL);
             ptElementAstreCourant = ptElementAstreInitial;
@@ -335,8 +335,6 @@ void gestionEvenement(EvenementGfx evenement)
             etoiles = malloc(sizeof(int) * nbEtoiles);
 
             updateEtoiles();
-
-            astreFocused = RechercheParNom(ptElementAstreInitial, "La Terre");
 
             /* Le message "Initialisation" est envoye une seule fois, au debut du
             programme : il permet de fixer "image" a la valeur qu'il devra conserver
