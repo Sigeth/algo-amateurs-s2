@@ -457,7 +457,8 @@ void gestionEvenement(EvenementGfx evenement)
                 case MenuSauvegardes:
                     couleurCourante(255,255,255);
 
-                    //char** saves = listesauvegarde();
+                    char** saves ;
+                    listesauvegarde(saves);
 
                     epaisseurDeTrait(5);
                     ligne(largeurFenetre()/64, hauteurFenetre() - hauteurFenetre()/64, largeurFenetre()/16, hauteurFenetre() - hauteurFenetre()/16);

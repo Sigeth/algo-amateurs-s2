@@ -4,7 +4,7 @@
 #include "moteur.h"
 #include <string.h>
 void nomdesauvegarde(ElementAstre *ptElementAstreInitial);
-char** listesauvegarde(); 
+void listesauvegarde(); 
 void delsauvegarde();
 void sauvegarder(char *a,ElementAstre *ptElementAstreInitial);
 ElementAstre* loadsave(char *a,ElementAstre *ptElementAstreInitial);
