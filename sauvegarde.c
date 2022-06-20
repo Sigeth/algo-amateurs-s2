@@ -41,6 +41,7 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet
     sauvegarder(b,ptElementAstreInitial);
 }
 
+
 char** listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
         DIR *d;
     struct dirent *dir;
@@ -59,6 +60,22 @@ char** listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, ju
         closedir(d);
         return  a;
     }}
+int nbsave() {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
+        DIR *d;
+    struct dirent *dir;
+    d = opendir("saves/");
+    int nbSave = 0;
+    if (d) {
+        while ((dir = readdir(d)) != NULL)
+     {
+            
+	nbSave++;
+        }
+        nbSave=nbSave-2;
+        closedir(d);
+        return  nbSave;
+    }}
+
 
 void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour faire de la place
     char a[100];

@@ -8,3 +8,4 @@ char** listesauvegarde();
 void delsauvegarde();
 void sauvegarder(char *a,ElementAstre *ptElementAstreInitial);
 ElementAstre* loadsave(char *a,ElementAstre *ptElementAstreInitial);
+int nbsave();
