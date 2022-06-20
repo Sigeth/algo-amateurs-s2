@@ -53,13 +53,15 @@ int nbsave(DIR *d) {//quand vous voulez avoir la liste des sauvegardes, juste ut
     int nbSave = 0;
     if (d) {
         while ((dir = readdir(d)) != NULL)
-     {   
+     {
+     if (dir->d_type == DT_REG)
+{   
 	nbSave++;
         }
         //nbSave=nbSave;
         closedir(d);
         return  nbSave;
-    }}
+    }}}
 
 void listesauvegarde(char** a)//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
 {
@@ -70,30 +72,18 @@ void listesauvegarde(char** a)//quand vous voulez avoir la liste des sauvegardes
     if (d) {
         while ((dir = readdir(d)) != NULL)
         {
-            printf("çava");
+        if (dir->d_type == DT_REG){
+
             printf("%s\n", dir->d_name);
             //strcpy(a[0],dir->d_name);
             //strcpy(a[0],"oui");
             a[i]=dir->d_name;
             i++;
-        }
+        }}
         closedir(d);
     }
     }
 
-
-void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour faire de la place
-    char a[100];
-    FILE *fi = fopen("pastouche", "r");
-    if (fi != NULL) {
-        printf("voici la liste de vos sauvegarde :\n");
-        while (fscanf(fi, "%s", a) != EOF) {
-            remove(a);
-        }
-        fclose(fi);
-        remove("pastouche");
-    }
-}
 
 void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t t){
 	FILE *f=fopen("saves/save","r") ;
