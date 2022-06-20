@@ -7,7 +7,7 @@
 #define nbplanete 8
 
 void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a pas utiliser car est dans nomsauvegarde
-    FILE * f = fopen(nomdesauvegarde, "wb"); // ouvre le fichier en mode écriture binaire
+    FILE * f = fopen("saves/%s",nomdesauvegarde, "wb"); // ouvre le fichier en mode écriture binaire
      ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
     while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
@@ -32,36 +32,34 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet
     char a[100];
     scanf("%s", a);
     FILE *f = NULL;
-    f = fopen("pastouche", "a");
-    if (f != NULL) {
-        fputs(a, f);
-        fputs("\n", f);
-        fclose(f);
-    }
+    char b[50]="saves/";
+    strcat(b,a);
+    f = fopen(b, "a");
 
+    
     sauvegarder(a,ptElementAstreInitial);
 }
 
 char** listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
-	int nbSave;
-    char a[50];
-    char* b=malloc(sizeof(char*) * 50);
-    FILE *fi = fopen("pastouche", "r");
-    if (fi != NULL) {
-        printf("voici la liste de vos sauvegarde :\n");
-        while (fscanf(fi, "%s", a) != EOF) {//prends le chaine de char suivante tant que on est pas a la fin du fichier
-        int length = snprintf(NULL, 0, a, b);
-                char* saveName = malloc(sizeof(char) * 50);
-                snprintf(saveName, length + 1, a, b);
+    DIR *d;
+    struct dirent *dir;
+    d = opendir("./saves");
+    int nbSave = 0;
+    char** saves = malloc(sizeof(char*) * 50);
+    if (d) {
+        while ((dir = readdir(d)) != NULL) {
+            if (dir->d_type == DT_REG) {
+                int length = snprintf(NULL, 0, "saves/%s", a);
+                char saveName = malloc(sizeof(char) * 50);
+                snprintf(saveName, length + 1, "saves/%s", a);
                 nbSave = malloc(sizeof(char) * length+1);
-                strcpy(b[nbSave], saveName);
+                strcpy(saves[nbSave], saveName);
                 nbSave += 1;
-//        b=b+a;
-            printf("%s \n", a);
+            }
         }
-        fclose(fi);
-        
-    }return b;
+        closedir(d);
+        return saves;
+    }
 }
 
 void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour faire de la place
