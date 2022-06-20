@@ -308,7 +308,7 @@ void clicFlecheDroiteSauvegarde() {
  * Gère le clic sur le bouton "Charger la sauvegarde" en state MenuSauvegardes
  */
 void clicChargerSauvegarde() {
-    printf("Clic sur charger la sauvegarde\n");
+    ptElementAstreInitial = loadsave("nom sauvegarde");
 }
 
 
@@ -443,7 +443,7 @@ void gestionEvenement(EvenementGfx evenement)
                     float tailleDate = tailleChaine(chaineDate, 24);
                     afficheChaine(chaineDate, 24, largeurFenetre()/2 - tailleDate/2, hauteurFenetre() - hauteurFenetre()/16);
 
-                    
+
                     free(chaineEchelleT);
                     free(chaineEchelleDistances);
                     free(chaineEchelleRayons);
@@ -452,6 +452,9 @@ void gestionEvenement(EvenementGfx evenement)
 
                     break;
                 case MenuSauvegardes:
+                    char** saves = malloc(sizeof(char*) * 50);
+                    //saves = listesauvegarde();
+
                     couleurCourante(255,255,255);
 
                     epaisseurDeTrait(5);
@@ -483,6 +486,7 @@ void gestionEvenement(EvenementGfx evenement)
                     afficheChaine("Charger la sauvegarde", 28, largeurFenetre()/2 - tailleChaineCharger/2, hauteurFenetre()/16);
 
 
+                    free(saves);
                     couleurCourante(200,200,200);
                     break;
                 case MenuSimu:
@@ -642,6 +646,7 @@ void gestionEvenement(EvenementGfx evenement)
 
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/2.31 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/2)
                         {
+                            ptElementAstreInitial = InitElementAstre(NULL);
                             state = menu(1);
                         }
 
@@ -706,17 +711,17 @@ void gestionEvenement(EvenementGfx evenement)
                     case MenuSimu:
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/2.31 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/2)
                             {
-                                state = mini_menu(2);
+                                state = mini_menu(2, ptElementAstreInitial);
                             }
 
                             if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.76 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.58)
                             {
-                                menu(3);
+                                mini_menu(3, ptElementAstreInitial);
                             }
 
                             if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.43 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.30)
                             {
-                                state = mini_menu(6);
+                                state = mini_menu(6, ptElementAstreInitial);
                             }
                             break;
                     case MenuSauvegardes:

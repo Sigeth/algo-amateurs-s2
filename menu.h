@@ -7,11 +7,11 @@
 
 void liste_options(void);
 int nombre_options(void);
-int menu(int);
-int mini_menu(int);
+int menu(int choix);
+int mini_menu(int choix, ElementAstre *ptElementAstreInitial);
 StateAffichage lancer_simulation();
 StateAffichage reprendre();
-void sauvegarde();
+void sauvegarde(ElementAstre *ptElementAstreInitial);
 StateAffichage charger();
 void quitter();
 StateAffichage retour();

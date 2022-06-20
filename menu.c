@@ -3,6 +3,7 @@
 #include <string.h>
 #include "menu.h"
 #include "affichage.h"
+#include "sauvegarde.h"
 
 void liste_options(void)
 {
@@ -39,7 +40,7 @@ int menu(int choix)
 	}
 }
 
-int mini_menu(int choix)
+int mini_menu(int choix, ElementAstre *ptElementAstreInitial)
 {
 	switch(choix)
 	{
@@ -48,7 +49,7 @@ int mini_menu(int choix)
 			break;
 		
 		case 3:
-			sauvegarde();
+			sauvegarde(ptElementAstreInitial);
 			break;
 
 		case 6:
@@ -66,8 +67,9 @@ StateAffichage reprendre() {
     return Simulation;
 }
 
-void sauvegarde(){
-    printf("Sauvegarder la simulation actuelle");
+void sauvegarde(ElementAstre *ptElementAstreInitial){
+    printf("sauvegarde\n");
+    nomdesauvegarde(ptElementAstreInitial);
 }
 
 StateAffichage charger() {
