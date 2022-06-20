@@ -42,26 +42,23 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet
 }
 
 char** listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
-    DIR *d;
+        DIR *d;
     struct dirent *dir;
-    d = opendir("./saves");
+    d = opendir("saves/");
     int nbSave = 0;
-    char** saves = malloc(sizeof(char*) * 50);
+    char a[12][50];
+    int i;
     if (d) {
-        while ((dir = readdir(d)) != NULL) {
-            if (dir->d_type == DT_REG) {
-                int length = snprintf(NULL, 0, "saves/%s", a);
-                char saveName = malloc(sizeof(char) * 50);
-                snprintf(saveName, length + 1, "saves/%s", a);
-                nbSave = malloc(sizeof(char) * length+1);
-                strcpy(saves[nbSave], saveName);
-                nbSave += 1;
-            }
+        while ((dir = readdir(d)) != NULL)
+        {
+            
+            printf("%s\n", dir->d_name);
+            strcpy(a[i],dir->d_name);
+            i++;
         }
         closedir(d);
-        return saves;
-    }
-}
+        return  a;
+    }}
 
 void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour faire de la place
     char a[100];
