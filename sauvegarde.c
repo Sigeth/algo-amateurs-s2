@@ -42,16 +42,26 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet
     sauvegarder(a,ptElementAstreInitial);
 }
 
-void listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
-    char a[100];
+char** listesauvegarde() {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
+	int nbSave;
+    char a[50];
+    char* b=malloc(sizeof(char*) * 50);
     FILE *fi = fopen("pastouche", "r");
     if (fi != NULL) {
         printf("voici la liste de vos sauvegarde :\n");
         while (fscanf(fi, "%s", a) != EOF) {//prends le chaine de char suivante tant que on est pas a la fin du fichier
+        int length = snprintf(NULL, 0, a, b);
+                char* saveName = malloc(sizeof(char) * 50);
+                snprintf(saveName, length + 1, a, b);
+                nbSave = malloc(sizeof(char) * length+1);
+                strcpy(b[nbSave], saveName);
+                nbSave += 1;
+//        b=b+a;
             printf("%s \n", a);
         }
         fclose(fi);
-    }
+        
+    }return b;
 }
 
 void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour faire de la place
