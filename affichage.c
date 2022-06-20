@@ -308,7 +308,7 @@ void clicFlecheDroiteSauvegarde() {
  * Gère le clic sur le bouton "Charger la sauvegarde" en state MenuSauvegardes
  */
 void clicChargerSauvegarde() {
-    ptElementAstreInitial = loadsave("nom sauvegarde");
+    //ptElementAstreInitial = loadsave("nom sauvegarde");
 }
 
 
