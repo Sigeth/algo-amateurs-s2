@@ -42,6 +42,8 @@ static Astre* astreFocused = NULL;
 static bool paused = false;
 static int* etoiles;
 static int nbEtoiles;
+static time_t t;
+static struct tm tm;
 
 /**
  * Permet de dessiner un cercle
@@ -323,7 +325,8 @@ void gestionEvenement(EvenementGfx evenement)
     {
         case Initialisation:
             //epaisseurDeTrait(3);
-            
+            t = time(NULL);
+            tm = *localtime(&t);
 
             ptElementAstreInitial = InitElementAstre(NULL);
             ptElementAstreCourant = ptElementAstreInitial;
@@ -354,7 +357,8 @@ void gestionEvenement(EvenementGfx evenement)
 
             // On part d'un fond d'ecran blanc
             effaceFenetre(0, 0, 0);
-            
+
+
 
             for (int i=0;i<nbEtoiles-1;i+=2) {
                 cercle(etoiles[i], etoiles[i+1], largeurFenetre()/1024, 3);
@@ -392,6 +396,9 @@ void gestionEvenement(EvenementGfx evenement)
 
                         ptElementAstreCourant = ptElementAstreCourant -> ptElementAstreSuivant;
                     }
+
+                    t += deltaTcheck;
+                    tm = *localtime(&t);
                     }
 
                     affichePlanetes(false);
@@ -430,8 +437,17 @@ void gestionEvenement(EvenementGfx evenement)
                     afficheChaine(chaineEchelleRayons, 12, largeurFenetre() - largeurFenetre()/8 - tailleEchelleRayons/2, hauteurFenetre()/8 - hauteurFenetre()/10);
 
 
+                    int lengthDate = snprintf(NULL, 0, "%02d/%02d/%d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+                    char* chaineDate = malloc(sizeof(char) * lengthDate + 1);
+                    snprintf(chaineDate, lengthDate + 1, "%02d/%02d/%d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+                    float tailleDate = tailleChaine(chaineDate, 24);
+                    afficheChaine(chaineDate, 24, largeurFenetre()/2 - tailleDate/2, hauteurFenetre() - hauteurFenetre()/16);
+
+                    
                     free(chaineEchelleT);
                     free(chaineEchelleDistances);
+                    free(chaineEchelleRayons);
+                    free(chaineDate);
                     couleurCourante(200,200,200);
 
                     break;
