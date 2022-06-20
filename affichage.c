@@ -452,7 +452,7 @@ void gestionEvenement(EvenementGfx evenement)
 
                     break;
                 case MenuSauvegardes:
-                    char** saves = malloc(sizeof(char*) * 50);
+                    //char** saves = malloc(sizeof(char*) * 50);
                     //saves = listesauvegarde();
 
                     couleurCourante(255,255,255);
@@ -486,7 +486,7 @@ void gestionEvenement(EvenementGfx evenement)
                     afficheChaine("Charger la sauvegarde", 28, largeurFenetre()/2 - tailleChaineCharger/2, hauteurFenetre()/16);
 
 
-                    free(saves);
+                    //free(saves);
                     couleurCourante(200,200,200);
                     break;
                 case MenuSimu:

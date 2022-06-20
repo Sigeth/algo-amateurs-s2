@@ -15,6 +15,8 @@ typedef struct Astre {
     	float previousX;
     	float previousY;
 	float vt;
+	float vx;
+	float vy;
 	char* nomGravitation;
 	float xGravitation;
 	float yGravitation;
