@@ -95,23 +95,27 @@ void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour fa
     }
 }
 
-ElementAstre *loadsave(char *save,ElementAstre *ptElementAstreInitial){//recharger une sauvegarde.renvois la liste chainé
-	FILE * f = fopen("saves/save", "rb");
-	int i=nbplanete;
+void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t t){
+	FILE *f = fopen("saves/save", "r");
+	int i=0;
+	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
 	Astre* ptAstre=malloc(sizeof(Astre));
-	AjouteElementAstre(ptElementAstreInitial,ptAstre);
-	ElementAstre* astre[nbplanete];
-	while(i==nbplanete){
-	i=fread(astre,sizeof(Astre),nbplanete,f);
-	for(int j=0;j<i;j++){
-	AjouteElementAstre(ptElementAstreInitial,astre[j]);}
-    /*AjouteElementAstre(ptElementAstreInitial,ptAstreLune);
-    AjouteElementAstre(ptElementAstreInitial,ptAstreMercure);
-    AjouteElementAstre(ptElementAstreInitial,ptAstreVenus);
-    AjouteElementAstre(ptElementAstreInitial,ptAstreMars);
-    AjouteElementAstre(ptElementAstreInitial,ptAstreJupiter);
-    AjouteElementAstre(ptElementAstreInitial,ptAstreSaturne);
-    AjouteElementAstre(ptElementAstreInitial,ptAstreUranus);
-    AjouteElementAstre(ptElementAstreInitial,ptAstreNeptune);*/}
-    return ptElementAstreInitial;}
+	fscanf(f,"%f",&t);
+	while(i<nbplanete){
+	fscanf(f,"%f",&ptAstre->x);
+	fscanf(f,"%f",&ptAstre->y);
+	fscanf(f,"%f",&ptAstre->previousX);
+	fscanf(f,"%f",&ptAstre->previousY);
+	fscanf(f,"%f",&ptAstre->vt);
+	fscanf(f,"%f",&ptAstre->vx);
+	fscanf(f,"%f",&ptAstre->vy);
+	fscanf(f,"%f",&ptAstre->F);
+	fscanf(f,"%f",&ptAstre->deltaV);
+	fscanf(f,"%f",&ptAstre->distanceCentreGravitation);
+	i++;
+	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+	}}	
+	
+	
+
 
