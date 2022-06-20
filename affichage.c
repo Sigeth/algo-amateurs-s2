@@ -457,8 +457,7 @@ void gestionEvenement(EvenementGfx evenement)
                 case MenuSauvegardes:
                     couleurCourante(255,255,255);
 
-                    char** saves = malloc(sizeof(char*) * 50);
-                    saves = listesauvegarde();
+                    //char** saves = listesauvegarde();
 
                     epaisseurDeTrait(5);
                     ligne(largeurFenetre()/64, hauteurFenetre() - hauteurFenetre()/64, largeurFenetre()/16, hauteurFenetre() - hauteurFenetre()/16);
@@ -490,9 +489,9 @@ void gestionEvenement(EvenementGfx evenement)
                     float tailleChaineCharger = tailleChaine("Charger la sauvegarde", 28);
                     afficheChaine("Charger la sauvegarde", 28, largeurFenetre()/2 - tailleChaineCharger/2, hauteurFenetre()/16);
 
-                    printf("%s", saves[idSave]);
+                    //printf("%s", saves[idSave]); ça plante ici...
 
-                    free(saves);
+                    //free(saves);
                     couleurCourante(200,200,200);
                     break;
                 case MenuSimu:
