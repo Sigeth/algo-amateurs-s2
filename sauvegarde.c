@@ -24,16 +24,17 @@ void sauvegarder(char *nomdesauvegarde,ElementAstre* ptElementAstreInitial){// a
             perror("Erreur lors de l'ecriture des donnees dans le fichier!!");
             fclose(f);
         }
-                ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
+               
         }
-
+ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
 }}
 void nomdesauvegarde(ElementAstre *ptElementAstreInitial) {//fonction qui permet de creer la sauvegarde
     printf("nom de la sauvegarde :");//attention sauvegarde en un mot
     char a[100];
     scanf("%s", a);
     FILE *f = NULL;
-    char b[50]="saves/";
+    char b[50];
+    strcpy(b,"saves/");
     strcat(b,a);
     f = fopen(b, "a");
 
@@ -91,7 +92,7 @@ void delsauvegarde() {//supprime tous les fichiers lié à la sauvegarde pour fa
 }
 
 ElementAstre *loadsave(char *save,ElementAstre *ptElementAstreInitial){//recharger une sauvegarde.renvois la liste chainé
-	FILE * f = fopen("save", "rb");
+	FILE * f = fopen("saves/save", "rb");
 	int i=nbplanete;
 	Astre* ptAstre=malloc(sizeof(Astre));
 	AjouteElementAstre(ptElementAstreInitial,ptAstre);
