@@ -305,7 +305,9 @@ void clicFlecheGaucheSauvegarde() {
  * Gère le clic sur la flèche droite en state MenuSauvegardes
  */
 void clicFlecheDroiteSauvegarde() {
-    idSave++;
+    if (idSave < nbsave()-1) {
+        idSave++;
+    }
 }
 
 /**
@@ -457,7 +459,7 @@ void gestionEvenement(EvenementGfx evenement)
                 case MenuSauvegardes:
                     couleurCourante(255,255,255);
 
-                    char** saves ;
+                    char** saves = malloc(sizeof(char*) * 50);
                     listesauvegarde(saves);
 
                     epaisseurDeTrait(5);
@@ -480,7 +482,9 @@ void gestionEvenement(EvenementGfx evenement)
                     if (idSave > 0) {
                         triangle(largeurFenetre()/32, hauteurFenetre()/2 + hauteurFenetre()/32, largeurFenetre()/128, hauteurFenetre()/2, largeurFenetre()/32, hauteurFenetre()/2 - hauteurFenetre()/32);
                     }
-                    triangle(largeurFenetre() - largeurFenetre()/32, hauteurFenetre()/2 + hauteurFenetre()/32, largeurFenetre() - largeurFenetre()/128, hauteurFenetre()/2,  largeurFenetre() - largeurFenetre()/32, hauteurFenetre()/2 - hauteurFenetre()/32);
+                    if (idSave < nbsave()-1) {
+                        triangle(largeurFenetre() - largeurFenetre()/32, hauteurFenetre()/2 + hauteurFenetre()/32, largeurFenetre() - largeurFenetre()/128, hauteurFenetre()/2,  largeurFenetre() - largeurFenetre()/32, hauteurFenetre()/2 - hauteurFenetre()/32);
+                    }
 
                     rectangle(largeurFenetre()/4 - largeurFenetre()/512, hauteurFenetre()/8 + hauteurFenetre()/512, largeurFenetre() - largeurFenetre()/4 + largeurFenetre()/512, hauteurFenetre()/32 - hauteurFenetre()/512);
                     couleurCourante(0,0,0);
@@ -490,7 +494,7 @@ void gestionEvenement(EvenementGfx evenement)
                     float tailleChaineCharger = tailleChaine("Charger la sauvegarde", 28);
                     afficheChaine("Charger la sauvegarde", 28, largeurFenetre()/2 - tailleChaineCharger/2, hauteurFenetre()/16);
 
-                    //printf("%s", saves[idSave]); ça plante ici...
+                    printf("%s\n", saves[idSave]);
 
                     //free(saves);
                     couleurCourante(200,200,200);
