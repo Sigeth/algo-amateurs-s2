@@ -4,7 +4,7 @@
 #include "moteur.h"
 #include "sauvegarde.h"
 #include <string.h>
-
+#include "time.h"
 
 //fonction test, n'a aucun impact sur le code;
 int mainMoteur(int argc, char **argv) {

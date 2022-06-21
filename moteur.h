@@ -1,5 +1,8 @@
 #ifndef MOTEUR_H
 #define MOTEUR_H
+#include "time.h"
+
+
 typedef enum {Rouge, Vert, Bleu, Jaune, Cyan, GrisClair, GrisFonce, Orange, Creme, Cafe, BleuCiel}
         Couleur;
 
