@@ -80,19 +80,15 @@ void listesauvegarde(char **a)//quand vous voulez avoir la liste des sauvegardes
                 int length = strlen(dir->d_name);
                 a[i] = malloc(sizeof(char) * length);
 
-<<<<<<< HEAD
-            printf("%s\n", dir->d_name);
-            //strcpy(a[0],dir->d_name);
-            //strcpy(a[0],"oui");
-            a[i]=dir->d_name;
-            i++; 
-        }}
+                strcpy(a[i], dir->d_name);
+                i++;
+            }
+        }
         closedir(d);
     }
 }
 
 
-<<<<<<< HEAD
 void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t t){
 	FILE *f=fopen("saves/save","r") ;
 	/*char* b;
