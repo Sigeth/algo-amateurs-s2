@@ -42,7 +42,6 @@ void nomdesauvegarde(ElementAstre *ptElementAstreInitial, time_t t) {//fonction 
     char b[50];
     strcpy(b,"saves/");
     strcat(b,a);
-    f = fopen(b, "a");
 
     
     sauvegarder(b,ptElementAstreInitial, t);
@@ -78,7 +77,7 @@ void listesauvegarde(char** a)//quand vous voulez avoir la liste des sauvegardes
             //strcpy(a[0],dir->d_name);
             //strcpy(a[0],"oui");
             a[i]=dir->d_name;
-            i++;
+            i++; 
         }}
         closedir(d);
     }
@@ -110,7 +109,15 @@ void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t t){
 	i++;
 	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
 	}}	
-	
+time_t tps(char* save){
+FILE* f;
+time_t t;
+char* b;
+strcpy(b,"saves/");
+    	strcat(b,save);
+    	f = fopen(b, "r");
+    	fscanf(f,"%ld",&t);
+    	return t;}	
 	
 
 
