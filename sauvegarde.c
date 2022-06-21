@@ -37,19 +37,6 @@ void sauvegarder(char *nomdesauvegarde, ElementAstre *ptElementAstreInitial,
     fclose(f);
 }
 
-void nomdesauvegarde(ElementAstre *ptElementAstreInitial, time_t t) {//fonction qui permet de creer la sauvegarde
-    printf("nom de la sauvegarde :");//attention sauvegarde en un mot
-    char a[100];
-    scanf("%s", a);
-    FILE *f = NULL;
-    char b[50];
-    strcpy(b, "saves/");
-    strcat(b, a);
-    f = fopen(b, "a");
-
-
-    sauvegarder(b, ptElementAstreInitial, t);
-}
 
 int nbsave(DIR *d) {//quand vous voulez avoir la liste des sauvegardes, juste utiliser la fonction
     struct dirent *dir;
@@ -123,5 +110,22 @@ strcpy(b,"saves/");
     	f = fopen(b, "r");
     	fscanf(f,"%ld",&t);
     	return t;}	
+void nomdesauvegarde(ElementAstre *ptElementAstreInitial, time_t t) {//fonction qui permet de creer la sauvegarde
+    char a[100];
+    DIR *d;
+    struct dirent *dir;
+    d = opendir("saves/");
+    int j;
+    j=nbsave(d);
+    closedir(d);
+    snprintf(a,6,"%d\n",j);
+    FILE *f = NULL;
+    char b[50];
+    strcpy(b, "saves/");
+    strcat(b, a);
+    f = fopen(b, "a");
 
+
+    sauvegarder(b, ptElementAstreInitial, t);
+}
 
