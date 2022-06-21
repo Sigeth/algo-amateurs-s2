@@ -19,7 +19,6 @@ void sauvegarder(char *nomdesauvegarde, ElementAstre *ptElementAstreInitial,
         if (ptAstre != NULL) {
             printf("Bonjour, je suis %s\n", ptAstre->nom);
         }
-
         fprintf(f, "%f\n", ptAstre->x);
         fprintf(f, "%f\n", ptAstre->y);
         fprintf(f, "%f\n", ptAstre->previousX);
@@ -30,7 +29,6 @@ void sauvegarder(char *nomdesauvegarde, ElementAstre *ptElementAstreInitial,
         fprintf(f, "%f\n", ptAstre->F);
         fprintf(f, "%f\n", ptAstre->deltaV);
         fprintf(f, "%f\n", ptAstre->distanceCentreGravitation);
-
 
         ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
     }
@@ -77,17 +75,19 @@ void listesauvegarde(char **a)//quand vous voulez avoir la liste des sauvegardes
 
 
 void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t* t){
-	FILE *f=fopen("saves/save","r") ;
-	printf("çamarche");
-	/*char* b;
+	
+	char* b;
 	strcpy(b,"saves/");
     	strcat(b,save);
-    	f = fopen(b, "r");*/
+    
+    	FILE *f=fopen(b,"r") ;
+    	f = fopen(b, "r");
 	int i=0;
 	ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
 	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
 	fscanf(f,"%ld\n",t);
     printf("Le temps : %ld\n", *t);
+    fseek(f, 1, SEEK_SET);
 	while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
         if (ptAstre != NULL) {
@@ -96,7 +96,6 @@ void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t* t){
 	fscanf(f,"%f\n",&ptAstre->x);
 	fscanf(f,"%f\n",&ptAstre->y);
 	fscanf(f,"%f\n",&ptAstre->previousX);
-	printf("monpreviousX est%f",ptAstre->previousX);
 	fscanf(f,"%f\n",&ptAstre->previousY);
 	fscanf(f,"%f\n",&ptAstre->vt);
 	fscanf(f,"%f\n",&ptAstre->vx);
