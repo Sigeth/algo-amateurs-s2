@@ -7,7 +7,10 @@
 
 void liste_options(void)
 {
-	char* options[5];
+	char** options = malloc(sizeof(char*) * 5);
+    for (int i=0;i<5;i++) {
+        options[i] = malloc(sizeof(char) * 25);
+    }
 	strcpy(options[0],"lancer simulation");
 	strcpy(options[1],"reprendre simulation");
 	strcpy(options[2],"sauvegarder la simulation");
@@ -27,17 +30,16 @@ int menu(int choix)
 	switch(choix)
 	{
 		case 1:
-			lancer_simulation();
-			break;
+			return lancer_simulation();
 
 		case 4:
-			charger();
-			break;
+			return charger();
 
 		case 5:
 			quitter();
-			break;
+            break;
 	}
+    return 0;
 }
 
 int mini_menu(int choix, ElementAstre *ptElementAstreInitial, time_t t)
@@ -45,17 +47,16 @@ int mini_menu(int choix, ElementAstre *ptElementAstreInitial, time_t t)
 	switch(choix)
 	{
 		case 2:
-			reprendre();
-			break;
+			return reprendre();
 		
 		case 3:
 			sauvegarde(ptElementAstreInitial, t);
-			break;
+            break;
 
 		case 6:
-			retour();
-			break;
+			return retour();
 	}
+    return 0;
 }
 
 
