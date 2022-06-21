@@ -398,8 +398,11 @@ void Init_AstreNeptune(Astre* ptNeptune) {
   *@param Gravitation : L'astre autour duquel la planete tourne
   *@t le temps entre deux appel de fonction
   */
+  void MoteurCalculForce(Astre* Planete,Astre* Gravitation){
+	Planete->F=(6.673*pow(10,-11)*(Planete->masse + (Gravitation->masse))/(pow(Planete->distanceCentreGravitation,2)));
+}
  
- void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int t) {
+void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int t) {
    int x=0;
    int y=0;
     MoteurCalculForce(Planete,Gravitation);
@@ -459,9 +462,7 @@ void Init_AstreNeptune(Astre* ptNeptune) {
  *@param Gravitation : L'astre exerçant l'attraction gravitationelle
  */
 
-void MoteurCalculForce(Astre* Planete,Astre* Gravitation){
-	Planete->F=(6.673*pow(10,-11)*(Planete->masse + (Gravitation->masse))/(pow(Planete->distanceCentreGravitation,2)));
-}
+
 
 
 

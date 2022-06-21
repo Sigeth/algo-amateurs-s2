@@ -68,8 +68,7 @@ void modif_poss_astre(Astre* ptAstre,int x, int y);
 
 void ListrePlanete(Astre** TabAstre);
 
-
-void UpdateObjet(Astre *Planete, Astre* Gravitation);
+void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int t);
 
 /*void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t);
 void Init_AstreISS(Astre* ptISS);
