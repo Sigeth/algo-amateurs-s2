@@ -111,28 +111,27 @@ void loadsave(char *save, ElementAstre *ptElementAstreInitial, time_t *t) {
 time_t tps(char *save) {
     FILE *f;
     time_t t;
-    char *b;
+    char* b=malloc(sizeof(char) * 50);
     strcpy(b, "saves/");
     strcat(b, save);
     f = fopen(b, "r");
     fscanf(f, "%ld", &t);
+    fclose(f);
     return t;
 }
 
 void nomdesauvegarde(ElementAstre *ptElementAstreInitial, time_t t) {//fonction qui permet de creer la sauvegarde
     char a[100];
     DIR *d;
-    struct dirent *dir;
+    //struct dirent *dir;
     d = opendir("saves/");
     int j;
-    j = nbsave(d);
+    j = nbsave(d)+1;
     closedir(d);
     snprintf(a, 6, "%d\n", j);
-    FILE *f = NULL;
-    char b[50];
+    char *b = malloc(sizeof(char) * 50);
     strcpy(b, "saves/");
     strcat(b, a);
-    f = fopen(b, "a");
 
 
     sauvegarder(b, ptElementAstreInitial, t);
