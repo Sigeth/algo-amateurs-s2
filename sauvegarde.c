@@ -78,6 +78,7 @@ void listesauvegarde(char **a)//quand vous voulez avoir la liste des sauvegardes
 
 void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t* t){
 	FILE *f=fopen("saves/save","r") ;
+	printf("çamarche");
 	/*char* b;
 	strcpy(b,"saves/");
     	strcat(b,save);
@@ -85,13 +86,17 @@ void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t* t){
 	int i=0;
 	ElementAstre *ptElementAstreCourant = ptElementAstreInitial;
 	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
-	Astre* ptAstre=malloc(sizeof(Astre));
 	fscanf(f,"%ld\n",t);
     printf("Le temps : %ld\n", *t);
-	while(i<nbplanete){
+	while (ptElementAstreCourant != NULL) {
+        Astre *ptAstre = ptElementAstreCourant->ptAstre;
+        if (ptAstre != NULL) {
+            printf("Bonjour, je suis %s\n", ptAstre->nom);
+        
 	fscanf(f,"%f\n",&ptAstre->x);
 	fscanf(f,"%f\n",&ptAstre->y);
 	fscanf(f,"%f\n",&ptAstre->previousX);
+	printf("monpreviousX est%f",ptAstre->previousX);
 	fscanf(f,"%f\n",&ptAstre->previousY);
 	fscanf(f,"%f\n",&ptAstre->vt);
 	fscanf(f,"%f\n",&ptAstre->vx);
@@ -101,7 +106,7 @@ void loadsave(char *save,ElementAstre *ptElementAstreInitial,time_t* t){
 	fscanf(f,"%f\n",&ptAstre->distanceCentreGravitation);
 	i++;
 	ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
-	}}	
+	}}}	
 time_t tps(char* save){
 FILE* f;
 time_t t;
