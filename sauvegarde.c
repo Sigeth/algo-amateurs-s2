@@ -21,13 +21,10 @@ void sauvegarder(char *nomdesauvegarde, ElementAstre *ptElementAstreInitial,
         }
         fprintf(f, "%f\n", ptAstre->x);
         fprintf(f, "%f\n", ptAstre->y);
-        fprintf(f, "%f\n", ptAstre->previousX);
-        fprintf(f, "%f\n", ptAstre->previousY);
         fprintf(f, "%f\n", ptAstre->vt);
         fprintf(f, "%f\n", ptAstre->vx);
         fprintf(f, "%f\n", ptAstre->vy);
         fprintf(f, "%f\n", ptAstre->F);
-        fprintf(f, "%f\n", ptAstre->deltaV);
         fprintf(f, "%f\n", ptAstre->distanceCentreGravitation);
 
         ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
@@ -87,20 +84,16 @@ void loadsave(char *save, ElementAstre *ptElementAstreInitial, time_t *t) {
     ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
     fscanf(f, "%ld\n", t);
     printf("Le temps : %ld\n", *t);
-    fseek(f, 1, SEEK_SET);
     while (ptElementAstreCourant != NULL) {
         Astre *ptAstre = ptElementAstreCourant->ptAstre;
         if (ptAstre != NULL) {
 
             fscanf(f, "%f\n", &ptAstre->x);
             fscanf(f, "%f\n", &ptAstre->y);
-            fscanf(f, "%f\n", &ptAstre->previousX);
-            fscanf(f, "%f\n", &ptAstre->previousY);
             fscanf(f, "%f\n", &ptAstre->vt);
             fscanf(f, "%f\n", &ptAstre->vx);
             fscanf(f, "%f\n", &ptAstre->vy);
             fscanf(f, "%f\n", &ptAstre->F);
-            fscanf(f, "%f\n", &ptAstre->deltaV);
             fscanf(f, "%f\n", &ptAstre->distanceCentreGravitation);
             i++;
             ptElementAstreCourant = ptElementAstreCourant->ptElementAstreSuivant;
