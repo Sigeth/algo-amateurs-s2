@@ -389,66 +389,8 @@ void Init_AstreNeptune(Astre* ptNeptune) {
 
 
 
-/*
- * Fonction UpdateObjetReal 
- * Permet de faire une trajectoire réaliste
- * @param Planete
- * @param Gravitation
- * @prama t =>temps écoulé depuis le début de la simiulation
- */
- 
- /*
- void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int t,int deltaT) {
-    MoteurCalculForce(Planete,Gravitation);
-    
-    if (Planete->distanceCentreGravitation != 0) {
- 
-        if (strcmp(Planete->nomGravitation,"Le Soleil")){
-        		Planete->F+=Gravitation->F; //2ème loi de Newton (somme des forces ext = ma) 
-        }
-        float a=(Planete->F/Gravitation->masse); //formule du cours
-        
-        Planete->deltaV=a*t;
- 
-        Planete->vx+=Planete->deltaV;
-        Planete->vy+=Planete->deltaV;
 
-       double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
-    
-        double deltaMx=(Planete->vx)*t+(a*pow(t,2)/2);
-        double deltaMy=(Planete->vy)*t+(a*pow(t,2)/2);
-        double deltaM=(deltaMx+deltaMy)/2;
-        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
-            alpha = -alpha;
-            
-        }
-        printf("omg je suis %\n",Planete->nom);
-        printf("alpha : %f\n",alpha);
-        
-        Planete->x += Planete->vx*deltaT*cos(alpha);
-        Planete->y += Planete->vx*deltaT*sin(alpha);
-    
-        
-        
-        //Planete->distanceCentreGravitation=sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)-2*Planete->distanceCentreGravitation*cos(alpha));
-        
-        
-       // Planete->distanceCentreGravitation=sqrt((Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)))+sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)-pow(deltaM,2)))/2);
-        
-        /*
-        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
-        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
-        */
-        /*
-      
-    }
-    
-        
-
-}
-}
-
-*/
+	
  
  
  /*Fonction UdateObjetReal : le principe est de réutiliser l'ancienne fonction update objet mais en faisant changer la distance entre la planete et son centre de graviation en suivant les formules du cours. Ainsi, on entre dans une simulation. 
@@ -470,10 +412,9 @@ void Init_AstreNeptune(Astre* ptNeptune) {
         float a=Planete->F/Gravitation->masse; //formule du cours
         
         Planete->deltaV=a*t;
- 
+        Planete->vt=Planete->vx+Planete->vy
         Planete->vx+=Planete->deltaV;
         Planete->vy+=Planete->deltaV;
-
         double alpha = acos(((Planete->x) / Planete->distanceCentreGravitation));
     
         double deltaM=Planete->vt*t+(a*t*t/2);
@@ -481,12 +422,13 @@ void Init_AstreNeptune(Astre* ptNeptune) {
         if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
             alpha = -alpha;
             
-            Planete->vt=-Planete->vt;
+            Planete->vx=-Planete->vx;
+            Planete->vy=-Planete->vy;
             
         }
         alpha +=acos(1-(((deltaM)*(deltaM))/(2*Planete->distanceCentreGravitation * Planete->distanceCentreGravitation)));
         
-        Planete->distanceCentreGravitation=sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)-2*Planete->distanceCentreGravitation*cos(alpha));
+        Planete->distanceCentreGravitation=sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2) -2*Planete->distanceCentreGravitation*cos(alpha))*cos(alpha);
         
         
        // Planete->distanceCentreGravitation=sqrt((Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)))+sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)-pow(deltaM,2)))/2);
@@ -638,8 +580,66 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
 */
 
 
+/*
+ * Fonction UpdateObjetReal 
+ * Permet de faire une trajectoire réaliste
+ * @param Planete
+ * @param Gravitation
+ * @prama t =>temps écoulé depuis le début de la simiulation
+ */
+ 
+ /*
+ void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int t,int deltaT) {
+    MoteurCalculForce(Planete,Gravitation);
+    
+    if (Planete->distanceCentreGravitation != 0) {
+ 
+        if (strcmp(Planete->nomGravitation,"Le Soleil")){
+        		Planete->F+=Gravitation->F; //2ème loi de Newton (somme des forces ext = ma) 
+        }
+        float a=(Planete->F/Gravitation->masse); //formule du cours
+        
+        Planete->deltaV=a*t;
+ 
+        Planete->vx+=Planete->deltaV;
+        Planete->vy+=Planete->deltaV;
 
+       double alpha = acos(((Planete->x - Gravitation->previousX) / Planete->distanceCentreGravitation));
+    
+        double deltaMx=(Planete->vx)*t+(a*pow(t,2)/2);
+        double deltaMy=(Planete->vy)*t+(a*pow(t,2)/2);
+        double deltaM=(deltaMx+deltaMy)/2;
+        if (Gravitation->y - 0.1 < Planete->y < Gravitation->y + 0.1) {
+            alpha = -alpha;
+            
+        }
+        printf("omg je suis %\n",Planete->nom);
+        printf("alpha : %f\n",alpha);
+        
+        Planete->x += Planete->vx*deltaT*cos(alpha);
+        Planete->y += Planete->vx*deltaT*sin(alpha);
+    
+        
+        
+        //Planete->distanceCentreGravitation=sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)-2*Planete->distanceCentreGravitation*cos(alpha));
+        
+        
+       // Planete->distanceCentreGravitation=sqrt((Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)))+sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)-pow(deltaM,2)))/2);
+        
+        /*
+        Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
+        Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
+        
+        
+      
+    }
+    
+        
 
+}
+}
+
+*/
 
 
 
