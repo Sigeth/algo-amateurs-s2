@@ -36,18 +36,18 @@ typedef struct ElementAstre
 	struct ElementAstre* ptElementAstreSuivant;
 } ElementAstre;
 
-
-
-void Init_AstreLune(Astre *ptLune);
-void Init_AstreTerre(Astre *ptTerre);
-void Init_AstreSoleil(Astre *ptSoleil);
-void ListeElementAstre(ElementAstre* ptElementAstreInitial);
-
+//Fonctions gérant les listes chainées
+ElementAstre *InitElementAstre(char* nomSave,time_t* t );
 Astre* ParcourListeElementAstre(ElementAstre* ptElementAstreInitial, int nb);
 Astre* RechercheParNom(ElementAstre* ptElementAstreInitial, char* nom_Recherche);
 ElementAstre* InitElementAstre();
-void UpdateObjet(Astre *Planete, Astre* Gravitation);
+void ListeElementAstre(ElementAstre* ptElementAstreInitial);
 void AjouteElementAstre(ElementAstre *ptElementAstreInitial, Astre* NewAstre);
+
+int mainMoteur(int argc, char **argv);
+
+
+//Fonctions d'initialisation
 void Init_AstreMercure(Astre *ptMercure);
 void Init_AstreVenus(Astre *ptVenus);
 void Init_AstreMars(Astre *ptMars);
@@ -55,18 +55,26 @@ void Init_AstreJupiter(Astre* ptJupiter);
 void Init_AstreSaturne(Astre* ptSaturne);
 void Init_AstreUranus(Astre* ptUranus);
 void Init_AstreNeptune(Astre* ptNeptune);
+void Init_Astre(Astre* ptAstre);
+void Init_AstreLune(Astre *ptLune);
+void Init_AstreTerre(Astre *ptTerre);
+void Init_AstreSoleil(Astre *ptSoleil);
 
-void AjouteElmTab(Astre** TabAstre, Astre* NewAstre);
-void CreerTab(Astre** TabAstre);
+
+
+//Fonctions devenues inutiles ; mais on les laisse par nostalgie
 void modif_poss_Gravitation(Astre* ptAstre,int x, int y);
 void modif_poss_astre(Astre* ptAstre,int x, int y);
-void Init_Astre(Astre* ptAstre);
+
 void ListrePlanete(Astre** TabAstre);
-int mainMoteur(int argc, char **argv);
-void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t);
+
+
+void UpdateObjet(Astre *Planete, Astre* Gravitation);
+
+/*void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t);
 void Init_AstreISS(Astre* ptISS);
-void MoteurCalculForce(Astre* Planete,Astre* CentreGravitation);
-ElementAstre *InitElementAstre(char* nomSave,time_t* t );
+void MoteurCalculForce(Astre* Planete,Astre* CentreGravitation);*/
+
 
 //void UpdateObjetRealEllipse(Astre *Planete, Astre* Gravitation, int t);
 #endif

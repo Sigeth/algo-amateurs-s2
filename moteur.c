@@ -451,7 +451,11 @@ void Init_AstreNeptune(Astre* ptNeptune) {
 */
  
  
- 
+ /*Fonction UdateObjetReal : le principe est de réutiliser l'ancienne fonction update objet mais en faisant changer la distance entre la planete et son centre de graviation en suivant les formules du cours. Ainsi, on entre dans une simulation. 
+  *@param Planete  : La planete qui est concernée par le déplacement
+  *@param Gravitation : L'astre autour duquel la planete tourne
+  *@t le temps entre deux appel de fonction
+  */
  
  void UpdateObjetReal(Astre *Planete, Astre* Gravitation, int t) {
    int x=0;
