@@ -45,6 +45,7 @@ static int nbEtoiles;
 static time_t t;
 static struct tm tm;
 static int idSave;
+static char** saves;
 
 /**
  * Permet de dessiner un cercle
@@ -68,6 +69,20 @@ void cercle(float centreX, float centreY, float rayon, int Pas)
         // On trace le secteur a l'aide d'un triangle => approximation d'un cercle
     }
 
+}
+
+/**
+ * Permet d'initialiser toutes les valeurs pour une simulation
+ */
+void initSimu() {
+    state = Simulation;
+    echellePlanete = 1.0f/100.0f;
+    echelleDistances = 1.0f/100000.0f;
+    deltaTcheck = 10000;
+    xCentre = 0.0f;
+    yCentre = 0.0f;
+    astreFocused = NULL;
+    paused = false;
 }
 
 /**
@@ -314,7 +329,8 @@ void clicFlecheDroiteSauvegarde() {
  * Gère le clic sur le bouton "Charger la sauvegarde" en state MenuSauvegardes
  */
 void clicChargerSauvegarde() {
-    //ptElementAstreInitial = loadsave("nom sauvegarde");
+    ptElementAstreInitial = InitElementAstre(saves[idSave], t);
+    initSimu();
 }
 
 
@@ -334,11 +350,12 @@ void gestionEvenement(EvenementGfx evenement)
             struct tm dateDuDeces = { 0, 0, 0, 21, 5, 122 };
             t = mktime(&dateDuDeces);
             epaisseurDeTrait(1);
-            ptElementAstreInitial = InitElementAstre(NULL,t); //:TODO: Thomas check si c'est win
+            ptElementAstreInitial = InitElementAstre(NULL,t);
             ptElementAstreCourant = ptElementAstreInitial;
             srand(time(NULL));
             nbEtoiles = 500 + rand()%4500;
             etoiles = malloc(sizeof(int) * nbEtoiles);
+            saves = malloc(sizeof(char*) * 50);
             idSave = 0;
 
             updateEtoiles();
@@ -459,7 +476,6 @@ void gestionEvenement(EvenementGfx evenement)
                 case MenuSauvegardes:
                     couleurCourante(255,255,255);
 
-                    char** saves = malloc(sizeof(char*) * 50);
                     listesauvegarde(saves);
 
                     epaisseurDeTrait(5);
@@ -495,8 +511,6 @@ void gestionEvenement(EvenementGfx evenement)
                     afficheChaine("Charger la sauvegarde", 28, largeurFenetre()/2 - tailleChaineCharger/2, hauteurFenetre()/16);
 
                     printf("%s\n", saves[idSave]);
-
-                    //free(saves);
                     couleurCourante(200,200,200);
                     break;
                 case MenuSimu:
@@ -660,6 +674,7 @@ void gestionEvenement(EvenementGfx evenement)
                             struct tm dateDuDeces = { 0, 0, 0, 21, 5, 122 };
                             t = mktime(&dateDuDeces);
                             state = menu(1);
+                            initSimu();
                         }
 
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/1.76 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/1.58)
