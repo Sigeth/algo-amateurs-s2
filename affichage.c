@@ -559,7 +559,7 @@ void gestionEvenement(EvenementGfx evenement) {
                         char *chaineDateSave = malloc(sizeof(char) * lengthDateSave + 1);
                         snprintf(chaineDateSave, lengthDateSave + 1, "%02d/%02d/%d", tm.tm_mday, tm.tm_mon + 1,
                                  tm.tm_year + 1900);
-                        float tailleDateSave = tailleChaine(chaineDateSave, 24);
+                        float tailleDateSave = tailleChaine(chaineDateSave, 32);
                         afficheChaine(chaineDateSave, 32, largeurFenetre() / 2 - tailleDateSave / 2,
                                       hauteurFenetre() / 4);
 
