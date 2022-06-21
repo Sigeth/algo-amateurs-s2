@@ -30,6 +30,9 @@ Voici une liste d'instructions pour compiler le programme pour la première fois
 | Simulation             | →      | Accélère le temps de la simulation                     |
 | Simulation             | ↑      | Zoom                                                   |
 | Simulation             | ↓      | Dézoom                                                 |
+| Simulation             | F      | Mise en focus sur Le Soleil                            |
+| Simulation (focus)     | Q      | Change le focus sur la planète précédente              |
+| Simulation (focus)     | D      | Change le focus sur la planète suivante                |
 | Simulation             | Échap  | Accède au menu de pause de la simulation               |
 | Menu Pause Simulation  | Échap  | Revient à la simulation                                |
 | Menu des sauvegardes   | ←      | Navigue vers la précédente sauvegarde disponible       |

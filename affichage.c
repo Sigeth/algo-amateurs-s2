@@ -512,9 +512,6 @@ void gestionEvenement(EvenementGfx evenement) {
                     break;
                 case MenuSauvegardes:
                     couleurCourante(255, 255, 255);
-
-                    listesauvegarde(saves);
-
                     epaisseurDeTrait(5);
                     ligne(largeurFenetre() / 64, hauteurFenetre() - hauteurFenetre() / 64, largeurFenetre() / 16,
                           hauteurFenetre() - hauteurFenetre() / 16);
@@ -526,46 +523,79 @@ void gestionEvenement(EvenementGfx evenement) {
                     afficheChaine("Menu des Sauvegardes", 32, largeurFenetre() / 2 - tailleChaineTitre / 2,
                                   hauteurFenetre() - hauteurFenetre() / 12);
 
-                    rectangle(largeurFenetre() / 8 - largeurFenetre() / 512,
-                              hauteurFenetre() / 6 - hauteurFenetre() / 512,
-                              largeurFenetre() - largeurFenetre() / 8 + largeurFenetre() / 512,
-                              hauteurFenetre() - hauteurFenetre() / 6 + hauteurFenetre() / 512);
-                    couleurCourante(0, 0, 0);
-                    rectangle(largeurFenetre() / 8, hauteurFenetre() / 6, largeurFenetre() - largeurFenetre() / 8,
-                              hauteurFenetre() - hauteurFenetre() / 6);
+                    listesauvegarde(saves);
 
-                    float tailleChaineSauvegarde = tailleChaine("Toutes les infos sur la sauvegarde ici", 20);
+                    if (nbsave() == 0) {
+                        float tailleChaineRien = tailleChaine("Aucune sauvegarde trouvee...", 64);
+                        afficheChaine("Aucune sauvegarde trouvee", 64, largeurFenetre() / 2 - tailleChaineRien / 2,
+                                      hauteurFenetre() / 2);
+                    } else {
+                        rectangle(largeurFenetre() / 8 - largeurFenetre() / 512,
+                                  hauteurFenetre() / 6 - hauteurFenetre() / 512,
+                                  largeurFenetre() - largeurFenetre() / 8 + largeurFenetre() / 512,
+                                  hauteurFenetre() - hauteurFenetre() / 6 + hauteurFenetre() / 512);
+                        couleurCourante(0, 0, 0);
+                        rectangle(largeurFenetre() / 8, hauteurFenetre() / 6, largeurFenetre() - largeurFenetre() / 8,
+                                  hauteurFenetre() - hauteurFenetre() / 6);
 
-                    couleurCourante(255, 255, 255);
-                    afficheChaine("Toutes les infos sur la sauvegarde ici", 20,
-                                  largeurFenetre() / 2 - tailleChaineSauvegarde / 2, hauteurFenetre() / 2);
+                        couleurCourante(255, 255, 255);
+                        int lengthNomSave = snprintf(NULL, 0, "Sauvegarde %s", saves[idSave]);
+                        char *chaineNomSave = malloc(sizeof(char) * lengthNomSave + 1);
+                        snprintf(chaineNomSave, lengthNomSave + 1, "Sauvegarde %s", saves[idSave]);
+                        float tailleChaineSave = tailleChaine(chaineNomSave, 32);
+                        afficheChaine(chaineNomSave, 32,
+                                      largeurFenetre() / 2 - tailleChaineSave / 2,
+                                      hauteurFenetre() - hauteurFenetre() / 4);
 
-                    if (idSave > 0) {
-                        triangle(largeurFenetre() / 32, hauteurFenetre() / 2 + hauteurFenetre() / 32,
-                                 largeurFenetre() / 128, hauteurFenetre() / 2, largeurFenetre() / 32,
-                                 hauteurFenetre() / 2 - hauteurFenetre() / 32);
+                        float tailleChaineTitreDate = tailleChaine("Date de la sauvegarde :", 32);
+                        afficheChaine("Date de la sauvegarde :", 32, largeurFenetre() / 2 - tailleChaineTitreDate / 2,
+                                      hauteurFenetre() / 2);
+
+                        time_t tpsSave = tps(saves[idSave]);
+                        tm = *localtime(&tpsSave);
+
+                        int lengthDateSave = snprintf(NULL, 0, "%02d/%02d/%d", tm.tm_mday, tm.tm_mon + 1,
+                                                      tm.tm_year + 1900);
+                        char *chaineDateSave = malloc(sizeof(char) * lengthDateSave + 1);
+                        snprintf(chaineDateSave, lengthDateSave + 1, "%02d/%02d/%d", tm.tm_mday, tm.tm_mon + 1,
+                                 tm.tm_year + 1900);
+                        float tailleDateSave = tailleChaine(chaineDateSave, 24);
+                        afficheChaine(chaineDateSave, 32, largeurFenetre() / 2 - tailleDateSave / 2,
+                                      hauteurFenetre() / 4);
+
+                        if (idSave > 0) {
+                            triangle(largeurFenetre() / 32, hauteurFenetre() / 2 + hauteurFenetre() / 32,
+                                     largeurFenetre() / 128, hauteurFenetre() / 2, largeurFenetre() / 32,
+                                     hauteurFenetre() / 2 - hauteurFenetre() / 32);
+                        }
+                        if (idSave < nbsave() - 1) {
+                            triangle(largeurFenetre() - largeurFenetre() / 32,
+                                     hauteurFenetre() / 2 + hauteurFenetre() / 32,
+                                     largeurFenetre() - largeurFenetre() / 128, hauteurFenetre() / 2,
+                                     largeurFenetre() - largeurFenetre() / 32,
+                                     hauteurFenetre() / 2 - hauteurFenetre() / 32);
+                        }
+
+                        rectangle(largeurFenetre() / 4 - largeurFenetre() / 512,
+                                  hauteurFenetre() / 8 + hauteurFenetre() / 512,
+                                  largeurFenetre() - largeurFenetre() / 4 + largeurFenetre() / 512,
+                                  hauteurFenetre() / 32 - hauteurFenetre() / 512);
+                        couleurCourante(0, 0, 0);
+                        rectangle(largeurFenetre() / 4, hauteurFenetre() / 8, largeurFenetre() - largeurFenetre() / 4,
+                                  hauteurFenetre() / 32);
+
+                        couleurCourante(255, 255, 255);
+                        float tailleChaineCharger = tailleChaine("Charger la sauvegarde", 28);
+                        afficheChaine("Charger la sauvegarde", 28, largeurFenetre() / 2 - tailleChaineCharger / 2,
+                                      hauteurFenetre() / 16);
+
+                        printf("%s\n", saves[idSave]);
+
+                        free(chaineNomSave);
+                        free(chaineDateSave);
+
                     }
-                    if (idSave < nbsave() - 1) {
-                        triangle(largeurFenetre() - largeurFenetre() / 32, hauteurFenetre() / 2 + hauteurFenetre() / 32,
-                                 largeurFenetre() - largeurFenetre() / 128, hauteurFenetre() / 2,
-                                 largeurFenetre() - largeurFenetre() / 32,
-                                 hauteurFenetre() / 2 - hauteurFenetre() / 32);
-                    }
 
-                    rectangle(largeurFenetre() / 4 - largeurFenetre() / 512,
-                              hauteurFenetre() / 8 + hauteurFenetre() / 512,
-                              largeurFenetre() - largeurFenetre() / 4 + largeurFenetre() / 512,
-                              hauteurFenetre() / 32 - hauteurFenetre() / 512);
-                    couleurCourante(0, 0, 0);
-                    rectangle(largeurFenetre() / 4, hauteurFenetre() / 8, largeurFenetre() - largeurFenetre() / 4,
-                              hauteurFenetre() / 32);
-
-                    couleurCourante(255, 255, 255);
-                    float tailleChaineCharger = tailleChaine("Charger la sauvegarde", 28);
-                    afficheChaine("Charger la sauvegarde", 28, largeurFenetre() / 2 - tailleChaineCharger / 2,
-                                  hauteurFenetre() / 16);
-
-                    printf("%s\n", saves[idSave]);
                     couleurCourante(200, 200, 200);
                     break;
                 case MenuSimu:
@@ -690,7 +720,9 @@ void gestionEvenement(EvenementGfx evenement) {
                             state = MenuPrincipal;
                             break;
                         case 13:
-                            clicChargerSauvegarde();
+                            if (nbsave() != 0) {
+                                clicChargerSauvegarde();
+                            }
                             break;
                     }
                     break;
@@ -863,7 +895,8 @@ void gestionEvenement(EvenementGfx evenement) {
                         } else if (abscisseSouris() >= largeurFenetre() / 4
                                    && abscisseSouris() <= largeurFenetre() - largeurFenetre() / 4
                                    && ordonneeSouris() >= hauteurFenetre() / 32
-                                   && ordonneeSouris() <= hauteurFenetre() / 8) {
+                                   && ordonneeSouris() <= hauteurFenetre() / 8
+                                   && nbsave() != 0) {
                             clicChargerSauvegarde();
                         } else if (abscisseSouris() >= largeurFenetre() / 64
                                    && abscisseSouris() <= largeurFenetre() / 16
