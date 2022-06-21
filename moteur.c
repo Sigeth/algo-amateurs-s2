@@ -412,9 +412,10 @@ void Init_AstreNeptune(Astre* ptNeptune) {
         float a=Planete->F/Gravitation->masse; //formule du cours
         
         Planete->deltaV=a*t;
-        Planete->vt=Planete->vx+Planete->vy
+        Planete->vt=Planete->vx+Planete->vy;
         Planete->vx+=Planete->deltaV;
         Planete->vy+=Planete->deltaV;
+
         double alpha = acos(((Planete->x) / Planete->distanceCentreGravitation));
     
         double deltaM=Planete->vt*t+(a*t*t/2);
@@ -428,7 +429,7 @@ void Init_AstreNeptune(Astre* ptNeptune) {
         }
         alpha +=acos(1-(((deltaM)*(deltaM))/(2*Planete->distanceCentreGravitation * Planete->distanceCentreGravitation)));
         
-        Planete->distanceCentreGravitation=sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2) -2*Planete->distanceCentreGravitation*cos(alpha))*cos(alpha);
+        Planete->distanceCentreGravitation+=cbrtf((Planete->distanceCentreGravitation)+pow(deltaM,2)-4*Planete->distanceCentreGravitation*cos(alpha))*cos(alpha);
         
         
        // Planete->distanceCentreGravitation=sqrt((Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)))+sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)-pow(deltaM,2)))/2);
