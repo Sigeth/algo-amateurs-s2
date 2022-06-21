@@ -627,8 +627,7 @@ void UpdateObjet(Astre *Planete, Astre *Gravitation) {
         
         
        // Planete->distanceCentreGravitation=sqrt((Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)+pow(deltaM,2)))+sqrt(Planete->distanceCentreGravitation*sqrt(pow(Planete->distanceCentreGravitation,2)-pow(deltaM,2)))/2);
-        
-        /*
+ 
         Planete->x = Planete->distanceCentreGravitation * cos(alpha) + Gravitation->x;
         Planete->y = Planete->distanceCentreGravitation * sin(alpha) + Gravitation->y;
         
