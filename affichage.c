@@ -332,7 +332,7 @@ void gestionEvenement(EvenementGfx evenement)
             struct tm dateDuDeces = { 0, 0, 0, 21, 5, 122 };
             t = mktime(&dateDuDeces);
             epaisseurDeTrait(1);
-            ptElementAstreInitial = InitElementAstre(NULL);
+            ptElementAstreInitial = InitElementAstre(NULL,t); //:TODO: Thomas check si c'est win
             ptElementAstreCourant = ptElementAstreInitial;
             srand(time(NULL));
             nbEtoiles = 500 + rand()%4500;
@@ -652,7 +652,7 @@ void gestionEvenement(EvenementGfx evenement)
 
                         if(abscisseSouris() < 3.5*largeurFenetre()/4 && abscisseSouris() > largeurFenetre()/8 && ordonneeSouris()<hauteurFenetre()-hauteurFenetre()/2.31 && ordonneeSouris()>hauteurFenetre()-hauteurFenetre()/2)
                         {
-                            ptElementAstreInitial = InitElementAstre(NULL);
+                            ptElementAstreInitial = InitElementAstre(NULL,t);
                             struct tm dateDuDeces = { 0, 0, 0, 21, 5, 122 };
                             t = mktime(&dateDuDeces);
                             state = menu(1);
