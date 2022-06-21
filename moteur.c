@@ -23,7 +23,7 @@ int mainMoteur(int argc, char **argv) {
  * @param nomSave : nom de la sauvegarde si il y'en à une, sinon NULL;
  * return le premier élement de la liste
  */
-ElementAstre *InitElementAstre(char* nomSave,time_t t ) {
+ElementAstre *InitElementAstre(char* nomSave,time_t* t ) {
     //premier élément //
     ElementAstre *ptElementAstreSoleil = malloc(sizeof(ElementAstre));
     ptElementAstreSoleil->ptElementAstrePrecedent = NULL;
