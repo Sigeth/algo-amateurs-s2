@@ -1,5 +1,24 @@
 # Simulation Spatiale - Les Amateurs
-Projet Final d'Algorithmie à l'ISEN du Semestre 2 - Groupe des Amateurs
+Projet Final d'Algorithmie à l'ISEN du Semestre 2 - Groupe des Amateurs<br>
+Réalisé pendant le 2ème semestre du cursus CIN1.
+
+## Informations sur le projet
+- Projet du 2ème semestre à l'ISEN en Algorithmie
+- Groupe composé de Bastient SCHNEIDER, Quentin TURCOTTI, Léo REY et Thomas SEIGNOUR (Les Amateurs)
+- Projet rendu le 21/06/2022
+
+## Présentation du projet
+### Description
+Pour cet ultime projet d'algorithmie de la première année du cursus CIN, les professeurs nous ont demandé de créer **un logiciel permettant de simuler des astres dans l'espace**. La majorité des étudiants ont décidé d'intégrer le système solaire dans leur logiciel.
+
+### Solution
+Pour notre groupe, le logiciel affiche en effet tout le système solaire et les planètes qui tournent, mis à l'échelle affichée en bas à droite de l'écran.<br>
+Le **logiciel permet de faire un focus sur chaque planète**, affichant par la même occasion des informations sur cette planète.<br>
+Une sauvegarde est possible, ainsi qu'un chargement de la sauvegarde.<br>
+Le **temps peut être accéléré ou décéléré**, et la simulation montre la date exacte où l'utilisateur devrait se trouver.<br>
+L'utilisateur peut également **se déplacer librement** dans tout le système solaire.<br>
+Le programme a cependant un dysfonctionnement, il n'arrive pas à afficher la Lune, qui disparaît dès le lancement.<br>
+**Il y a beaucoup de fonctionnalités** que vous pourrez découvrir en lançant le programme et en vous balandant entre tous les boutons, et en essayant les **raccourcis claviers décrits ci-dessous** !
 
 ## Manuel d'utilisation
 ### Utilisation et première compilation
@@ -40,9 +59,4 @@ Voici une liste d'instructions pour compiler le programme pour la première fois
 | Menu des sauvegardes   | Entrée | Lance une simulation à partir de la sauvegarde choisie |
 | Menu des sauvegardes   | Échap  | Revient au menu principal                              |
 
-
-## Informations sur le projet
-- Projet du 2ème semestre à l'ISEN en Algorithmie
-- Groupe composé de Bastient SCHNEIDER, Quentin TURCOTTI, Léo REY et Thomas SEIGNOUR (Les Amateurs)
-- Projet rendu le 21/06/2022
 
